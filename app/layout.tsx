@@ -6,28 +6,28 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Vendedores Virtuales con IA - VENTA 24/7",
+  title: "LinkedIn Pro - Consigue Trabajo en EE.UU.",
   description:
-    "No seas el próximo negocio que quiebre por WhatsApp. Nuestros vendedores de inteligencia artificial trabajan mientras tú duermes, convirtiendo cada mensaje en una venta.",
+    "Convierte tu perfil de LinkedIn en una máquina de generar entrevistas en EE.UU. en solo 2 horas sin pagar por mentorías costosas, incluso si hoy no sabes por dónde empezar.",
   keywords:
-    "vendedores virtuales, inteligencia artificial, WhatsApp automatizado, ventas 24/7, chatbots, automatización",
-  authors: [{ name: "VENTA 24/7" }],
+    "LinkedIn, trabajo Estados Unidos, optimización perfil, entrevistas remotas, posicionamiento profesional, recruiters",
+  authors: [{ name: "LinkedIn Pro" }],
   openGraph: {
-    title: "Vendedores Virtuales con IA - VENTA 24/7",
-    description: "Evita que tu negocio quiebre por no responder WhatsApp. Vendedores de IA que trabajan 24/7.",
+    title: "LinkedIn Pro - Consigue Trabajo en EE.UU.",
+    description: "Método para optimizar tu LinkedIn y conseguir entrevistas en Estados Unidos en solo 2 horas.",
     type: "website",
     locale: "es_ES",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vendedores Virtuales con IA - VENTA 24/7",
-    description: "Evita que tu negocio quiebre por no responder WhatsApp. Vendedores de IA que trabajan 24/7.",
+    title: "LinkedIn Pro - Consigue Trabajo en EE.UU.",
+    description: "Método para optimizar tu LinkedIn y conseguir entrevistas en Estados Unidos en solo 2 horas.",
   },
   robots: {
     index: true,
     follow: true,
   },
-    generator: 'v0.dev'
+    generator: 'v0.app'
 }
 
 export default function RootLayout({

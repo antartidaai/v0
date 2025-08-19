@@ -3,8 +3,8 @@
 import React from "react"
 import { analytics, usePageTracking } from "../utils/analytics"
 
-import { useEffect, useState } from "react"
-import { Lock, ArrowLeft, ArrowRight } from "lucide-react"
+import { useEffect, useState, useRef } from "react"
+import { Lock, ArrowLeft, ArrowRight, HelpCircle, CheckCircle, Copy } from "lucide-react"
 import Link from "next/link"
 
 interface Vendedor {
@@ -39,6 +39,9 @@ export default function DemoPage() {
   const [userId, setUserId] = useState<string>("")
   const [sessionId, setSessionId] = useState<string>("")
   const [showExplanationModal, setShowExplanationModal] = useState(false)
+  const [showLinkedInModal, setShowLinkedInModal] = useState(false)
+  const [showHelpModal, setShowHelpModal] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Analytics tracking
   usePageTracking("demo_page")
@@ -84,6 +87,11 @@ export default function DemoPage() {
     return processedParts
   }
 
+  // Función para hacer scroll automático al último mensaje
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
   useEffect(() => {
     // Crear partículas flotantes
     const createParticles = () => {
@@ -100,30 +108,7 @@ export default function DemoPage() {
     createParticles()
     analytics.demoStart()
 
-    // Barra de progreso
-    const duration = 5000
-    const interval = 50
-    const step = (interval / duration) * 100
-
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = prev + step
-        if (newProgress >= 100) {
-          clearInterval(timer)
-          setTimeout(() => {
-            setShowSuccess(true)
-            setTimeout(() => {
-              setShowExplanationModal(true) // Mostrar popup explicativo primero
-            }, 1800)
-          }, 200)
-          return 100
-        }
-        return newProgress
-      })
-    }, interval)
-
     return () => {
-      clearInterval(timer)
       const particles = document.querySelectorAll(".particle")
       particles.forEach((particle) => particle.remove())
     }
@@ -158,57 +143,20 @@ export default function DemoPage() {
     })
   }, [])
 
+  // Scroll automático cuando se agregan nuevos mensajes
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
   const vendedores: Vendedor[] = [
     {
       id: 1,
-      nombre: "Andres AI",
+      nombre: "LinkedIn Expert Pro",
       avatar: "https://i.pravatar.cc/150?img=8",
-      banner: "https://source.unsplash.com/featured/?office",
-      badge: "Soporte VIP",
-      quote: "Resuelvo dudas y fidelizo clientes en minutos.",
-    },
-    {
-      id: 2,
-      nombre: "Diego AI",
-      avatar: "https://i.pravatar.cc/150?img=12",
-      banner: "https://source.unsplash.com/featured/?startup",
-      badge: "Ventas 24/7",
-      quote: "Cierro ventas mientras tú duermes",
-    },
-    {
-      id: 3,
-      nombre: "Alexa AI",
-      avatar: "https://i.pravatar.cc/150?img=32",
-      banner: "https://source.unsplash.com/featured/?sales",
-      badge: "Responsable de ventas",
-      quote: "Conduzco al lead del hola al pago sin fricción.",
-    },
-    {
-      id: 4,
-      nombre: "Maria AI",
-      avatar: "https://i.pravatar.cc/150?img=45",
-      banner: "https://source.unsplash.com/featured/?customer",
-      badge: "Lead Hunter",
-      quote: "No dejo escapar ni un solo prospecto.",
-      locked: true,
-    },
-    {
-      id: 5,
-      nombre: "Luna AI",
-      avatar: "https://i.pravatar.cc/150?img=25",
-      banner: "https://source.unsplash.com/featured/?marketing",
-      badge: "Atende Llamadas",
-      quote: "Agendo llamadas que generan millones",
-      locked: true,
-    },
-    {
-      id: 6,
-      nombre: "Maximiliano AI",
-      avatar: "https://i.pravatar.cc/150?img=51",
-      banner: "https://source.unsplash.com/featured/?analytics",
-      badge: "Closer Multicanal",
-      quote: "Integro WhatsApp, email y web para vender más",
-      locked: true,
+      banner: "https://source.unsplash.com/featured/?linkedin",
+      badge: "Especialista Elite",
+      quote:
+        "🔥 He ayudado a +500 profesionales a conseguir trabajo en EE.UU. Tu perfil actual te está costando miles de dólares en oportunidades perdidas. ¡Déjame arreglarlo AHORA!",
     },
   ]
 
@@ -220,16 +168,82 @@ export default function DemoPage() {
       return
     }
 
+    // Mostrar modal de LinkedIn antes de abrir el chat
     setSelectedVendedor(vendedor)
-    setChatOpen(true)
-    const initialMessage: Message = {
-      id: 1,
-      text: `¡Hola! Soy ${vendedor.nombre}. ¿En qué puedo ayudarte hoy?`,
-      sender: "ai",
-      timestamp: new Date(),
-      status: "delivered",
-    }
-    setMessages([initialMessage])
+    setShowLinkedInModal(true)
+  }
+
+  const startChatWithExpert = () => {
+    setShowLinkedInModal(false)
+
+    // Start loading sequence
+    const duration = 5000
+    const interval = 50
+    const step = (interval / duration) * 100
+
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        const newProgress = prev + step
+        if (newProgress >= 100) {
+          clearInterval(timer)
+          setTimeout(() => {
+            setShowSuccess(true)
+            setTimeout(() => {
+              setChatOpen(true)
+              const initialMessage: Message = {
+                id: 1,
+                text: `¡Hola! Soy ${selectedVendedor?.nombre}. Para hacer tu análisis gratuito, por favor comparte el link de tu perfil de LinkedIn. ¿Ya lo tienes listo?`,
+                sender: "ai",
+                timestamp: new Date(),
+                status: "delivered",
+              }
+              setMessages([initialMessage])
+            }, 1800)
+          }, 200)
+          return 100
+        }
+        return newProgress
+      })
+    }, interval)
+  }
+
+  const showHelpInstructions = () => {
+    setShowLinkedInModal(false)
+    setShowHelpModal(true)
+  }
+
+  const confirmLinkCopied = () => {
+    setShowHelpModal(false)
+
+    // Start loading sequence
+    const duration = 5000
+    const interval = 50
+    const step = (interval / duration) * 100
+
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        const newProgress = prev + step
+        if (newProgress >= 100) {
+          clearInterval(timer)
+          setTimeout(() => {
+            setShowSuccess(true)
+            setTimeout(() => {
+              setChatOpen(true)
+              const initialMessage: Message = {
+                id: 1,
+                text: `¡Perfecto! Ahora que tienes tu link de LinkedIn listo, por favor pégalo aquí para comenzar tu análisis gratuito personalizado. 🚀`,
+                sender: "ai",
+                timestamp: new Date(),
+                status: "delivered",
+              }
+              setMessages([initialMessage])
+            }, 1800)
+          }, 200)
+          return 100
+        }
+        return newProgress
+      })
+    }, interval)
   }
 
   const closeChat = () => {
@@ -248,6 +262,16 @@ export default function DemoPage() {
     setOfferOpen(false)
   }
 
+  const closeLinkedInModal = () => {
+    setShowLinkedInModal(false)
+    setSelectedVendedor(null)
+  }
+
+  const closeHelpModal = () => {
+    setShowHelpModal(false)
+    setSelectedVendedor(null)
+  }
+
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode)
   }
@@ -264,22 +288,10 @@ export default function DemoPage() {
     let webhookUrls: string[] = []
 
     if (vendedorId === 1) {
-      // Andres AI - Webhook corregido
+      // LinkedIn Expert - Webhook corregido
       webhookUrls = [
-        "https://webhook.algorithpro.com/webhook/vendedor1",
-        "https://n8n.algorithpro.com/webhook/vendedor1", // URL de respaldo
-      ]
-    } else if (vendedorId === 2) {
-      // Diego AI - Webhook original
-      webhookUrls = [
-        "https://n8n.algorithpro.com/webhook/vendedor2",
-        "https://n8n.algorithpro.com/webhook-test/vendedor2", // URL de respaldo
-      ]
-    } else if (vendedorId === 3) {
-      // Alexa AI - Nuevo webhook
-      webhookUrls = [
-        "https://n8n.algorithpro.com/webhook/vendedor3",
-        "https://webhook.algorithpro.com/webhook/vendedor3", // URL de respaldo
+        "https://n8n.algorithpro.com/webhook-test/linkedin",
+        "https://webhook.algorithpro.com/webhook/linkedin", // URL de respaldo
       ]
     } else {
       // Otros vendedores - sin webhook
@@ -292,16 +304,14 @@ export default function DemoPage() {
 
       for (let attempt = 1; attempt <= maxRetries; attempt++) {
         try {
-          // Estructura de datos adaptada según el vendedor
+          // Estructura de datos simplificada para n8n
           const webhookData = {
             message: message.trim(),
-            agent: vendedorId === 1 ? "Andres" : vendedorId === 2 ? "Diego" : "Alexa",
+            user_id: userId,
+            session_id: sessionId,
             timestamp: new Date().toISOString(),
-            userId,
-            sessionId,
-            vendedorId,
-            agentId: vendedorId,
-            vendedorName: vendedorName,
+            agent: "LinkedIn Expert Pro",
+            context: "demo_chat",
           }
 
           console.log(
@@ -310,13 +320,14 @@ export default function DemoPage() {
           )
 
           const controller = new AbortController()
-          const timeoutId = setTimeout(() => controller.abort(), 25000) // 25 segundos
+          const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 segundos
 
           const response = await fetch(webhookUrl, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
+              "User-Agent": "LinkedIn-Pro-Demo/1.0",
             },
             body: JSON.stringify(webhookData),
             signal: controller.signal,
@@ -329,6 +340,7 @@ export default function DemoPage() {
             statusText: response.statusText,
             ok: response.ok,
             url: webhookUrl,
+            headers: Object.fromEntries(response.headers.entries()),
           })
 
           if (response.ok) {
@@ -341,39 +353,65 @@ export default function DemoPage() {
                   const responseData = JSON.parse(responseText)
                   console.log("📊 Respuesta JSON:", JSON.stringify(responseData, null, 2))
 
-                  // Buscar respuesta en múltiples campos
-                  const responseFields = ["output", "response", "message", "text", "reply", "answer"]
+                  // Buscar respuesta en múltiples campos posibles de n8n
+                  const responseFields = [
+                    "response",
+                    "message",
+                    "output",
+                    "text",
+                    "reply",
+                    "answer",
+                    "ai_response",
+                    "agent_response",
+                    "result",
+                  ]
 
                   for (const field of responseFields) {
                     if (responseData[field] && typeof responseData[field] === "string") {
                       const cleanResponse = responseData[field].trim()
-                      if (cleanResponse) {
+                      if (cleanResponse && cleanResponse.length > 5) {
                         console.log(`✅ Respuesta encontrada en '${field}':`, cleanResponse)
-                        console.log("🔗 Verificando enlaces en respuesta:", cleanResponse.match(/(https?:\/\/[^\s]+)/g))
                         return cleanResponse
+                      }
+                    }
+                  }
+
+                  // Si es un array, buscar en el primer elemento
+                  if (Array.isArray(responseData) && responseData.length > 0) {
+                    const firstItem = responseData[0]
+                    for (const field of responseFields) {
+                      if (firstItem[field] && typeof firstItem[field] === "string") {
+                        const cleanResponse = firstItem[field].trim()
+                        if (cleanResponse && cleanResponse.length > 5) {
+                          console.log(`✅ Respuesta encontrada en array[0].${field}:`, cleanResponse)
+                          return cleanResponse
+                        }
                       }
                     }
                   }
 
                   // Si no encontramos campos específicos, pero hay datos válidos
                   if (typeof responseData === "object" && !responseData.error) {
-                    return "Recibí tu mensaje y lo estoy procesando. ¿Podrías ser más específico en tu consulta?"
+                    console.log("⚠️ Estructura de respuesta no reconocida, usando fallback")
+                    return "Recibí tu mensaje correctamente. ¿Podrías ser más específico sobre qué aspecto de tu perfil de LinkedIn te gustaría mejorar?"
                   }
-                } catch (e) {
+                } catch (parseError) {
+                  console.log("📄 No es JSON válido, tratando como texto plano")
                   // Si no es JSON, usar como texto plano
                   const cleanText = responseText.trim()
-                  if (cleanText && !cleanText.includes("error") && !cleanText.includes("Error")) {
-                    console.log("🔗 Verificando enlaces en texto plano:", cleanText.match(/(https?:\/\/[^\s]+)/g))
+                  if (cleanText && cleanText.length > 5 && !cleanText.toLowerCase().includes("error")) {
+                    console.log("✅ Usando respuesta como texto plano:", cleanText)
                     return cleanText
                   }
                 }
               }
 
               // Si llegamos aquí, la respuesta fue exitosa pero vacía o inválida
-              return "Estoy procesando tu consulta. ¿Podrías reformular tu pregunta?"
+              console.log("⚠️ Respuesta exitosa pero vacía")
+              return "Estoy procesando tu consulta sobre LinkedIn. ¿Podrías reformular tu pregunta de manera más específica?"
             } catch (parseError) {
               console.error("❌ Error parseando respuesta exitosa:", parseError)
-              return "Recibí tu mensaje correctamente. ¿Podrías intentar con una pregunta diferente?"
+              return "Recibí tu mensaje correctamente. ¿Podrías intentar con una pregunta diferente sobre tu perfil?"
             }
           }
 
@@ -395,51 +433,21 @@ export default function DemoPage() {
             attempt: attempt,
           })
 
-          // Manejo específico para "Error in workflow"
-          if (errorData?.message === "Error in workflow" || errorText.includes("Error in workflow")) {
-            console.log("🔧 Detectado error de workflow en n8n")
-
-            // Si es el primer intento y primera URL, intentar con datos aún más simples
-            if (attempt === 1 && urlIndex === 0) {
-              console.log("🔄 Reintentando con datos ultra-simples...")
-              const simpleData = { message: message.trim() }
-
-              try {
-                const simpleResponse = await fetch(webhookUrl, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(simpleData),
-                  signal: AbortSignal.timeout(15000),
-                })
-
-                if (simpleResponse.ok) {
-                  const simpleText = await simpleResponse.text()
-                  if (simpleText.trim()) {
-                    console.log("✅ Respuesta con datos simples:", simpleText)
-                    try {
-                      const simpleJson = JSON.parse(simpleText)
-                      return simpleJson.output || simpleJson.response || simpleJson.message || simpleText
-                    } catch (e) {
-                      return simpleText.trim()
-                    }
-                  }
-                }
-              } catch (simpleError) {
-                console.log("⚠️ Intento con datos simples también falló")
-              }
-            }
-
-            // Para errores de workflow, no reintentar en la misma URL
-            lastError = new Error(`Workflow Error: ${errorData?.message || errorText}`)
+          // Manejo específico para diferentes tipos de errores
+          if (response.status === 404) {
+            console.log("🔧 Webhook no encontrado, probando siguiente URL...")
+            lastError = new Error(`Webhook no encontrado: ${response.status}`)
             break // Salir del loop de intentos para esta URL
           }
 
-          // Para otros errores 500, intentar una vez más
-          if (response.status === 500 && attempt < maxRetries) {
-            console.log(`⏳ Esperando ${attempt * 2} segundos antes del siguiente intento...`)
-            await new Promise((resolve) => setTimeout(resolve, attempt * 2000))
-            lastError = new Error(`HTTP ${response.status}: ${errorData?.message || errorText}`)
-            continue
+          if (response.status === 500) {
+            console.log("🔧 Error interno del servidor")
+            if (attempt < maxRetries) {
+              console.log(`⏳ Esperando ${attempt * 2} segundos antes del siguiente intento...`)
+              await new Promise((resolve) => setTimeout(resolve, attempt * 2000))
+              lastError = new Error(`Error interno: ${response.status}`)
+              continue
+            }
           }
 
           // Para otros errores, no reintentar
@@ -447,6 +455,17 @@ export default function DemoPage() {
           break
         } catch (error) {
           console.error("❌ Error en el intento de envío:", error)
+
+          if (error.name === "AbortError") {
+            lastError = new Error("Timeout: La consulta está tomando demasiado tiempo")
+          } else {
+            lastError = error
+          }
+
+          if (attempt < maxRetries) {
+            console.log(`⏳ Esperando antes del siguiente intento...`)
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }
         }
       }
 
@@ -458,14 +477,14 @@ export default function DemoPage() {
     console.error("💥 Todas las URLs de webhook fallaron. Último error:", lastError)
 
     // Respuestas de fallback específicas según el tipo de error
-    if (lastError?.message?.includes("Error in workflow")) {
-      return "El sistema de IA está siendo actualizado en este momento. Mientras tanto, puedo ayudarte con consultas básicas sobre ventas. ¿Qué necesitas saber?"
-    } else if (lastError?.message?.includes("500")) {
-      return "Estoy experimentando algunos problemas técnicos temporales. ¿Podrías intentar reformular tu pregunta de manera más simple?"
-    } else if (lastError?.name === "AbortError" || lastError?.name === "TimeoutError") {
-      return "Tu consulta está siendo procesada, pero está tomando más tiempo del esperado. ¿Podrías hacer una pregunta más directa?"
+    if (lastError?.message?.includes("Timeout") || lastError?.name === "AbortError") {
+      return "Tu consulta está siendo procesada, pero está tomando más tiempo del esperado. Mientras tanto, ¿hay algo específico sobre tu perfil de LinkedIn que te preocupe?"
+    } else if (lastError?.message?.includes("404") || lastError?.message?.includes("no encontrado")) {
+      return "Estoy experimentando problemas técnicos temporales. ¿Podrías contarme qué tipo de trabajo buscas en EE.UU. para darte algunos consejos básicos?"
+    } else if (lastError?.message?.includes("500") || lastError?.message?.includes("interno")) {
+      return "Mi sistema avanzado está siendo actualizado. Mientras tanto, puedo ayudarte: ¿cuál es tu mayor desafío con LinkedIn actualmente?"
     } else {
-      return "Hay un problema de conexión temporal con mi sistema de IA avanzada. Puedo ayudarte con información básica mientras se resuelve. ¿Qué necesitas?"
+      return "Hay un problema de conexión temporal. ¿Podrías decirme en qué industria trabajas para darte consejos específicos sobre LinkedIn?"
     }
   }
 
@@ -491,7 +510,7 @@ export default function DemoPage() {
     // Actualizar estado a "sent"
     setTimeout(() => updateMessageStatus(userMessage.id, "sent"), 500)
 
-    // Solo enviar al webhook si es Diego AI (id: 2) o cualquier vendedor disponible
+    // Solo enviar al webhook si es un vendedor disponible
     if (selectedVendedor && !selectedVendedor.locked) {
       setIsTyping(true)
 
@@ -501,28 +520,28 @@ export default function DemoPage() {
 
         console.log(`🚀 Enviando mensaje a ${selectedVendedor.nombre} (ID: ${selectedVendedor.id}):`, currentMessage)
 
-        // Solo Diego AI (id: 2), Andres AI (id: 1) y Alexa AI (id: 3) usan webhook real, otros usan respuestas simuladas
+        // Solo los primeros 3 vendedores usan webhook real, otros usan respuestas simuladas
         let aiResponse: string | null = null
 
         if (selectedVendedor.id === 1) {
-          // Andres AI - Usar webhook real
+          // LinkedIn Expert - Usar webhook real
           aiResponse = await sendToWebhookAndGetResponse(currentMessage, selectedVendedor.id, selectedVendedor.nombre)
         } else if (selectedVendedor.id === 2) {
-          // Diego AI - Usar webhook real
+          // Career Coach - Usar webhook real
           aiResponse = await sendToWebhookAndGetResponse(currentMessage, selectedVendedor.id, selectedVendedor.nombre)
         } else if (selectedVendedor.id === 3) {
-          // Alexa AI - Usar webhook real
+          // Resume Writer - Usar webhook real
           aiResponse = await sendToWebhookAndGetResponse(currentMessage, selectedVendedor.id, selectedVendedor.nombre)
         } else {
           // Otros vendedores - Respuestas simuladas
           await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000))
 
           const simulatedResponses = [
-            "Perfecto, entiendo tu necesidad. Te puedo ayudar con eso.",
-            "Excelente pregunta. Basándome en mi experiencia, te recomiendo...",
-            "Esa es una estrategia muy inteligente. Déjame mostrarte cómo optimizarla.",
-            "Me parece una gran oportunidad. ¿Te gustaría que analicemos los números?",
-            "Exacto, esa es la clave del éxito. Te explico paso a paso...",
+            "Perfecto, entiendo tu necesidad con LinkedIn. Te puedo ayudar con eso.",
+            "Excelente pregunta sobre posicionamiento. Basándome en mi experiencia, te recomiendo...",
+            "Esa es una estrategia muy inteligente para LinkedIn. Déjame mostrarte cómo optimizarla.",
+            "Me parece una gran oportunidad para tu perfil. ¿Te gustaría que analicemos los puntos clave?",
+            "Exacto, esa es la clave del éxito en LinkedIn. Te explico paso a paso...",
           ]
 
           aiResponse = simulatedResponses[Math.floor(Math.random() * simulatedResponses.length)]
@@ -545,7 +564,7 @@ export default function DemoPage() {
           // Mensaje de fallback si no hay respuesta
           const fallbackMessage: Message = {
             id: Date.now(),
-            text: "No pude procesar tu mensaje en este momento. ¿Podrías ser más específico en tu pregunta?",
+            text: "No pude procesar tu mensaje en este momento. ¿Podrías ser más específico en tu pregunta sobre LinkedIn?",
             sender: "ai",
             timestamp: new Date(),
             status: "delivered",
@@ -586,7 +605,7 @@ export default function DemoPage() {
   return (
     <div className="h-screen overflow-hidden relative">
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A] border-b border-[#00C896] shadow-lg shadow-[#00C896]/20 z-50">
+      <header className="fixed top-0 left-0 w-full bg-gradient-to-br from-[#0A66C2] to-[#004182] border-b border-[#70B5F9] shadow-lg shadow-[#70B5F9]/20 z-50">
         <div className="flex justify-between items-center px-5 py-3">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
@@ -594,59 +613,94 @@ export default function DemoPage() {
               <span className="text-sm">Volver</span>
             </Link>
             <div className="flex items-center gap-2 text-white font-semibold text-lg">
-              🤖 <span className="text-[#00C896]">VENTA 24/7</span>
+              💼 <span className="text-[#70B5F9]">LinkedIn Pro</span>
             </div>
           </div>
           <nav className="flex gap-3">
             <a
               href="/oferta"
-              className="bg-gradient-to-br from-[#00C896] to-[#00A876] text-white px-4 py-2 rounded-xl text-sm flex items-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#00C896]/30"
-              onClick={() => analytics.ctaClick("Comenzar Ahora", "demo_header", "/oferta")}
+              className="bg-gradient-to-br from-[#FF6B35] to-[#F7931E] text-white px-4 py-2 rounded-xl text-sm flex items-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#FF6B35]/40 animate-pulse"
+              onClick={() => analytics.ctaClick("Ver Método Completo", "demo_header", "/oferta")}
             >
-              <span>🚀</span> Comenzar Ahora
+              <span>🚀</span> Ver Método Completo
             </a>
           </nav>
         </div>
       </header>
 
       {/* Fondo degradado animado */}
-      <div className="fixed inset-0 bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A] animate-gradient" />
+      <div className="fixed inset-0 bg-gradient-to-br from-[#0A66C2] to-[#004182] animate-gradient" />
 
       {/* Contenido principal - Altura fija con scroll controlado */}
       <div className="h-screen pt-16 pb-16 overflow-y-auto">
         <div className="min-h-full flex items-center justify-center px-4">
-          {/* Loader - Siempre visible inicialmente */}
+          {/* Introduction Section - Always visible initially */}
           <div
-            className={`loader text-center max-w-md w-full transition-all duration-600 z-10 ${showCards ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+            className={`intro-section text-center max-w-2xl w-full transition-all duration-600 z-10 ${showCards ? "opacity-0 pointer-events-none" : "opacity-100"} ${progress > 0 ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+          >
+            <div className="px-4">
+              <div className="text-4xl sm:text-5xl mb-6 sm:mb-8 inline-block text-white">💼</div>
+
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
+                Convierte tu perfil de LinkedIn en una <span className="text-[#70B5F9]">máquina de trabajos</span> en
+                EE.UU.
+              </h1>
+
+              <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0">
+                En solo 2 horas transformarás tu perfil de LinkedIn, incluso si hoy no sabes por dónde empezar.
+                <br />
+                <strong className="text-[#70B5F9]">El problema no es tu experiencia, es tu posicionamiento.</strong>
+              </p>
+
+              <button
+                onClick={() => {
+                  analytics.ctaClick("Analizar Mi Perfil GRATIS Ahora", "intro_cta")
+                  setShowLinkedInModal(true)
+                }}
+                className="bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-bold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse shadow-xl shadow-[#FF6B35]/30 mx-auto"
+              >
+                <span className="text-lg sm:text-xl">🚀</span>
+                <span>¿Quieres analizar tu perfil GRATIS ahora?</span>
+              </button>
+
+              <p className="text-white/70 text-sm mt-4 px-2">
+                ✅ Análisis personalizado • ✅ Resultados inmediatos • ✅ 100% gratuito
+              </p>
+            </div>
+          </div>
+
+          {/* Loader - Shows after user clicks CTA */}
+          <div
+            className={`loader text-center max-w-md w-full transition-all duration-600 z-10 ${showCards ? "opacity-0 pointer-events-none" : ""} ${progress > 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}
           >
             <div className="px-4">
               <div
-                className={`icon text-4xl sm:text-5xl mb-6 sm:mb-8 inline-block transition-all duration-500 ${showSuccess ? "w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] leading-[60px] sm:leading-[70px] rounded-full bg-[#00C896] text-white text-3xl sm:text-4xl shadow-lg shadow-[#00C896]/30" : "text-white"}`}
+                className={`icon text-4xl sm:text-5xl mb-6 sm:mb-8 inline-block transition-all duration-500 ${showSuccess ? "w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] leading-[60px] sm:leading-[70px] rounded-full bg-[#70B5F9] text-white text-3xl sm:text-4xl shadow-lg shadow-[#70B5F9]/30" : "text-white"}`}
               >
-                {showSuccess ? "✔" : "🤖"}
+                {showSuccess ? "✔" : "💼"}
               </div>
 
               <h1 className="text-lg sm:text-xl text-white mb-4 sm:mb-5 leading-tight px-2">
                 {showSuccess ? (
-                  <>6 vendedores con&nbsp;AI&nbsp;24/7 están disponibles</>
+                  <>Tu experto personal en LinkedIn está listo para TRANSFORMAR tu carrera</>
                 ) : (
                   <>
-                    Cargando tus vendedores virtuales
+                    Cargando al especialista que ha conseguido
                     <br />
-                    disponibles para tu negocio…
+                    trabajo en EE.UU. a +500 profesionales…
                   </>
                 )}
               </h1>
 
               <p className="text-white/85 mb-5 sm:mb-6 text-sm sm:text-base px-2">
-                {showSuccess ? "3 gratis + 3 premium" : "Analizando tus preferencias"}
+                {showSuccess ? "Consulta GRATUITA disponible AHORA" : "Preparando tu consulta personalizada"}
               </p>
 
               <div
                 className={`progress w-full h-1.5 bg-white/20 rounded-full overflow-hidden transition-opacity duration-400 ${showSuccess ? "opacity-0" : "opacity-100"}`}
               >
                 <div
-                  className="progress-bar h-full bg-[#00C896] transition-all duration-75 linear shadow-sm shadow-[#00C896]/50"
+                  className="progress-bar h-full bg-[#70B5F9] transition-all duration-75 linear shadow-sm shadow-[#70B5F9]/50"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -661,10 +715,10 @@ export default function DemoPage() {
               {vendedores.map((vendedor) => (
                 <div
                   key={vendedor.id}
-                  className={`relative w-full max-w-sm h-auto min-h-fit bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A] border rounded-xl shadow-lg overflow-visible transition-all duration-500 hover:scale-105 ${
+                  className={`relative w-full max-w-sm h-auto min-h-fit bg-gradient-to-br from-[#0A66C2] to-[#004182] border rounded-xl shadow-lg overflow-visible transition-all duration-500 hover:scale-105 ${
                     vendedor.locked
                       ? "border-[#FFD700] shadow-[#FFD700]/20 hover:shadow-[#FFD700]/40"
-                      : "border-[#00C896] shadow-[#00C896]/20 hover:shadow-[#00C896]/40 hover:border-[#00C896]/80"
+                      : "border-[#70B5F9] shadow-[#70B5F9]/20 hover:shadow-[#70B5F9]/40 hover:border-[#70B5F9]/80"
                   }`}
                 >
                   {/* Overlay para vendedores bloqueados */}
@@ -684,7 +738,7 @@ export default function DemoPage() {
                         className={`px-2 py-1 rounded-full text-xs font-medium text-white ${
                           vendedor.locked
                             ? "bg-gradient-to-br from-[#FFD700] to-[#FFA500]"
-                            : "bg-gradient-to-br from-[#00C896] to-[#00A876]"
+                            : "bg-gradient-to-br from-[#70B5F9] to-[#0073B1]"
                         }`}
                       >
                         {vendedor.locked ? "🔒 Premium" : "✨ Gratis"}
@@ -694,7 +748,7 @@ export default function DemoPage() {
                         className={`px-2 py-1 rounded-full text-xs font-medium shadow-sm ${
                           vendedor.locked
                             ? "bg-gradient-to-br from-[#FFD700] to-[#FFA500] text-white"
-                            : "bg-gradient-to-br from-[#00C896] to-[#00A876] text-white"
+                            : "bg-gradient-to-br from-[#70B5F9] to-[#0073B1] text-white"
                         }`}
                       >
                         {vendedor.badge}
@@ -722,14 +776,9 @@ export default function DemoPage() {
                     {/* Botón de acción */}
                     <button
                       onClick={() => openChat(vendedor)}
-                      className={`w-full text-sm font-medium rounded-xl py-3 px-4 transition-all duration-300 ${
-                        vendedor.locked
-                          ? "bg-gradient-to-br from-[#FFD700] to-[#FFA500] text-black hover:shadow-[#FFD700]/40 hover:shadow-lg"
-                          : "bg-gradient-to-br from-[#00C896] to-[#00A876] text-white hover:shadow-[#00C896]/40 hover:shadow-lg"
-                      }`}
-                      disabled={vendedor.locked}
+                      className="w-full text-sm font-bold rounded-xl py-3 px-4 transition-all duration-300 bg-gradient-to-br from-[#FF6B35] to-[#F7931E] text-white hover:shadow-[#FF6B35]/50 hover:shadow-lg animate-pulse hover:scale-105"
                     >
-                      {vendedor.locked ? "🔓 Desbloquear Premium" : "💬 Iniciar Chat"}
+                      🚨 CONSULTA GRATUITA URGENTE
                     </button>
                   </div>
                 </div>
@@ -739,7 +788,190 @@ export default function DemoPage() {
         </div>
       </div>
 
-      {/* Chat Modal - WhatsApp Style Enhanced */}
+      {/* LinkedIn Profile Modal */}
+      {showLinkedInModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-2 sm:p-4">
+          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-gradient-to-br from-[#0A66C2] to-[#004182] border border-[#70B5F9] rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2">
+            {/* Header */}
+            <div className="px-4 sm:px-6 py-4 border-b border-[#70B5F9]/20">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="bg-[#70B5F9]/20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center">
+                  <span className="text-lg sm:text-2xl">🔗</span>
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white">¡Necesitamos tu Link de LinkedIn!</h3>
+                  <p className="text-[#70B5F9] text-sm">Para hacer tu análisis gratuito personalizado</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="px-4 sm:px-6 py-6">
+              <div className="space-y-4 mb-6">
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="bg-blue-500/20 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span className="text-blue-400 text-sm">ℹ️</span>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold mb-2 text-sm">¿Por qué necesitamos tu link?</h4>
+                      <p className="text-white/80 text-sm leading-relaxed">
+                        Sin el link de tu perfil de LinkedIn, no podemos hacer el análisis gratuito personalizado.
+                        Necesitamos ver tu perfil actual para transformar tu perfil en una maquina de empleo en EE.UU.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-500/30 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="bg-green-500/20 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span className="text-green-400 text-sm">🔒</span>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold mb-2 text-sm">100% Seguro y Confidencial</h4>
+                      <p className="text-white/80 text-sm leading-relaxed">
+                        Solo usamos tu link para el análisis. No compartimos tu información con terceros ni hacemos
+                        cambios en tu perfil sin tu autorización.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={startChatWithExpert}
+                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-4 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105"
+                >
+                  <CheckCircle size={18} />
+                  SÍ, TENGO MI LINK LISTO
+                </button>
+
+                <button
+                  onClick={showHelpInstructions}
+                  className="w-full bg-gradient-to-r from-gray-600 to-gray-500 text-white px-4 py-3 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-gray-500/40 transition-all duration-300 hover:scale-105"
+                >
+                  <HelpCircle size={18} />
+                  ¿CÓMO OBTENGO MI LINK?
+                </button>
+
+                <button
+                  onClick={closeLinkedInModal}
+                  className="w-full text-white/70 hover:text-white text-sm py-2 transition-colors duration-200"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Help Modal */}
+      {showHelpModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-2 sm:p-4">
+          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-gradient-to-br from-[#0A66C2] to-[#004182] border border-[#70B5F9] rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
+            {/* Header */}
+            <div className="px-4 sm:px-6 py-4 border-b border-[#70B5F9]/20">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="bg-[#70B5F9]/20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center">
+                  <span className="text-lg sm:text-2xl">📱</span>
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white">Cómo obtener tu Link de LinkedIn</h3>
+                  <p className="text-[#70B5F9] text-sm">Instrucciones paso a paso desde tu teléfono</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="px-4 sm:px-6 py-6">
+              <div className="space-y-4 mb-6">
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
+                  <h4 className="text-white font-semibold mb-3 text-sm flex items-center gap-2">
+                    <span className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+                      1
+                    </span>
+                    Abre la app de LinkedIn
+                  </h4>
+                  <p className="text-white/80 text-sm leading-relaxed ml-8">
+                    Abre la aplicación de LinkedIn en tu teléfono móvil.
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
+                  <h4 className="text-white font-semibold mb-3 text-sm flex items-center gap-2">
+                    <span className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+                      2
+                    </span>
+                    Ve a tu perfil
+                  </h4>
+                  <p className="text-white/80 text-sm leading-relaxed ml-8">
+                    Toca tu foto de perfil en la esquina superior izquierda para ir a tu perfil.
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
+                  <h4 className="text-white font-semibold mb-3 text-sm flex items-center gap-2">
+                    <span className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+                      3
+                    </span>
+                    Toca "Compartir perfil"
+                  </h4>
+                  <p className="text-white/80 text-sm leading-relaxed ml-8">
+                    Busca el botón "Compartir perfil" o los tres puntos (...) en tu perfil y tócalo.
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
+                  <h4 className="text-white font-semibold mb-3 text-sm flex items-center gap-2">
+                    <span className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+                      4
+                    </span>
+                    Copia el enlace
+                  </h4>
+                  <p className="text-white/80 text-sm leading-relaxed ml-8">
+                    Selecciona "Copiar enlace al perfil" o "Copy link to profile". El enlace se copiará automáticamente.
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-500/30 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Copy size={16} className="text-green-400" />
+                    <h4 className="text-green-400 font-semibold text-sm">¡Listo!</h4>
+                  </div>
+                  <p className="text-white/80 text-sm leading-relaxed">
+                    Tu enlace debería verse así: <br />
+                    <code className="text-green-300 text-xs bg-green-900/30 px-2 py-1 rounded mt-1 inline-block">
+                      https://www.linkedin.com/in/tu-nombre/
+                    </code>
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={confirmLinkCopied}
+                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-4 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse"
+                >
+                  <CheckCircle size={18} />
+                  ¡YA COPIÉ MI LINK!
+                </button>
+
+                <button
+                  onClick={closeHelpModal}
+                  className="w-full text-white/70 hover:text-white text-sm py-2 transition-colors duration-200"
+                >
+                  Volver atrás
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Chat Modal - LinkedIn Style Enhanced */}
       {chatOpen && selectedVendedor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-1 sm:p-2 md:p-4">
           <div
@@ -748,8 +980,8 @@ export default function DemoPage() {
               animation: "slideInUp 0.3s ease-out",
             }}
           >
-            {/* WhatsApp Header Enhanced */}
-            <div className="bg-[#00a884] dark:bg-[#2a2f32] px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between text-white shadow-lg">
+            {/* LinkedIn Header Enhanced */}
+            <div className="bg-[#0A66C2] dark:bg-[#2a2f32] px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between text-white shadow-lg">
               <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                 <button
                   onClick={closeChat}
@@ -767,21 +999,21 @@ export default function DemoPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-medium text-xs sm:text-sm truncate">{selectedVendedor.nombre}</h4>
-                  <p className="text-xs text-green-100 transition-all duration-250">
+                  <p className="text-xs text-blue-100 transition-all duration-250">
                     {isTyping ? (
                       <span className="flex items-center gap-1">
                         escribiendo
                         <span className="flex gap-0.5">
                           <span
-                            className="w-1 h-1 bg-green-200 rounded-full animate-bounce"
+                            className="w-1 h-1 bg-blue-200 rounded-full animate-bounce"
                             style={{ animationDelay: "0ms" }}
                           ></span>
                           <span
-                            className="w-1 h-1 bg-green-200 rounded-full animate-bounce"
+                            className="w-1 h-1 bg-blue-200 rounded-full animate-bounce"
                             style={{ animationDelay: "150ms" }}
                           ></span>
                           <span
-                            className="w-1 h-1 bg-green-200 rounded-full animate-bounce"
+                            className="w-1 h-1 bg-blue-200 rounded-full animate-bounce"
                             style={{ animationDelay: "300ms" }}
                           ></span>
                         </span>
@@ -877,7 +1109,7 @@ export default function DemoPage() {
                   <div
                     className={`max-w-[85%] sm:max-w-[80%] md:max-w-[75%] rounded-2xl px-3 sm:px-4 py-2 shadow-sm ${
                       message.sender === "user"
-                        ? "bg-[#00a884] text-white rounded-br-md"
+                        ? "bg-[#0A66C2] text-white rounded-br-md"
                         : "bg-white dark:bg-zinc-700 text-gray-800 dark:text-white rounded-bl-md"
                     }`}
                   >
@@ -927,6 +1159,9 @@ export default function DemoPage() {
                   </div>
                 </div>
               )}
+
+              {/* Elemento invisible para hacer scroll automático */}
+              <div ref={messagesEndRef} />
             </div>
 
             {/* Input Container */}
@@ -937,8 +1172,8 @@ export default function DemoPage() {
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Escribe un mensaje..."
-                    className="w-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 rounded-2xl px-3 sm:px-4 py-2 pr-8 sm:pr-12 text-xs sm:text-sm resize-none max-h-20 sm:max-h-32 focus:outline-none focus:ring-2 focus:ring-[#00a884] focus:border-transparent"
+                    placeholder="Pega aquí tu link de LinkedIn..."
+                    className="w-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 rounded-2xl px-3 sm:px-4 py-2 pr-8 sm:pr-12 text-xs sm:text-sm resize-none max-h-20 sm:max-h-32 focus:outline-none focus:ring-2 focus:ring-[#0A66C2] focus:border-transparent"
                     rows={1}
                     style={{
                       minHeight: "36px",
@@ -957,7 +1192,7 @@ export default function DemoPage() {
                 <button
                   onClick={sendMessage}
                   disabled={!inputMessage.trim() || isTyping}
-                  className="bg-[#00a884] hover:bg-[#008f72] disabled:bg-gray-300 dark:disabled:bg-zinc-600 text-white p-2 sm:p-2.5 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed flex-shrink-0"
+                  className="bg-[#0A66C2] hover:bg-[#004182] disabled:bg-gray-300 dark:disabled:bg-zinc-600 text-white p-2 sm:p-2.5 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed flex-shrink-0"
                 >
                   <svg
                     width="16"
@@ -983,16 +1218,18 @@ export default function DemoPage() {
       {/* Explanation Modal */}
       {showExplanationModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md p-2 sm:p-4">
-          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A] border border-[#00C896] rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
+          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-gradient-to-br from-[#0A66C2] to-[#004182] border border-[#70B5F9] rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
             {/* Header */}
-            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-[#00C896]/20">
+            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-[#70B5F9]/20">
               <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-                <div className="bg-[#00C896]/20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
-                  <span className="text-base sm:text-lg md:text-2xl">🤖</span>
+                <div className="bg-[#70B5F9]/20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+                  <span className="text-base sm:text-lg md:text-2xl">💼</span>
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white">¡Bienvenido a la Demo!</h3>
-                  <p className="text-[#00C896] text-xs sm:text-sm">Descubre cómo funcionan nuestros asistentes</p>
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white">¡Tu Carrera Está en PELIGRO!</h3>
+                  <p className="text-[#70B5F9] text-xs sm:text-sm">
+                    Cada día que esperas, pierdes oportunidades de $100K+
+                  </p>
                 </div>
               </div>
             </div>
@@ -1001,76 +1238,79 @@ export default function DemoPage() {
             <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6">
               <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
                 <div className="flex items-start gap-2 sm:gap-3">
-                  <div className="bg-[#00C896]/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
-                    <span className="text-[#00C896] text-xs sm:text-sm">1</span>
+                  <div className="bg-red-500/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
+                    <span className="text-red-400 text-xs sm:text-sm">⚠️</span>
                   </div>
                   <div>
-                    <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">
-                      Elige tu Asistente Virtual
-                    </h4>
+                    <h4 className="text-red-400 font-semibold mb-1 text-xs sm:text-sm md:text-base">REALIDAD BRUTAL</h4>
                     <p className="text-white/70 text-xs sm:text-sm">
-                      Selecciona entre 6 vendedores especializados, cada uno con habilidades únicas para tu negocio.
+                      Tu perfil actual es INVISIBLE para recruiters de EE.UU. Mientras lees esto, otros candidatos con
+                      MENOS experiencia están siendo contratados.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2 sm:gap-3">
-                  <div className="bg-[#00C896]/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
-                    <span className="text-[#00C896] text-xs sm:text-sm">2</span>
+                  <div className="bg-[#70B5F9]/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
+                    <span className="text-[#70B5F9] text-xs sm:text-sm">🚀</span>
                   </div>
                   <div>
                     <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">
-                      Chatea en Tiempo Real
+                      SOLUCIÓN INMEDIATA
                     </h4>
                     <p className="text-white/70 text-xs sm:text-sm">
-                      Conversa directamente con el asistente para probar sus capacidades de venta y atención al cliente.
+                      Nuestro experto te mostrará EXACTAMENTE qué está mal en tu perfil y cómo arreglarlo en los
+                      próximos 5 minutos.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2 sm:gap-3">
-                  <div className="bg-[#00C896]/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
-                    <span className="text-[#00C896] text-xs sm:text-sm">3</span>
+                  <div className="bg-green-500/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
+                    <span className="text-green-400 text-xs sm:text-sm">💰</span>
                   </div>
                   <div>
                     <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">
-                      Conecta tu WhatsApp
+                      RESULTADO GARANTIZADO
                     </h4>
                     <p className="text-white/70 text-xs sm:text-sm">
-                      Si te gusta lo que ves, puedes integrar el asistente directamente a tu WhatsApp Business o
-                      WhatsApp Normal.
+                      Si sigues sus consejos, tendrás más visualizaciones y mensajes de recruiters en 48 horas.
+                      ¡GARANTIZADO!
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-[#00C896]/10 to-[#00A876]/10 border border-[#00C896]/30 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-4 sm:mb-6">
+              <div className="bg-gradient-to-r from-red-900/20 to-red-800/20 border border-red-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-4 sm:mb-6">
                 <div className="flex items-center gap-2 mb-1 sm:mb-2">
-                  <span className="text-sm sm:text-base md:text-lg">💡</span>
-                  <h4 className="text-[#00C896] font-semibold text-xs sm:text-sm md:text-base">Tip Importante</h4>
+                  <span className="text-sm sm:text-base md:text-lg">⏰</span>
+                  <h4 className="text-red-400 font-semibold text-xs sm:text-sm md:text-base">URGENTE</h4>
                 </div>
                 <p className="text-white/80 text-xs sm:text-sm">
-                  Los primeros 3 asistentes son <strong className="text-[#00C896]">completamente gratuitos</strong>. Los
-                  premium ofrecen funcionalidades avanzadas para negocios que requieren mayor personalización.
+                  Cada día que tu perfil sigue mal optimizado,{" "}
+                  <strong className="text-red-400">pierdes un salario dr $3.000 USD</strong> (salario promedio en
+                  EE.UU.). ¿Cuánto más vas a perder?
                 </p>
               </div>
 
               <button
                 onClick={() => {
-                  analytics.ctaClick("Probar Ahora", "explanation_modal")
+                  analytics.ctaClick("ARREGLAR MI PERFIL AHORA", "explanation_modal")
                   closeExplanationModal()
                 }}
-                className="w-full bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-3 sm:px-4 md:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105"
+                className="w-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-3 sm:px-4 md:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-bold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse"
               >
-                <span>🚀</span>
-                Probar Ahora
+                <span>🚨</span>
+                ARREGLAR MI PERFIL AHORA
                 <ArrowRight size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
               </button>
             </div>
 
             {/* Footer */}
-            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-t border-[#00C896]/20 text-center">
-              <p className="text-white/60 text-xs">✅ Sin registro • ✅ Prueba gratuita • ✅ Integración inmediata</p>
+            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-t border-[#70B5F9]/20 text-center">
+              <p className="text-white/60 text-xs">
+                🚨 GRATIS por tiempo limitado • ⚡ Resultados en 48 horas • 💰 Miles en oportunidades
+              </p>
             </div>
           </div>
         </div>
