@@ -175,36 +175,15 @@ export default function DemoPage() {
 
   const startChatWithExpert = () => {
     setShowLinkedInModal(false)
-
-    // Start loading sequence
-    const duration = 5000
-    const interval = 50
-    const step = (interval / duration) * 100
-
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = prev + step
-        if (newProgress >= 100) {
-          clearInterval(timer)
-          setTimeout(() => {
-            setShowSuccess(true)
-            setTimeout(() => {
-              setChatOpen(true)
-              const initialMessage: Message = {
-                id: 1,
-                text: `¡Hola! Soy ${selectedVendedor?.nombre}. Para hacer tu análisis gratuito, por favor comparte el link de tu perfil de LinkedIn. ¿Ya lo tienes listo?`,
-                sender: "ai",
-                timestamp: new Date(),
-                status: "delivered",
-              }
-              setMessages([initialMessage])
-            }, 1800)
-          }, 200)
-          return 100
-        }
-        return newProgress
-      })
-    }, interval)
+    setChatOpen(true)
+    const initialMessage: Message = {
+      id: 1,
+      text: `¡Hola! Soy ${selectedVendedor?.nombre}. Para hacer tu análisis gratuito, por favor comparte el link de tu perfil de LinkedIn. ¿Ya lo tienes listo?`,
+      sender: "ai",
+      timestamp: new Date(),
+      status: "delivered",
+    }
+    setMessages([initialMessage])
   }
 
   const showHelpInstructions = () => {
@@ -214,36 +193,15 @@ export default function DemoPage() {
 
   const confirmLinkCopied = () => {
     setShowHelpModal(false)
-
-    // Start loading sequence
-    const duration = 5000
-    const interval = 50
-    const step = (interval / duration) * 100
-
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = prev + step
-        if (newProgress >= 100) {
-          clearInterval(timer)
-          setTimeout(() => {
-            setShowSuccess(true)
-            setTimeout(() => {
-              setChatOpen(true)
-              const initialMessage: Message = {
-                id: 1,
-                text: `¡Perfecto! Ahora que tienes tu link de LinkedIn listo, por favor pégalo aquí para comenzar tu análisis gratuito personalizado. 🚀`,
-                sender: "ai",
-                timestamp: new Date(),
-                status: "delivered",
-              }
-              setMessages([initialMessage])
-            }, 1800)
-          }, 200)
-          return 100
-        }
-        return newProgress
-      })
-    }, interval)
+    setChatOpen(true)
+    const initialMessage: Message = {
+      id: 1,
+      text: `¡Perfecto! Ahora que tienes tu link de LinkedIn listo, por favor pégalo aquí para comenzar tu análisis gratuito personalizado. 🚀`,
+      sender: "ai",
+      timestamp: new Date(),
+      status: "delivered",
+    }
+    setMessages([initialMessage])
   }
 
   const closeChat = () => {
@@ -602,6 +560,13 @@ export default function DemoPage() {
     setShowCards(true)
   }
 
+  // Función para manejar el CTA principal
+  const handleMainCTA = () => {
+    analytics.ctaClick("Analizar Mi Perfil GRATIS Ahora", "intro_cta")
+    setShowCards(true) // Ocultar texto introductorio
+    setShowLinkedInModal(true)
+  }
+
   return (
     <div className="h-screen overflow-hidden relative">
       {/* Header */}
@@ -636,7 +601,7 @@ export default function DemoPage() {
         <div className="min-h-full flex items-center justify-center px-4">
           {/* Introduction Section - Always visible initially */}
           <div
-            className={`intro-section text-center max-w-2xl w-full transition-all duration-600 z-10 ${showCards ? "opacity-0 pointer-events-none" : "opacity-100"} ${progress > 0 ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+            className={`intro-section text-center max-w-2xl w-full transition-all duration-600 z-10 ${showCards || progress > 0 ? "opacity-0 pointer-events-none" : "opacity-100"}`}
           >
             <div className="px-4">
               <div className="text-4xl sm:text-5xl mb-6 sm:mb-8 inline-block text-white">💼</div>
@@ -653,10 +618,7 @@ export default function DemoPage() {
               </p>
 
               <button
-                onClick={() => {
-                  analytics.ctaClick("Analizar Mi Perfil GRATIS Ahora", "intro_cta")
-                  setShowLinkedInModal(true)
-                }}
+                onClick={handleMainCTA}
                 className="bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-bold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse shadow-xl shadow-[#FF6B35]/30 mx-auto"
               >
                 <span className="text-lg sm:text-xl">🚀</span>
