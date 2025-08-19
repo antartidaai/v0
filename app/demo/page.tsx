@@ -560,11 +560,11 @@ export default function DemoPage() {
     setShowCards(true)
   }
 
-  // Función para manejar el CTA principal
-  const handleMainCTA = () => {
-    analytics.ctaClick("Analizar Mi Perfil GRATIS Ahora", "intro_cta")
-    setShowCards(true) // Ocultar texto introductorio
-    setShowLinkedInModal(true)
+  const handleContinueClick = () => {
+    setShowSuccess(true)
+    setTimeout(() => {
+      setShowExplanationModal(true) // Mostrar popup explicativo primero
+    }, 500)
   }
 
   return (
@@ -599,41 +599,9 @@ export default function DemoPage() {
       {/* Contenido principal - Altura fija con scroll controlado */}
       <div className="h-screen pt-16 pb-16 overflow-y-auto">
         <div className="min-h-full flex items-center justify-center px-4">
-          {/* Introduction Section - Always visible initially */}
+          {/* Loader - Siempre visible inicialmente */}
           <div
-            className={`intro-section text-center max-w-2xl w-full transition-all duration-600 z-10 ${showCards || progress > 0 ? "opacity-0 pointer-events-none" : "opacity-100"}`}
-          >
-            <div className="px-4">
-              <div className="text-4xl sm:text-5xl mb-6 sm:mb-8 inline-block text-white">💼</div>
-
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 leading-tight">
-                Convierte tu perfil de LinkedIn en una <span className="text-[#70B5F9]">máquina de trabajos</span> en
-                EE.UU.
-              </h1>
-
-              <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed">
-                En solo 2 horas transformarás tu perfil de LinkedIn, incluso si hoy no sabes por dónde empezar.
-                <br />
-                <strong className="text-[#70B5F9]">El problema no es tu experiencia, es tu posicionamiento.</strong>
-              </p>
-
-              <button
-                onClick={handleMainCTA}
-                className="bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-bold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse shadow-xl shadow-[#FF6B35]/30 mx-auto"
-              >
-                <span className="text-lg sm:text-xl">🚀</span>
-                <span>¿Quieres analizar tu perfil GRATIS ahora?</span>
-              </button>
-
-              <p className="text-white/70 text-sm mt-4">
-                ✅ Análisis personalizado • ✅ Resultados inmediatos • ✅ 100% gratuito
-              </p>
-            </div>
-          </div>
-
-          {/* Loader - Shows after user clicks CTA */}
-          <div
-            className={`loader text-center max-w-md w-full transition-all duration-600 z-10 ${showCards ? "opacity-0 pointer-events-none" : ""} ${progress > 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+            className={`loader text-center max-w-md w-full transition-all duration-600 z-10 ${showCards ? "opacity-0 pointer-events-none" : "opacity-100"}`}
           >
             <div className="px-4">
               <div
@@ -647,25 +615,41 @@ export default function DemoPage() {
                   <>Tu experto personal en LinkedIn está listo para TRANSFORMAR tu carrera</>
                 ) : (
                   <>
-                    Cargando al especialista que ha conseguido
+                    <span className="text-red-400 font-bold">⚠️ ALERTA CRÍTICA:</span> Tu perfil de LinkedIn está{" "}
+                    <span className="text-red-400">PERDIENDO DINERO</span> cada segundo
                     <br />
-                    trabajo en EE.UU. a +500 profesionales…
+                    <span className="text-[#70B5F9]">Cada día = $3,000 USD en oportunidades perdidas</span>
                   </>
                 )}
               </h1>
 
-              <p className="text-white/85 mb-5 sm:mb-6 text-sm sm:text-base px-2">
-                {showSuccess ? "Consulta GRATUITA disponible AHORA" : "Preparando tu consulta personalizada"}
+              <p className="text-white/85 mb-6 sm:mb-8 text-sm sm:text-base px-2">
+                {showSuccess ? (
+                  "Consulta GRATUITA disponible AHORA"
+                ) : (
+                  <>
+                    <span className="text-yellow-300 font-semibold">🔥 ÚLTIMO MOMENTO:</span> Mientras otros
+                    profesionales <strong className="text-[#70B5F9]">YA están siendo contratados</strong> en EE.UU. con
+                    salarios de $100K+, <span className="text-red-300">tu perfil sigue invisible</span>
+                    <br />
+                    <span className="text-white/70 text-xs mt-2 block">
+                      ⏰ Cada segundo que esperas = más oportunidades perdidas
+                    </span>
+                  </>
+                )}
               </p>
 
-              <div
-                className={`progress w-full h-1.5 bg-white/20 rounded-full overflow-hidden transition-opacity duration-400 ${showSuccess ? "opacity-0" : "opacity-100"}`}
-              >
-                <div
-                  className="progress-bar h-full bg-[#70B5F9] transition-all duration-75 linear shadow-sm shadow-[#70B5F9]/50"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
+              {/* Botón de continuar */}
+              {!showSuccess && (
+                <button
+                  onClick={handleContinueClick}
+                  className="bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-bold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse shadow-lg shadow-[#FF6B35]/30 mx-auto"
+                >
+                  <span>🚨</span>
+                  CONTINUAR - ARREGLAR MI PERFIL
+                  <ArrowRight size={16} className="sm:w-5 sm:h-5" />
+                </button>
+              )}
             </div>
           </div>
 
@@ -1188,9 +1172,9 @@ export default function DemoPage() {
                   <span className="text-base sm:text-lg md:text-2xl">💼</span>
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white">¡Tu Carrera Está en PELIGRO!</h3>
-                  <p className="text-[#70B5F9] text-xs sm:text-sm">
-                    Cada día que esperas, pierdes oportunidades de $100K+
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white text-center">Cada día que esperas, pierdes oportunidades de $100K+</h3>
+                  <p className="text-[#70B5F9] text-xs sm:text-sm text-center text-slate-200">
+                    ¡Tu Carrera Está en PELIGRO!
                   </p>
                 </div>
               </div>
@@ -1205,7 +1189,7 @@ export default function DemoPage() {
                   </div>
                   <div>
                     <h4 className="text-red-400 font-semibold mb-1 text-xs sm:text-sm md:text-base">REALIDAD BRUTAL</h4>
-                    <p className="text-white/70 text-xs sm:text-sm">
+                    <p className="text-xs sm:text-sm text-white">
                       Tu perfil actual es INVISIBLE para recruiters de EE.UU. Mientras lees esto, otros candidatos con
                       MENOS experiencia están siendo contratados.
                     </p>
@@ -1220,7 +1204,7 @@ export default function DemoPage() {
                     <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">
                       SOLUCIÓN INMEDIATA
                     </h4>
-                    <p className="text-white/70 text-xs sm:text-sm">
+                    <p className="text-xs sm:text-sm text-white">
                       Nuestro experto te mostrará EXACTAMENTE qué está mal en tu perfil y cómo arreglarlo en los
                       próximos 5 minutos.
                     </p>
@@ -1235,7 +1219,7 @@ export default function DemoPage() {
                     <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">
                       RESULTADO GARANTIZADO
                     </h4>
-                    <p className="text-white/70 text-xs sm:text-sm">
+                    <p className="text-xs sm:text-sm text-white">
                       Si sigues sus consejos, tendrás más visualizaciones y mensajes de recruiters en 48 horas.
                       ¡GARANTIZADO!
                     </p>
@@ -1264,7 +1248,7 @@ export default function DemoPage() {
               >
                 <span>🚨</span>
                 ARREGLAR MI PERFIL AHORA
-                <ArrowRight size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                <ArrowRight size={14} className="sm:w-4 sm:h-4 md:w-5 md:w-5" />
               </button>
             </div>
 
