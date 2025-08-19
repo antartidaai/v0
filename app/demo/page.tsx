@@ -606,12 +606,12 @@ export default function DemoPage() {
             <div className="px-4">
               <div className="text-4xl sm:text-5xl mb-6 sm:mb-8 inline-block text-white">💼</div>
 
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 leading-tight">
                 Convierte tu perfil de LinkedIn en una <span className="text-[#70B5F9]">máquina de trabajos</span> en
                 EE.UU.
               </h1>
 
-              <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0">
+              <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed">
                 En solo 2 horas transformarás tu perfil de LinkedIn, incluso si hoy no sabes por dónde empezar.
                 <br />
                 <strong className="text-[#70B5F9]">El problema no es tu experiencia, es tu posicionamiento.</strong>
@@ -625,7 +625,7 @@ export default function DemoPage() {
                 <span>¿Quieres analizar tu perfil GRATIS ahora?</span>
               </button>
 
-              <p className="text-white/70 text-sm mt-4 px-2">
+              <p className="text-white/70 text-sm mt-4">
                 ✅ Análisis personalizado • ✅ Resultados inmediatos • ✅ 100% gratuito
               </p>
             </div>
