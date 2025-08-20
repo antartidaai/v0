@@ -4,7 +4,7 @@ import React from "react"
 import { analytics, usePageTracking } from "../utils/analytics"
 
 import { useEffect, useState, useRef } from "react"
-import { Lock, ArrowLeft, ArrowRight, HelpCircle, CheckCircle, Copy } from "lucide-react"
+import { Lock, ArrowLeft, ArrowRight, HelpCircle, CheckCircle, Copy, X } from "lucide-react"
 import Link from "next/link"
 
 interface Vendedor {
@@ -151,12 +151,12 @@ export default function DemoPage() {
   const vendedores: Vendedor[] = [
     {
       id: 1,
-      nombre: "LinkedIn Expert Pro",
+      nombre: "Felipe - Experto en LinkedIn",
       avatar: "https://i.pravatar.cc/150?img=8",
       banner: "https://source.unsplash.com/featured/?linkedin",
-      badge: "Especialista Elite",
+      badge: "Especialista en Hojas de vida.",
       quote:
-        "🔥 He ayudado a +500 profesionales a conseguir trabajo en EE.UU. Tu perfil actual te está costando miles de dólares en oportunidades perdidas. ¡Déjame arreglarlo AHORA!",
+        "🔥 He ayudado a +500 profesionales a conseguir un sueldo de mas de $3.000 USD en EE.UU. Tu perfil actual esta perdiendo miles de dólares en oportunidades de trabajo. ¡Déjame arreglarlo AHORA!",
     },
   ]
 
@@ -178,7 +178,7 @@ export default function DemoPage() {
     setChatOpen(true)
     const initialMessage: Message = {
       id: 1,
-      text: `¡Hola! Soy ${selectedVendedor?.nombre}. Para hacer tu análisis gratuito, por favor comparte el link de tu perfil de LinkedIn. ¿Ya lo tienes listo?`,
+      text: ` Hola! Soy ${selectedVendedor?.nombre}. Para comenzar con tu análisis GRATIS de LinkedIn y mostrarte cómo convertir tu perfil en una máquina de trabajos en EE.UU. desde $3000 USD. Escribeme tu correo electrónico.`,
       sender: "ai",
       timestamp: new Date(),
       status: "delivered",
@@ -571,23 +571,28 @@ export default function DemoPage() {
     <div className="h-screen overflow-hidden relative">
       {/* Header */}
       <header className="fixed top-0 left-0 w-full bg-gradient-to-br from-[#0A66C2] to-[#004182] border-b border-[#70B5F9] shadow-lg shadow-[#70B5F9]/20 z-50">
-        <div className="flex justify-between items-center px-5 py-3">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
-              <ArrowLeft size={20} />
-              <span className="text-sm">Volver</span>
+        <div className="flex justify-between items-center px-3 sm:px-5 py-2 sm:py-3">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link
+              href="/"
+              className="flex items-center gap-1 sm:gap-2 text-white/70 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={16} className="sm:w-5 sm:h-5" />
+              <span className="text-xs sm:text-sm">Volver</span>
             </Link>
-            <div className="flex items-center gap-2 text-white font-semibold text-lg">
+            <div className="flex items-center gap-1 sm:gap-2 text-white font-semibold text-sm sm:text-lg">
               💼 <span className="text-[#70B5F9]">LinkedIn Pro</span>
             </div>
           </div>
-          <nav className="flex gap-3">
+          <nav className="flex gap-2 sm:gap-3">
             <a
               href="/oferta"
-              className="bg-gradient-to-br from-[#FF6B35] to-[#F7931E] text-white px-4 py-2 rounded-xl text-sm flex items-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#FF6B35]/40 animate-pulse"
+              className="bg-gradient-to-br from-[#FF6B35] to-[#F7931E] text-white px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm flex items-center gap-1 sm:gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#FF6B35]/40 animate-pulse"
               onClick={() => analytics.ctaClick("Ver Método Completo", "demo_header", "/oferta")}
             >
-              <span>🚀</span> Ver Método Completo
+              <span>🚀</span>
+              <span className="hidden xs:inline">Ver Método</span>
+              <span className="xs:hidden">Método</span>
             </a>
           </nav>
         </div>
@@ -597,20 +602,20 @@ export default function DemoPage() {
       <div className="fixed inset-0 bg-gradient-to-br from-[#0A66C2] to-[#004182] animate-gradient" />
 
       {/* Contenido principal - Altura fija con scroll controlado */}
-      <div className="h-screen pt-16 pb-16 overflow-y-auto">
-        <div className="min-h-full flex items-center justify-center px-4">
+      <div className="h-screen pt-12 sm:pt-16 pb-4 sm:pb-16 overflow-y-auto">
+        <div className="min-h-full flex items-center justify-center px-2 sm:px-4">
           {/* Loader - Siempre visible inicialmente */}
           <div
-            className={`loader text-center max-w-md w-full transition-all duration-600 z-10 ${showCards ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+            className={`loader text-center max-w-xs sm:max-w-md w-full transition-all duration-600 z-10 ${showCards ? "opacity-0 pointer-events-none" : "opacity-100"}`}
           >
-            <div className="px-4">
+            <div className="px-2 sm:px-4">
               <div
-                className={`icon text-4xl sm:text-5xl mb-6 sm:mb-8 inline-block transition-all duration-500 ${showSuccess ? "w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] leading-[60px] sm:leading-[70px] rounded-full bg-[#70B5F9] text-white text-3xl sm:text-4xl shadow-lg shadow-[#70B5F9]/30" : "text-white"}`}
+                className={`icon text-3xl sm:text-4xl md:text-5xl mb-4 sm:mb-6 md:mb-8 inline-block transition-all duration-500 ${showSuccess ? "w-12 h-12 sm:w-[60px] sm:h-[60px] md:w-[70px] md:h-[70px] leading-12 sm:leading-[60px] md:leading-[70px] rounded-full bg-[#70B5F9] text-white text-2xl sm:text-3xl md:text-4xl shadow-lg shadow-[#70B5F9]/30" : "text-white"}`}
               >
                 {showSuccess ? "✔" : "💼"}
               </div>
 
-              <h1 className="text-lg sm:text-xl text-white mb-4 sm:mb-5 leading-tight px-2">
+              <h1 className="text-base sm:text-lg md:text-xl text-white mb-3 sm:mb-4 md:mb-5 leading-tight px-1 sm:px-2">
                 {showSuccess ? (
                   <>Tu experto personal en LinkedIn está listo para TRANSFORMAR tu carrera</>
                 ) : (
@@ -623,7 +628,7 @@ export default function DemoPage() {
                 )}
               </h1>
 
-              <p className="text-white/85 mb-6 sm:mb-8 text-sm sm:text-base px-2">
+              <p className="text-white/85 mb-4 sm:mb-6 md:mb-8 text-xs sm:text-sm md:text-base px-1 sm:px-2">
                 {showSuccess ? (
                   "Consulta GRATUITA disponible AHORA"
                 ) : (
@@ -632,7 +637,7 @@ export default function DemoPage() {
                     profesionales <strong className="text-[#70B5F9]">YA están siendo contratados</strong> en EE.UU. con
                     salarios de $100K+, <span className="text-red-300">tu perfil sigue invisible</span>
                     <br />
-                    <span className="text-white/70 text-xs mt-2 block">
+                    <span className="text-white/70 text-xs mt-1 sm:mt-2 block">
                       ⏰ Cada segundo que esperas = más oportunidades perdidas
                     </span>
                   </>
@@ -643,11 +648,11 @@ export default function DemoPage() {
               {!showSuccess && (
                 <button
                   onClick={handleContinueClick}
-                  className="bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-bold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse shadow-lg shadow-[#FF6B35]/30 mx-auto"
+                  className="bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-bold flex items-center justify-center gap-1 sm:gap-2 md:gap-3 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse shadow-lg shadow-[#FF6B35]/30 mx-auto w-full max-w-xs sm:max-w-sm"
                 >
                   <span>🚨</span>
-                  CONTINUAR - ARREGLAR MI PERFIL
-                  <ArrowRight size={16} className="sm:w-5 sm:h-5" />
+                  <span className="text-xs sm:text-sm md:text-base">CONTINUAR - ARREGLAR MI PERFIL</span>
+                  <ArrowRight size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
                 </button>
               )}
             </div>
@@ -655,13 +660,13 @@ export default function DemoPage() {
 
           {/* Cards - Layout Vertical Centrado con altura controlada */}
           <div
-            className={`cards-container w-full max-w-md absolute transition-all duration-600 ${showCards ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}
+            className={`cards-container w-full max-w-xs sm:max-w-md absolute transition-all duration-600 ${showCards ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}
           >
-            <div className="flex flex-col items-center gap-6 py-6 px-4 max-h-[calc(100vh-8rem)] overflow-y-auto overflow-visible">
+            <div className="flex flex-col items-center gap-4 sm:gap-6 py-4 sm:py-6 px-2 sm:px-4 max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-8rem)] overflow-y-auto overflow-visible">
               {vendedores.map((vendedor) => (
                 <div
                   key={vendedor.id}
-                  className={`relative w-full max-w-sm h-auto min-h-fit bg-gradient-to-br from-[#0A66C2] to-[#004182] border rounded-xl shadow-lg overflow-visible transition-all duration-500 hover:scale-105 ${
+                  className={`relative w-full max-w-xs sm:max-w-sm h-auto min-h-fit bg-gradient-to-br from-[#0A66C2] to-[#004182] border rounded-lg sm:rounded-xl shadow-lg overflow-visible transition-all duration-500 hover:scale-105 ${
                     vendedor.locked
                       ? "border-[#FFD700] shadow-[#FFD700]/20 hover:shadow-[#FFD700]/40"
                       : "border-[#70B5F9] shadow-[#70B5F9]/20 hover:shadow-[#70B5F9]/40 hover:border-[#70B5F9]/80"
@@ -669,19 +674,19 @@ export default function DemoPage() {
                 >
                   {/* Overlay para vendedores bloqueados */}
                   {vendedor.locked && (
-                    <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center rounded-xl">
-                      <div className="bg-gradient-to-br from-[#FFD700] to-[#FFA500] p-3 rounded-full">
-                        <Lock size={24} className="text-white" />
+                    <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center rounded-lg sm:rounded-xl">
+                      <div className="bg-gradient-to-br from-[#FFD700] to-[#FFA500] p-2 sm:p-3 rounded-full">
+                        <Lock size={20} className="sm:w-6 sm:h-6 text-white" />
                       </div>
                     </div>
                   )}
 
                   {/* Contenido de la card con padding adecuado */}
-                  <div className="p-6 flex flex-col items-center text-center space-y-4 h-auto">
+                  <div className="p-4 sm:p-6 flex flex-col items-center text-center space-y-3 sm:space-y-4 h-auto">
                     {/* Badges esquina superior */}
-                    <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
+                    <div className="absolute top-2 sm:top-3 left-2 sm:left-3 right-2 sm:right-3 flex justify-between items-start">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium text-white ${
+                        className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium text-white ${
                           vendedor.locked
                             ? "bg-gradient-to-br from-[#FFD700] to-[#FFA500]"
                             : "bg-gradient-to-br from-[#70B5F9] to-[#0073B1]"
@@ -691,7 +696,7 @@ export default function DemoPage() {
                       </span>
 
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium shadow-sm ${
+                        className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium shadow-sm ${
                           vendedor.locked
                             ? "bg-gradient-to-br from-[#FFD700] to-[#FFA500] text-white"
                             : "bg-gradient-to-br from-[#70B5F9] to-[#0073B1] text-white"
@@ -702,11 +707,11 @@ export default function DemoPage() {
                     </div>
 
                     {/* Avatar centrado con espacio superior para badges */}
-                    <div className="mt-8 mb-4">
+                    <div className="mt-6 sm:mt-8 mb-3 sm:mb-4">
                       <img
                         src={vendedor.avatar || "/placeholder.svg"}
                         alt={vendedor.nombre}
-                        className="w-20 h-20 rounded-full object-cover shadow-lg border-4 border-white/20"
+                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover shadow-lg border-2 sm:border-4 border-white/20"
                         onError={(e) => {
                           e.currentTarget.src = `/placeholder.svg?height=80&width=80&text=${vendedor.nombre.charAt(0)}`
                         }}
@@ -714,15 +719,15 @@ export default function DemoPage() {
                     </div>
 
                     {/* Información del vendedor */}
-                    <div className="space-y-2">
-                      <h3 className="text-white font-semibold text-lg">{vendedor.nombre}</h3>
-                      <p className="text-white/70 text-sm leading-relaxed px-2">{vendedor.quote}</p>
+                    <div className="space-y-1 sm:space-y-2">
+                      <h3 className="text-white font-semibold text-base sm:text-lg">{vendedor.nombre}</h3>
+                      <p className="text-white/70 text-xs sm:text-sm leading-relaxed px-1 sm:px-2">{vendedor.quote}</p>
                     </div>
 
                     {/* Botón de acción */}
                     <button
                       onClick={() => openChat(vendedor)}
-                      className="w-full text-sm font-bold rounded-xl py-3 px-4 transition-all duration-300 bg-gradient-to-br from-[#FF6B35] to-[#F7931E] text-white hover:shadow-[#FF6B35]/50 hover:shadow-lg animate-pulse hover:scale-105"
+                      className="w-full text-xs sm:text-sm font-bold rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-3 sm:px-4 transition-all duration-300 bg-gradient-to-br from-[#FF6B35] to-[#F7931E] text-white hover:shadow-[#FF6B35]/50 hover:shadow-lg animate-pulse hover:scale-105"
                     >
                       🚨 CONSULTA GRATUITA URGENTE
                     </button>
@@ -737,31 +742,41 @@ export default function DemoPage() {
       {/* LinkedIn Profile Modal */}
       {showLinkedInModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-2 sm:p-4">
-          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-gradient-to-br from-[#0A66C2] to-[#004182] border border-[#70B5F9] rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2">
+          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-gradient-to-br from-[#0A66C2] to-[#004182] border border-[#70B5F9] rounded-lg sm:rounded-xl md:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
             {/* Header */}
-            <div className="px-4 sm:px-6 py-4 border-b border-[#70B5F9]/20">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="bg-[#70B5F9]/20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center">
-                  <span className="text-lg sm:text-2xl">🔗</span>
+            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-[#70B5F9]/20 relative">
+              <button
+                onClick={closeLinkedInModal}
+                className="absolute top-2 sm:top-3 right-2 sm:right-3 text-white/70 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-full"
+              >
+                <X size={18} className="sm:w-5 sm:h-5" />
+              </button>
+              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2 pr-8">
+                <div className="bg-[#70B5F9]/20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+                  <span className="text-base sm:text-lg md:text-2xl">🔗</span>
                 </div>
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white">¡Necesitamos tu Link de LinkedIn!</h3>
-                  <p className="text-[#70B5F9] text-sm">Para hacer tu análisis gratuito personalizado</p>
+                  <h3 className="text-sm sm:text-lg md:text-xl font-bold text-white">
+                    ¡Necesitamos tu Link de LinkedIn!
+                  </h3>
+                  <p className="text-[#70B5F9] text-xs sm:text-sm">Para hacer tu análisis gratuito personalizado</p>
                 </div>
               </div>
             </div>
 
             {/* Content */}
-            <div className="px-4 sm:px-6 py-6">
-              <div className="space-y-4 mb-6">
-                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="bg-blue-500/20 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <span className="text-blue-400 text-sm">ℹ️</span>
+            <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6">
+              <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className="bg-blue-500/20 w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
+                      <span className="text-blue-400 text-xs sm:text-sm">ℹ️</span>
                     </div>
                     <div>
-                      <h4 className="text-white font-semibold mb-2 text-sm">¿Por qué necesitamos tu link?</h4>
-                      <p className="text-white/80 text-sm leading-relaxed">
+                      <h4 className="text-white font-semibold mb-1 sm:mb-2 text-xs sm:text-sm">
+                        ¿Por qué necesitamos tu link?
+                      </h4>
+                      <p className="text-white/80 text-xs sm:text-sm leading-relaxed">
                         Sin el link de tu perfil de LinkedIn, no podemos hacer el análisis gratuito personalizado.
                         Necesitamos ver tu perfil actual para transformar tu perfil en una maquina de empleo en EE.UU.
                       </p>
@@ -769,14 +784,16 @@ export default function DemoPage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-500/30 rounded-lg p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="bg-green-500/20 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <span className="text-green-400 text-sm">🔒</span>
+                <div className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-500/30 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className="bg-green-500/20 w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
+                      <span className="text-green-400 text-xs sm:text-sm">🔒</span>
                     </div>
                     <div>
-                      <h4 className="text-white font-semibold mb-2 text-sm">100% Seguro y Confidencial</h4>
-                      <p className="text-white/80 text-sm leading-relaxed">
+                      <h4 className="text-white font-semibold mb-1 sm:mb-2 text-xs sm:text-sm">
+                        100% Seguro y Confidencial
+                      </h4>
+                      <p className="text-white/80 text-xs sm:text-sm leading-relaxed">
                         Solo usamos tu link para el análisis. No compartimos tu información con terceros ni hacemos
                         cambios en tu perfil sin tu autorización.
                       </p>
@@ -785,26 +802,26 @@ export default function DemoPage() {
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 <button
                   onClick={startChatWithExpert}
-                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-4 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105"
+                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-bold flex items-center justify-center gap-1 sm:gap-2 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105"
                 >
-                  <CheckCircle size={18} />
+                  <CheckCircle size={16} className="sm:w-[18px] sm:h-[18px]" />
                   SÍ, TENGO MI LINK LISTO
                 </button>
 
                 <button
                   onClick={showHelpInstructions}
-                  className="w-full bg-gradient-to-r from-gray-600 to-gray-500 text-white px-4 py-3 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-gray-500/40 transition-all duration-300 hover:scale-105"
+                  className="w-full bg-gradient-to-r from-gray-600 to-gray-500 text-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-medium flex items-center justify-center gap-1 sm:gap-2 hover:shadow-lg hover:shadow-gray-500/40 transition-all duration-300 hover:scale-105"
                 >
-                  <HelpCircle size={18} />
+                  <HelpCircle size={16} className="sm:w-[18px] sm:h-[18px]" />
                   ¿CÓMO OBTENGO MI LINK?
                 </button>
 
                 <button
                   onClick={closeLinkedInModal}
-                  className="w-full text-white/70 hover:text-white text-sm py-2 transition-colors duration-200"
+                  className="w-full text-white/70 hover:text-white text-xs sm:text-sm py-2 transition-colors duration-200"
                 >
                   Cancelar
                 </button>
@@ -817,97 +834,105 @@ export default function DemoPage() {
       {/* Help Modal */}
       {showHelpModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-2 sm:p-4">
-          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-gradient-to-br from-[#0A66C2] to-[#004182] border border-[#70B5F9] rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
+          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-gradient-to-br from-[#0A66C2] to-[#004182] border border-[#70B5F9] rounded-lg sm:rounded-xl md:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
             {/* Header */}
-            <div className="px-4 sm:px-6 py-4 border-b border-[#70B5F9]/20">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="bg-[#70B5F9]/20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center">
-                  <span className="text-lg sm:text-2xl">📱</span>
+            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-[#70B5F9]/20 relative">
+              <button
+                onClick={closeHelpModal}
+                className="absolute top-2 sm:top-3 right-2 sm:right-3 text-white/70 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-full"
+              >
+                <X size={18} className="sm:w-5 sm:h-5" />
+              </button>
+              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2 pr-8">
+                <div className="bg-[#70B5F9]/20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+                  <span className="text-base sm:text-lg md:text-2xl">📱</span>
                 </div>
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white">Cómo obtener tu Link de LinkedIn</h3>
-                  <p className="text-[#70B5F9] text-sm">Instrucciones paso a paso desde tu teléfono</p>
+                  <h3 className="text-sm sm:text-lg md:text-xl font-bold text-white">
+                    Cómo obtener tu Link de LinkedIn
+                  </h3>
+                  <p className="text-[#70B5F9] text-xs sm:text-sm">Instrucciones paso a paso desde tu teléfono</p>
                 </div>
               </div>
             </div>
 
             {/* Content */}
-            <div className="px-4 sm:px-6 py-6">
-              <div className="space-y-4 mb-6">
-                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
-                  <h4 className="text-white font-semibold mb-3 text-sm flex items-center gap-2">
-                    <span className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+            <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6">
+              <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-3 sm:p-4">
+                  <h4 className="text-white font-semibold mb-2 sm:mb-3 text-xs sm:text-sm flex items-center gap-2">
+                    <span className="bg-blue-500 text-white w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs">
                       1
                     </span>
                     Abre la app de LinkedIn
                   </h4>
-                  <p className="text-white/80 text-sm leading-relaxed ml-8">
+                  <p className="text-white/80 text-xs sm:text-sm leading-relaxed ml-6 sm:ml-8">
                     Abre la aplicación de LinkedIn en tu teléfono móvil.
                   </p>
                 </div>
 
-                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
-                  <h4 className="text-white font-semibold mb-3 text-sm flex items-center gap-2">
-                    <span className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-3 sm:p-4">
+                  <h4 className="text-white font-semibold mb-2 sm:mb-3 text-xs sm:text-sm flex items-center gap-2">
+                    <span className="bg-blue-500 text-white w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs">
                       2
                     </span>
                     Ve a tu perfil
                   </h4>
-                  <p className="text-white/80 text-sm leading-relaxed ml-8">
+                  <p className="text-white/80 text-xs sm:text-sm leading-relaxed ml-6 sm:ml-8">
                     Toca tu foto de perfil en la esquina superior izquierda para ir a tu perfil.
                   </p>
                 </div>
 
-                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
-                  <h4 className="text-white font-semibold mb-3 text-sm flex items-center gap-2">
-                    <span className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-3 sm:p-4">
+                  <h4 className="text-white font-semibold mb-2 sm:mb-3 text-xs sm:text-sm flex items-center gap-2">
+                    <span className="bg-blue-500 text-white w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs">
                       3
                     </span>
                     Toca "Compartir perfil"
                   </h4>
-                  <p className="text-white/80 text-sm leading-relaxed ml-8">
+                  <p className="text-white/80 text-xs sm:text-sm leading-relaxed ml-6 sm:ml-8">
                     Busca el botón "Compartir perfil" o los tres puntos (...) en tu perfil y tócalo.
                   </p>
                 </div>
 
-                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-4">
-                  <h4 className="text-white font-semibold mb-3 text-sm flex items-center gap-2">
-                    <span className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+                <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 border border-blue-500/30 rounded-lg p-3 sm:p-4">
+                  <h4 className="text-white font-semibold mb-2 sm:mb-3 text-xs sm:text-sm flex items-center gap-2">
+                    <span className="bg-blue-500 text-white w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-xs">
                       4
                     </span>
                     Copia el enlace
                   </h4>
-                  <p className="text-white/80 text-sm leading-relaxed ml-8">
+                  <p className="text-white/80 text-xs sm:text-sm leading-relaxed ml-6 sm:ml-8">
                     Selecciona "Copiar enlace al perfil" o "Copy link to profile". El enlace se copiará automáticamente.
                   </p>
                 </div>
 
-                <div className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-500/30 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Copy size={16} className="text-green-400" />
-                    <h4 className="text-green-400 font-semibold text-sm">¡Listo!</h4>
+                <div className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-500/30 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+                    <Copy size={14} className="sm:w-4 sm:h-4 text-green-400" />
+                    <h4 className="text-green-400 font-semibold text-xs sm:text-sm">¡Listo!</h4>
                   </div>
-                  <p className="text-white/80 text-sm leading-relaxed">
+                  <p className="text-white/80 text-xs sm:text-sm leading-relaxed">
                     Tu enlace debería verse así: <br />
-                    <code className="text-green-300 text-xs bg-green-900/30 px-2 py-1 rounded mt-1 inline-block">
+                    <code className="text-green-300 text-xs bg-green-900/30 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded mt-1 inline-block break-all">
                       https://www.linkedin.com/in/tu-nombre/
                     </code>
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 <button
                   onClick={confirmLinkCopied}
-                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-4 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse"
+                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-bold flex items-center justify-center gap-1 sm:gap-2 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse"
                 >
-                  <CheckCircle size={18} />
+                  <CheckCircle size={16} className="sm:w-[18px] sm:h-[18px]" />
                   ¡YA COPIÉ MI LINK!
                 </button>
 
                 <button
                   onClick={closeHelpModal}
-                  className="w-full text-white/70 hover:text-white text-sm py-2 transition-colors duration-200"
+                  className="w-full text-white/70 hover:text-white text-xs sm:text-sm py-2 transition-colors duration-200"
                 >
                   Volver atrás
                 </button>
@@ -921,27 +946,27 @@ export default function DemoPage() {
       {chatOpen && selectedVendedor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-1 sm:p-2 md:p-4">
           <div
-            className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-[95vh] sm:h-[90vh] md:h-[85vh] lg:h-[600px] bg-white dark:bg-zinc-900 rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ease-in-out transform scale-100 animate-in slide-in-from-bottom-4 fade-in flex flex-col mx-1 sm:mx-2"
+            className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-[98vh] sm:h-[95vh] md:h-[90vh] lg:h-[85vh] xl:h-[600px] bg-white dark:bg-zinc-900 rounded-lg sm:rounded-xl md:rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ease-in-out transform scale-100 animate-in slide-in-from-bottom-4 fade-in flex flex-col mx-1 sm:mx-2"
             style={{
               animation: "slideInUp 0.3s ease-out",
             }}
           >
             {/* LinkedIn Header Enhanced */}
-            <div className="bg-[#0A66C2] dark:bg-[#2a2f32] px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between text-white shadow-lg">
-              <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+            <div className="bg-[#0A66C2] dark:bg-[#2a2f32] px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 flex items-center justify-between text-white shadow-lg">
+              <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-1 min-w-0">
                 <button
                   onClick={closeChat}
                   className="p-1 sm:p-1.5 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hover:scale-110 active:scale-95 flex-shrink-0"
                 >
-                  <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
+                  <ArrowLeft size={16} className="sm:w-[18px] sm:h-[18px] md:w-5 md:h-5" />
                 </button>
                 <div className="relative flex-shrink-0">
                   <img
                     src={selectedVendedor.avatar || "/placeholder.svg"}
                     alt={selectedVendedor.nombre}
-                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white/20 shadow-md"
+                    className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full object-cover border-1 sm:border-2 border-white/20 shadow-md"
                   />
-                  <div className="absolute -bottom-0.5 -right-0.5 sm:-bottom-1 sm:-right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
+                  <div className="absolute -bottom-0.5 -right-0.5 sm:-bottom-1 sm:-right-1 w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 bg-green-400 rounded-full border-1 sm:border-2 border-white animate-pulse"></div>
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-medium text-xs sm:text-sm truncate">{selectedVendedor.nombre}</h4>
@@ -972,11 +997,11 @@ export default function DemoPage() {
               </div>
               <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
                 {/* Video Call Button */}
-                <button className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hidden sm:block">
+                <button className="p-1 sm:p-1.5 md:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hidden sm:block">
                   <svg
-                    width="16"
-                    height="16"
-                    className="sm:w-5 sm:h-5"
+                    width="14"
+                    height="14"
+                    className="sm:w-4 sm:h-4 md:w-5 md:h-5"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -990,11 +1015,11 @@ export default function DemoPage() {
                 </button>
 
                 {/* Voice Call Button */}
-                <button className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hidden sm:block">
+                <button className="p-1 sm:p-1.5 md:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hidden sm:block">
                   <svg
-                    width="16"
-                    height="16"
-                    className="sm:w-5 sm:h-5"
+                    width="14"
+                    height="14"
+                    className="sm:w-4 sm:h-4 md:w-5 md:h-5"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -1007,11 +1032,11 @@ export default function DemoPage() {
                 </button>
 
                 {/* Menu Button */}
-                <button className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hidden md:block">
+                <button className="p-1 sm:p-1.5 md:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hidden md:block">
                   <svg
-                    width="16"
-                    height="16"
-                    className="sm:w-5 sm:h-5"
+                    width="14"
+                    height="14"
+                    className="sm:w-4 sm:h-4 md:w-5 md:h-5"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -1028,22 +1053,9 @@ export default function DemoPage() {
                 {/* Close Button */}
                 <button
                   onClick={closeChat}
-                  className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hover:bg-red-500/20"
+                  className="p-1 sm:p-1.5 md:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hover:bg-red-500/20"
                 >
-                  <svg
-                    width="16"
-                    height="16"
-                    className="sm:w-5 sm:h-5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
+                  <X size={16} className="sm:w-[18px] sm:h-[18px] md:w-5 md:h-5" />
                 </button>
               </div>
             </div>
@@ -1053,7 +1065,7 @@ export default function DemoPage() {
               {messages.map((message) => (
                 <div key={message.id} className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`max-w-[85%] sm:max-w-[80%] md:max-w-[75%] rounded-2xl px-3 sm:px-4 py-2 shadow-sm ${
+                    className={`max-w-[90%] sm:max-w-[85%] md:max-w-[80%] lg:max-w-[75%] rounded-2xl px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 shadow-sm ${
                       message.sender === "user"
                         ? "bg-[#0A66C2] text-white rounded-br-md"
                         : "bg-white dark:bg-zinc-700 text-gray-800 dark:text-white rounded-bl-md"
@@ -1085,19 +1097,19 @@ export default function DemoPage() {
               {/* Typing Indicator */}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white dark:bg-zinc-700 rounded-2xl rounded-bl-md px-3 sm:px-4 py-2 sm:py-3 shadow-sm">
+                  <div className="bg-white dark:bg-zinc-700 rounded-2xl rounded-bl-md px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 shadow-sm">
                     <div className="flex items-center gap-1">
                       <div className="flex gap-1">
                         <div
-                          className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-400 rounded-full animate-bounce"
+                          className="w-1 h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2 bg-gray-400 rounded-full animate-bounce"
                           style={{ animationDelay: "0ms" }}
                         ></div>
                         <div
-                          className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-400 rounded-full animate-bounce"
+                          className="w-1 h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2 bg-gray-400 rounded-full animate-bounce"
                           style={{ animationDelay: "150ms" }}
                         ></div>
                         <div
-                          className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-400 rounded-full animate-bounce"
+                          className="w-1 h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2 bg-gray-400 rounded-full animate-bounce"
                           style={{ animationDelay: "300ms" }}
                         ></div>
                       </div>
@@ -1119,31 +1131,31 @@ export default function DemoPage() {
                     onChange={(e) => setInputMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Pega aquí tu link de LinkedIn..."
-                    className="w-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 rounded-2xl px-3 sm:px-4 py-2 pr-8 sm:pr-12 text-xs sm:text-sm resize-none max-h-20 sm:max-h-32 focus:outline-none focus:ring-2 focus:ring-[#0A66C2] focus:border-transparent"
+                    className="w-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 rounded-2xl px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 pr-6 sm:pr-8 md:pr-12 text-xs sm:text-sm resize-none max-h-16 sm:max-h-20 md:max-h-32 focus:outline-none focus:ring-2 focus:ring-[#0A66C2] focus:border-transparent"
                     rows={1}
                     style={{
-                      minHeight: "36px",
-                      maxHeight: "80px",
+                      minHeight: "32px",
+                      maxHeight: "64px",
                     }}
                     onInput={(e) => {
                       const target = e.target as HTMLTextAreaElement
-                      target.style.height = "36px"
-                      target.style.height = Math.min(target.scrollHeight, 80) + "px"
+                      target.style.height = "32px"
+                      target.style.height = Math.min(target.scrollHeight, 64) + "px"
                     }}
                   />
-                  <button className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm">
+                  <button className="absolute right-1.5 sm:right-2 md:right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xs sm:text-sm">
                     😊
                   </button>
                 </div>
                 <button
                   onClick={sendMessage}
                   disabled={!inputMessage.trim() || isTyping}
-                  className="bg-[#0A66C2] hover:bg-[#004182] disabled:bg-gray-300 dark:disabled:bg-zinc-600 text-white p-2 sm:p-2.5 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed flex-shrink-0"
+                  className="bg-[#0A66C2] hover:bg-[#004182] disabled:bg-gray-300 dark:disabled:bg-zinc-600 text-white p-1.5 sm:p-2 md:p-2.5 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed flex-shrink-0"
                 >
                   <svg
-                    width="16"
-                    height="16"
-                    className="sm:w-5 sm:h-5"
+                    width="14"
+                    height="14"
+                    className="sm:w-4 sm:h-4 md:w-5 md:h-5"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -1164,17 +1176,25 @@ export default function DemoPage() {
       {/* Explanation Modal */}
       {showExplanationModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md p-2 sm:p-4">
-          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-gradient-to-br from-[#0A66C2] to-[#004182] border border-[#70B5F9] rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
+          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-gradient-to-br from-[#0A66C2] to-[#004182] border border-[#70B5F9] rounded-lg sm:rounded-xl md:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
             {/* Header */}
-            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-[#70B5F9]/20">
-              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-[#70B5F9]/20 relative">
+              <button
+                onClick={closeExplanationModal}
+                className="absolute top-2 sm:top-3 right-2 sm:right-3 text-white/70 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-full"
+              >
+                <X size={18} className="sm:w-5 sm:h-5" />
+              </button>
+              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2 pr-8">
                 <div className="bg-[#70B5F9]/20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
                   <span className="text-base sm:text-lg md:text-2xl">💼</span>
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white text-center">Cada día que esperas, pierdes oportunidades de $100K+</h3>
-                  <p className="text-[#70B5F9] text-xs sm:text-sm text-center text-slate-200">
+                  <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white">
                     ¡Tu Carrera Está en PELIGRO!
+                  </h3>
+                  <p className="text-[#70B5F9] text-xs sm:text-sm">
+                    Cada día que esperas, pierdes oportunidades de $100K+
                   </p>
                 </div>
               </div>
@@ -1234,7 +1254,7 @@ export default function DemoPage() {
                 </div>
                 <p className="text-white/80 text-xs sm:text-sm">
                   Cada día que tu perfil sigue mal optimizado,{" "}
-                  <strong className="text-red-400">pierdes un salario dr $3.000 USD</strong> (salario promedio en
+                  <strong className="text-red-400">pierdes un salario de $3.000 USD</strong> (salario promedio en
                   EE.UU.). ¿Cuánto más vas a perder?
                 </p>
               </div>
@@ -1244,11 +1264,11 @@ export default function DemoPage() {
                   analytics.ctaClick("ARREGLAR MI PERFIL AHORA", "explanation_modal")
                   closeExplanationModal()
                 }}
-                className="w-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-3 sm:px-4 md:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-bold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse"
+                className="w-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base lg:text-lg font-bold flex items-center justify-center gap-1 sm:gap-2 md:gap-3 hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse"
               >
                 <span>🚨</span>
                 ARREGLAR MI PERFIL AHORA
-                <ArrowRight size={14} className="sm:w-4 sm:h-4 md:w-5 md:w-5" />
+                <ArrowRight size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
               </button>
             </div>
 
