@@ -39,6 +39,7 @@ export default function DemoPage() {
   const [userId, setUserId] = useState<string>("")
   const [sessionId, setSessionId] = useState<string>("")
   const [showExplanationModal, setShowExplanationModal] = useState(false)
+  const [showCheckoutButton, setShowCheckoutButton] = useState(false)
 
   // Analytics tracking
   usePageTracking("demo_page")
@@ -127,6 +128,14 @@ export default function DemoPage() {
       const particles = document.querySelectorAll(".particle")
       particles.forEach((particle) => particle.remove())
     }
+  }, [])
+
+  useEffect(() => {
+    const checkoutTimer = setTimeout(() => {
+      setShowCheckoutButton(true)
+    }, 45000) // 45 segundos
+
+    return () => clearTimeout(checkoutTimer)
   }, [])
 
   // Inicializar identificadores únicos persistentes
@@ -766,8 +775,10 @@ export default function DemoPage() {
                   <div className="absolute -bottom-0.5 -right-0.5 sm:-bottom-1 sm:-right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-xs sm:text-sm truncate">{selectedVendedor.nombre}</h4>
-                  <p className="text-xs text-green-100 transition-all duration-250">
+                  <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">
+                    {selectedVendedor.nombre}
+                  </h4>
+                  <p className="text-white/70 text-xs sm:text-sm">
                     {isTyping ? (
                       <span className="flex items-center gap-1">
                         escribiendo
@@ -793,40 +804,17 @@ export default function DemoPage() {
                 </div>
               </div>
               <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
-                {/* Video Call Button */}
-                <button className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hidden sm:block">
-                  <svg
-                    width="16"
-                    height="16"
-                    className="sm:w-5 sm:h-5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                {/* Botón de checkout */}
+                {showCheckoutButton && (
+                  <a
+                    href="https://hotm.art/NyTUgsE5"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg bg-red-600 px-3 py-1 text-white text-sm hover:bg-red-700 transition-all duration-300 mr-2 animate-bounce shadow-lg shadow-red-400/50"
                   >
-                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                  </svg>
-                </button>
-
-                {/* Voice Call Button */}
-                <button className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hidden sm:block">
-                  <svg
-                    width="16"
-                    height="16"
-                    className="sm:w-5 sm:h-5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                  </svg>
-                </button>
+                    🔒 Abrir checkout
+                  </a>
+                )}
 
                 {/* Menu Button */}
                 <button className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-all duration-250 ease-in-out hidden md:block">
