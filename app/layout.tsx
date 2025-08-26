@@ -6,22 +6,22 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "LinkedIn Pro - Consigue Trabajo en EE.UU.",
+  title: "Vendedores Virtuales con IA - VENTA 24/7",
   description:
-    "Convierte tu perfil de LinkedIn en una máquina de generar entrevistas en EE.UU. en solo 2 horas sin pagar por mentorías costosas, incluso si hoy no sabes por dónde empezar.",
+    "No seas el próximo negocio que quiebre por WhatsApp. Nuestros vendedores de inteligencia artificial trabajan mientras tú duermes, convirtiendo cada mensaje en una venta.",
   keywords:
-    "LinkedIn, trabajo Estados Unidos, optimización perfil, entrevistas remotas, posicionamiento profesional, recruiters",
-  authors: [{ name: "LinkedIn Pro" }],
+    "vendedores virtuales, inteligencia artificial, WhatsApp automatizado, ventas 24/7, chatbots, automatización",
+  authors: [{ name: "VENTA 24/7" }],
   openGraph: {
-    title: "LinkedIn Pro - Consigue Trabajo en EE.UU.",
-    description: "Método para optimizar tu LinkedIn y conseguir entrevistas en Estados Unidos en solo 2 horas.",
+    title: "Vendedores Virtuales con IA - VENTA 24/7",
+    description: "Evita que tu negocio quiebre por no responder WhatsApp. Vendedores de IA que trabajan 24/7.",
     type: "website",
     locale: "es_ES",
   },
   twitter: {
     card: "summary_large_image",
-    title: "LinkedIn Pro - Consigue Trabajo en EE.UU.",
-    description: "Método para optimizar tu LinkedIn y conseguir entrevistas en Estados Unidos en solo 2 horas.",
+    title: "Vendedores Virtuales con IA - VENTA 24/7",
+    description: "Evita que tu negocio quiebre por no responder WhatsApp. Vendedores de IA que trabajan 24/7.",
   },
   robots: {
     index: true,
@@ -58,6 +58,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
+            sandbox="allow-scripts allow-same-origin"
           />
         </noscript>
         {/* End Google Tag Manager (noscript) */}

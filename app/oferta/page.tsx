@@ -25,6 +25,7 @@ export default function OfertaPage() {
 
   // Usar useRef para controlar si las notificaciones ya se programaron
   const notificationsInitialized = useRef(false)
+  //const finalNotificationShown = useRef(false)
 
   // Analytics tracking
   usePageTracking("offer_page")
@@ -61,21 +62,24 @@ export default function OfertaPage() {
     return () => clearInterval(timer)
   }, [])
 
-  // Sistema de notificaciones
+  // Sistema de notificaciones - VERSIÓN DEFINITIVA SIN LOOPS
   useEffect(() => {
+    // Si ya se inicializaron las notificaciones, no hacer nada
     if (notificationsInitialized.current || !pageLoadTime) {
       return
     }
 
+    // Marcar como inicializado INMEDIATAMENTE
     notificationsInitialized.current = true
     console.log("🚀 Inicializando sistema de notificaciones - UNA SOLA VEZ")
 
+    // Array para almacenar todos los timers
     const timers: NodeJS.Timeout[] = []
 
     const showNotification = (index: number, cuposRestantes: number) => {
       const purchaseInfo = purchaseData[index]
       const newNotification: PurchaseNotification = {
-        id: Date.now() + Math.random(),
+        id: Date.now() + Math.random(), // ID único
         name: purchaseInfo.name,
         location: purchaseInfo.location,
         timeAgo: purchaseInfo.timeAgo,
@@ -88,6 +92,7 @@ export default function OfertaPage() {
       setNotifications((prev) => [...prev, newNotification])
       analytics.notificationView("purchase", cuposRestantes)
 
+      // Auto-hide después de 6 segundos
       const hideTimer = setTimeout(() => {
         console.log(`🗑️ Ocultando notificación ${index + 1}`)
         setNotifications((prev) => prev.filter((n) => n.id !== newNotification.id))
@@ -98,7 +103,7 @@ export default function OfertaPage() {
 
     const showFinalNotification = () => {
       const finalNotification: PurchaseNotification = {
-        id: Date.now() + Math.random(),
+        id: Date.now() + Math.random(), // ID único igual que las otras
         name: "",
         location: "",
         timeAgo: "",
@@ -111,92 +116,107 @@ export default function OfertaPage() {
       setNotifications((prev) => [...prev, finalNotification])
       analytics.notificationView("urgency")
 
+      // Auto-hide después de 6 segundos IGUAL que las otras notificaciones
       const finalHideTimer = setTimeout(() => {
         console.log("🗑️ Ocultando notificación final después de 6 segundos")
         setNotifications((prev) => prev.filter((n) => n.id !== finalNotification.id))
-      }, 6000)
+      }, 6000) // 6 segundos igual que las otras
 
       timers.push(finalHideTimer)
     }
 
+    // Programar todas las notificaciones UNA SOLA VEZ
     console.log("⏰ Programando todas las notificaciones...")
 
+    // Primera notificación - 4 segundos
     timers.push(setTimeout(() => showNotification(0, 4), 4000))
+
+    // Segunda notificación - 1 minuto
     timers.push(setTimeout(() => showNotification(1, 3), 60000))
+
+    // Tercera notificación - 2 minutos
     timers.push(setTimeout(() => showNotification(2, 2), 120000))
+
+    // Cuarta notificación - 3 minutos
     timers.push(setTimeout(() => showNotification(3, 1), 180000))
+
+    // Quinta notificación - 4 minutos
     timers.push(setTimeout(() => showNotification(4, 0), 240000))
+
+    // Notificación final - 4 minutos 2 segundos (242 segundos) - SOLO UNA VEZ
     timers.push(setTimeout(() => showFinalNotification(), 242000))
 
     console.log(`📅 ${timers.length} notificaciones programadas correctamente`)
 
+    // Cleanup function - CRÍTICO para evitar loops
     return () => {
       console.log("🧹 Limpiando todos los timers...")
       timers.forEach((timer, index) => {
         clearTimeout(timer)
         console.log(`✅ Timer ${index + 1} limpiado`)
       })
+      // NO resetear las referencias aquí para evitar re-inicialización
     }
-  }, [pageLoadTime])
+  }, [pageLoadTime]) // SOLO depende de pageLoadTime
 
   const herramientas = [
     {
-      nombre: "LinkedIn Premium",
+      nombre: "n8n.cloud",
       costo: "$0",
-      descripcion: "Usa la versión gratuita para implementar todo",
-      icon: "💼",
+      descripcion: "Automatiza tareas sin código",
+      icon: "🔧",
     },
     {
-      nombre: "Canva",
+      nombre: "Evolution API",
       costo: "$0",
-      descripcion: "Crea imágenes profesionales para tu perfil",
-      icon: "🎨",
+      descripcion: "Conecta tu WhatsApp al sistema",
+      icon: "📱",
     },
     {
-      nombre: "Google Docs",
+      nombre: "Supabase",
       costo: "$0",
-      descripcion: "Planifica y estructura tu contenido",
-      icon: "📝",
+      descripcion: "Guarda datos de clientes y leads",
+      icon: "💾",
     },
     {
-      nombre: "Herramientas de análisis",
+      nombre: "OpenAI (opcional)",
       costo: "$0",
-      descripcion: "Mide el rendimiento de tu perfil",
-      icon: "📊",
+      descripcion: "IA para respuestas automáticas",
+      icon: "🧠",
     },
   ]
 
   const canalesTexto = [
-    "📍 bienvenidos-linkedin",
-    "✅ acceso-premium",
-    "🏅 100-templates-profesionales",
-    "🏅 50-headlines-ganadores",
-    "💡 ideas-de-contenido",
-    "🧪 testing-perfiles",
-    "🧰 herramientas-gratuitas",
-    "⬆️ casos-de-exito",
-    "🗓️ agenda-consultorías",
-    "🔁 networking-estratégico",
+    "📍 bienvenidos",
+    "✅ pro-acesso",
+    "🏅 100-template-de-ai",
+    "🏅 50-prompt-de-ventas",
+    "💡 ideas-de-flujos",
+    "🧪 testing-bots",
+    "🧰 herramientas-gratis",
+    "⬆️ wins-pro-y-max",
+    "🗓️ agenda-eventos",
+    "🔁 integraciones-gpt",
     "💬 dudas-generales",
   ]
 
   const canalesVoz = [
-    "🔈 Networking Profesional",
-    "🔐 Consultoría Privada 1-1",
-    "📞 Revisión de Perfiles",
-    "🤖 Optimización en vivo",
-    "⚙️ Soporte técnico LinkedIn",
+    "🔈 Networking PRO",
+    "🔐 Privado – 1, 2, 3",
+    "📞 Mentoría Individual",
+    "🤖 Automatizando en vivo",
+    "⚙️ Soporte técnico GHL",
   ]
 
-  const aplicaciones = ["🟣 linkedin-optimizer", "🟡 profile-analyzer", "🔁 content-planner", "🧰 career-tools"]
+  const aplicaciones = ["🟣 lek-do-black-original", "🟡 gtp-de-ventas", "🔁 hosting-gratis", "🧰 toolzbuy"]
 
   const beneficios = [
-    "Cómo crear un headline que atraiga recruiters de EE.UU.",
-    "Cómo optimizar tu resumen para aparecer en búsquedas",
-    "Cómo estructurar tu experiencia para el mercado estadounidense",
-    "Cómo usar palabras clave que buscan los empleadores",
-    "Acceso a templates y ejemplos reales de perfiles exitosos",
-    "Transformación completa de tu perfil en menos de 2 horas",
+    "Cómo crear tu cuenta en n8n GRATIS sin servidor",
+    "Cómo conectar tu número de WhatsApp con Evolution API",
+    "Cómo editar y lanzar una plantilla lista para usar en minutos",
+    "Cómo automatizar respuestas, seguimientos y pagos",
+    "Acceso a guía paso a paso en video + plantillas copiables",
+    "Lanzamiento completo del sistema en menos de 1 hora",
   ]
 
   const closeNotification = (id: number) => {
@@ -204,13 +224,13 @@ export default function OfertaPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A66C2] to-[#004182] relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A] relative overflow-hidden">
       {/* Partículas de fondo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-2 h-2 bg-[#70B5F9]/30 rounded-full animate-pulse"
+            className="absolute w-2 h-2 bg-[#00C896]/30 rounded-full animate-pulse"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -226,8 +246,8 @@ export default function OfertaPage() {
         {notifications.map((notification) => (
           <div
             key={notification.id}
-            className={`bg-gradient-to-r from-[#004182] to-[#003366] border text-white p-4 rounded-xl shadow-lg max-w-sm animate-in slide-in-from-right-full fade-in duration-500 ${
-              notification.isLastChance ? "border-red-500/50 shadow-red-500/20 animate-pulse" : "border-[#70B5F9]/30"
+            className={`bg-gradient-to-r from-[#2A2A2A] to-[#1A1A1A] border text-white p-4 rounded-xl shadow-lg max-w-sm animate-in slide-in-from-right-full fade-in duration-500 ${
+              notification.isLastChance ? "border-red-500/50 shadow-red-500/20 animate-pulse" : "border-[#00C896]/30"
             }`}
           >
             {notification.isLastChance ? (
@@ -250,8 +270,8 @@ export default function OfertaPage() {
                   </button>
                 </div>
                 <p className="text-xs text-white/90 leading-relaxed">
-                  🚨 <strong className="text-red-400">Se acabaron los cupos.</strong> Tu última oportunidad para
-                  conseguir trabajo en EE.UU. con nuestro método de LinkedIn.
+                  🚨 <strong className="text-red-400">Se acabaron los cupos.</strong> Tu última oportunidad para evitar
+                  que tu empresa quiebre usando nuestro sistema.
                 </p>
                 <div className="mt-3 pt-2 border-t border-red-500/20">
                   <p className="text-xs text-red-300 font-semibold animate-pulse">
@@ -263,11 +283,11 @@ export default function OfertaPage() {
               <div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-[#70B5F9]/20 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#00C896]/20 rounded-full flex items-center justify-center">
                       <span className="text-lg">🎉</span>
                     </div>
                     <div>
-                      <p className="font-semibold text-sm text-[#70B5F9]">{notification.name}</p>
+                      <p className="font-semibold text-sm text-[#00C896]">{notification.name}</p>
                       <p className="text-xs text-white/80">{notification.location}</p>
                     </div>
                   </div>
@@ -279,7 +299,7 @@ export default function OfertaPage() {
                   </button>
                 </div>
                 <div className="mt-2">
-                  <p className="text-xs text-white/90 mb-1">✅ Acaba de comprar el método • {notification.timeAgo}</p>
+                  <p className="text-xs text-white/90 mb-1">✅ Acaba de comprar el curso • {notification.timeAgo}</p>
                   <p className="text-xs text-red-400 font-semibold">
                     🔥 Quedan solo {notification.cuposRestantes} cupos de 5
                   </p>
@@ -291,7 +311,7 @@ export default function OfertaPage() {
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full bg-gradient-to-br from-[#0A66C2]/95 to-[#004182]/95 backdrop-blur-sm border-b border-[#70B5F9] shadow-lg shadow-[#70B5F9]/20 z-40">
+      <header className="fixed top-0 left-0 w-full bg-gradient-to-br from-[#1A1A1A]/95 to-[#2A2A2A]/95 backdrop-blur-sm border-b border-[#00C896] shadow-lg shadow-[#00C896]/20 z-40">
         <div className="container mx-auto flex justify-between items-center px-4 sm:px-5 py-3">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
@@ -299,7 +319,7 @@ export default function OfertaPage() {
               <span className="text-sm">Volver</span>
             </Link>
             <div className="flex items-center gap-2 text-white font-semibold text-base sm:text-lg">
-              💼 <span className="text-[#70B5F9]">LinkedIn Pro</span>
+              🤖 <span className="text-[#00C896]">VENTA 24/7</span>
             </div>
           </div>
         </div>
@@ -330,35 +350,36 @@ export default function OfertaPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-            🚨 Convierte tu perfil de LinkedIn en una{" "}
-            <span className="text-[#70B5F9]">máquina de generar entrevistas</span>
+            🚨 Lanza tu <span className="text-[#00C896]">Agente de IA</span> para WhatsApp
             <br />
             <span className="text-2xl sm:text-3xl md:text-4xl text-red-400">
-              y consigue tu trabajo en EE.UU. en solo 2 horas.
+              y evita que tu negocio quiebre por falta de automatización.
             </span>
           </h1>
 
           {/* Beneficios principales */}
-          <div className="bg-gradient-to-br from-[#70B5F9]/20 to-[#0073B1]/20 border border-[#70B5F9]/30 rounded-xl p-6 mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">⚡️ En menos de 2 horas tendrás:</h2>
+          <div className="bg-gradient-to-br from-[#00C896]/20 to-[#00A876]/20 border border-[#00C896]/30 rounded-xl p-6 mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
+              ⚡️ En menos de 1 hora tendrás tu sistema funcionando:
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-white">
               <div className="flex items-center gap-2">
-                <CheckCircle className="text-[#70B5F9] flex-shrink-0" size={20} />
-                <span className="text-sm sm:text-base">Un perfil que atraiga recruiters</span>
+                <CheckCircle className="text-[#00C896] flex-shrink-0" size={20} />
+                <span className="text-sm sm:text-base">Generando conversaciones reales</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="text-[#70B5F9] flex-shrink-0" size={20} />
-                <span className="text-sm sm:text-base">Posicionamiento estratégico claro</span>
+                <CheckCircle className="text-[#00C896] flex-shrink-0" size={20} />
+                <span className="text-sm sm:text-base">Cerrando ventas automáticamente</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="text-[#70B5F9] flex-shrink-0" size={20} />
-                <span className="text-sm sm:text-base">Más entrevistas garantizadas</span>
+                <CheckCircle className="text-[#00C896] flex-shrink-0" size={20} />
+                <span className="text-sm sm:text-base">Sin pagar suscripciones</span>
               </div>
             </div>
           </div>
 
           {/* Precio destacado */}
-          <div className="bg-gradient-to-br from-[#004182] to-[#003366] border-2 border-[#FFD700] rounded-xl p-8 mb-8 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#FFD700] rounded-xl p-8 mb-8 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFD700] to-[#FFA500]"></div>
             <div className="relative z-10">
               <div className="flex items-center justify-center gap-2 mb-4">
@@ -369,7 +390,7 @@ export default function OfertaPage() {
                 <div className="text-white/60 text-2xl sm:text-3xl line-through mb-2 font-semibold">
                   Precio normal: $97
                 </div>
-                <div className="text-4xl sm:text-5xl font-bold text-[#70B5F9] mb-2">$19.99</div>
+                <div className="text-4xl sm:text-5xl font-bold text-[#00C896] mb-2">$19.99</div>
                 <div className="text-red-400 font-semibold text-lg mb-4">
                   Solo para los primeros 5 que aprovechen la promo
                 </div>
@@ -381,17 +402,17 @@ export default function OfertaPage() {
           {/* CTA Principal */}
           <div className="mb-12">
             <a
-              href="https://pay.hotmart.com/C100342057M?off=g2lkrn81"
+              href="https://pay.hotmart.com/C100342057M?off=g2lkrn81&checkoutMode=10"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-8 py-4 rounded-xl text-lg font-bold hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 animate-pulse shadow-xl shadow-[#FF6B35]/30"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-8 py-4 rounded-xl text-lg font-bold hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105 animate-pulse"
               onClick={() => analytics.purchaseClick("$19.99", "hero_cta")}
             >
-              <Zap size={24} />🚀 OBTENER MÉTODO COMPLETO POR SOLO $19.99
+              <Zap size={24} />🚀 OBTENER ACCESO COMPLETO POR SOLO $19.99
               <span className="bg-white/20 px-2 py-1 rounded text-sm">🔥 AHORA</span>
             </a>
             <p className="text-white/60 text-sm mt-4">
-              ✅ Acceso inmediato • ✅ Método paso a paso • ✅ Soporte incluido
+              ✅ Acceso inmediato • ✅ Comunidad incluida • ✅ Soporte técnico
             </p>
           </div>
         </div>
@@ -400,7 +421,7 @@ export default function OfertaPage() {
       {/* Video Section - ConvertAI Player */}
       <section className="py-8 px-4">
         <div className="container mx-auto max-w-4xl">
-          <div className="bg-gradient-to-br from-[#004182] to-[#003366] border border-[#70B5F9]/20 rounded-xl p-6 mb-8">
+          <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-xl p-6 mb-8">
             <div className="aspect-video rounded-xl overflow-hidden">
               <div style={{ position: "relative", paddingTop: "56.25%" }}>
                 <iframe
@@ -409,6 +430,7 @@ export default function OfertaPage() {
                   style={{ border: "none", position: "absolute", top: 0, left: 0 }}
                   allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
                   allowFullScreen={true}
+                  sandbox="allow-scripts allow-same-origin allow-presentation"
                   width="100%"
                   height="100%"
                   fetchPriority="high"
@@ -446,20 +468,20 @@ export default function OfertaPage() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              🎯 ¿QUÉ INCLUYE ESTE <span className="text-[#70B5F9]">MÉTODO EXCLUSIVO</span>?
+              🎯 ¿QUÉ INCLUYE ESTA <span className="text-[#00C896]">OFERTA EXCLUSIVA</span>?
             </h2>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             {/* Entrenamiento */}
-            <div className="bg-gradient-to-br from-[#004182] to-[#003366] border border-[#70B5F9]/20 rounded-xl p-8">
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-xl p-8">
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <CheckCircle className="text-[#70B5F9]" size={28} />✅ Método 100% Práctico
+                <CheckCircle className="text-[#00C896]" size={28} />✅ Entrenamiento 100% Práctico
               </h3>
               <ul className="space-y-4">
                 {beneficios.map((beneficio, index) => (
                   <li key={index} className="flex items-start gap-3 text-white/80">
-                    <CheckCircle size={20} className="text-[#70B5F9] mt-0.5 flex-shrink-0" />
+                    <CheckCircle size={20} className="text-[#00C896] mt-0.5 flex-shrink-0" />
                     <span>{beneficio}</span>
                   </li>
                 ))}
@@ -467,22 +489,22 @@ export default function OfertaPage() {
             </div>
 
             {/* Ideal Para */}
-            <div className="bg-gradient-to-br from-[#004182] to-[#003366] border border-[#70B5F9]/20 rounded-xl p-8">
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-xl p-8">
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <Users className="text-[#70B5F9]" size={28} />🧩 Ideal Para
+                <Users className="text-[#00C896]" size={28} />🧩 Ideal Para
               </h3>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-white/80">
-                  <Star size={20} className="text-[#70B5F9] mt-0.5 flex-shrink-0" />
-                  <span>✔️ Profesionales que buscan trabajo remoto en EE.UU.</span>
+                  <Star size={20} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                  <span>✔️ Agencias, freelancers, coaches, consultores</span>
                 </li>
                 <li className="flex items-start gap-3 text-white/80">
-                  <Star size={20} className="text-[#70B5F9] mt-0.5 flex-shrink-0" />
-                  <span>✔️ Personas con experiencia pero perfil invisible</span>
+                  <Star size={20} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                  <span>✔️ Emprendedores sin conocimientos técnicos</span>
                 </li>
                 <li className="flex items-start gap-3 text-white/80">
-                  <Star size={20} className="text-[#70B5F9] mt-0.5 flex-shrink-0" />
-                  <span>✔️ Quienes quieren más entrevistas sin pagar mentorías costosas</span>
+                  <Star size={20} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                  <span>✔️ Personas que quieren más ventas sin pasar el día pegadas al celular</span>
                 </li>
               </ul>
             </div>
@@ -507,7 +529,7 @@ export default function OfertaPage() {
             {herramientas.map((herramienta, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-[#004182] to-[#003366] border border-green-500/20 rounded-xl p-6"
+                className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-green-500/20 rounded-xl p-6"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <span className="text-3xl">{herramienta.icon}</span>
@@ -536,22 +558,22 @@ export default function OfertaPage() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              👥 Accede a nuestra <span className="text-[#70B5F9]">Comunidad Privada</span> en Discord
+              👥 Accede a nuestra <span className="text-[#00C896]">Comunidad Privada</span> en Discord
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Tu acceso incluye ingreso a nuestro servidor LinkedIn Pro, con canales diseñados para ayudarte a
-              optimizar, hacer networking y conseguir entrevistas.
+              Tu acceso incluye ingreso a nuestro servidor Antártida AI, con canales diseñados para ayudarte a lanzar,
+              automatizar y escalar.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Canales de Texto */}
-            <div className="bg-gradient-to-br from-[#004182] to-[#003366] border border-[#70B5F9]/20 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-xl p-6">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">💬 Canales de Texto</h3>
               <ul className="space-y-2">
                 {canalesTexto.map((canal, index) => (
                   <li key={index} className="text-white/80 text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 bg-[#70B5F9] rounded-full flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-[#00C896] rounded-full flex-shrink-0"></div>
                     {canal}
                   </li>
                 ))}
@@ -559,12 +581,12 @@ export default function OfertaPage() {
             </div>
 
             {/* Canales de Voz */}
-            <div className="bg-gradient-to-br from-[#004182] to-[#003366] border border-[#70B5F9]/20 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-xl p-6">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">🎙️ Canales de Voz</h3>
               <ul className="space-y-2">
                 {canalesVoz.map((canal, index) => (
                   <li key={index} className="text-white/80 text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 bg-[#70B5F9] rounded-full flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-[#00C896] rounded-full flex-shrink-0"></div>
                     {canal}
                   </li>
                 ))}
@@ -572,12 +594,12 @@ export default function OfertaPage() {
             </div>
 
             {/* Aplicaciones */}
-            <div className="bg-gradient-to-br from-[#004182] to-[#003366] border border-[#70B5F9]/20 rounded-xl p-6">
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">🛠️ Herramientas Exclusivas</h3>
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-xl p-6">
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">🛠️ Aplicaciones Gratuitas</h3>
               <ul className="space-y-2">
                 {aplicaciones.map((app, index) => (
                   <li key={index} className="text-white/80 text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 bg-[#70B5F9] rounded-full flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-[#00C896] rounded-full flex-shrink-0"></div>
                     {app}
                   </li>
                 ))}
@@ -587,39 +609,38 @@ export default function OfertaPage() {
 
           <div className="text-center mt-8">
             <p className="text-lg text-white/80">
-              👥 <strong className="text-[#70B5F9]">Aprende, comparte, pregunta y consigue trabajo</strong> junto a
-              otros profesionales como tú.
+              👥 <strong className="text-[#00C896]">Aprende, comparte, pregunta y escala</strong> junto a otros como tú.
             </p>
           </div>
         </div>
       </section>
 
       {/* CTA Final con Urgencia */}
-      <section className="py-16 px-4 bg-gradient-to-r from-[#70B5F9]/10 to-[#0073B1]/10">
+      <section className="py-16 px-4 bg-gradient-to-r from-[#00C896]/10 to-[#00A876]/10">
         <div className="container mx-auto max-w-4xl">
-          <div className="bg-gradient-to-br from-[#004182] to-[#003366] border-2 border-[#70B5F9] rounded-xl p-8 text-center relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#70B5F9] to-[#0073B1]"></div>
+          <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#00C896] rounded-xl p-8 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#00C896] to-[#00A876]"></div>
 
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                🎯 ¿LISTO PARA CONSEGUIR TU TRABAJO EN EE.UU.?
+                🎯 ¿LISTO PARA LANZAR TU SISTEMA EN 1 HORA?
               </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                 <div className="flex items-center gap-3 text-white/80">
-                  <CheckCircle className="text-[#70B5F9]" size={24} />
+                  <CheckCircle className="text-[#00C896]" size={24} />
                   <span>🔥 Solo $19,99 — exclusivo para los primeros 5</span>
                 </div>
                 <div className="flex items-center gap-3 text-white/80">
-                  <CheckCircle className="text-[#70B5F9]" size={24} />
-                  <span>📈 Perfil optimizado en 2 horas</span>
+                  <CheckCircle className="text-[#00C896]" size={24} />
+                  <span>📈 Sistema funcionando en tiempo récord</span>
                 </div>
                 <div className="flex items-center gap-3 text-white/80">
-                  <CheckCircle className="text-[#70B5F9]" size={24} />
-                  <span>🛠️ Sin herramientas costosas</span>
+                  <CheckCircle className="text-[#00C896]" size={24} />
+                  <span>🛠️ Sin suscripciones ni complicaciones</span>
                 </div>
                 <div className="flex items-center gap-3 text-white/80">
-                  <CheckCircle className="text-[#70B5F9]" size={24} />
+                  <CheckCircle className="text-[#00C896]" size={24} />
                   <span>👥 Acceso inmediato a la comunidad</span>
                 </div>
               </div>
@@ -631,30 +652,30 @@ export default function OfertaPage() {
               </div>
 
               <a
-                href="https://pay.hotmart.com/C100342057M?off=g2lkrn81"
+                href="https://pay.hotmart.com/C100342057M?off=g2lkrn81&checkoutMode=10"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white px-8 py-4 rounded-xl text-xl font-bold hover:shadow-lg hover:shadow-[#FF6B35]/40 transition-all duration-300 hover:scale-105 mb-6 animate-pulse shadow-xl shadow-[#FF6B35]/30"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-8 py-4 rounded-xl text-xl font-bold hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105 mb-6"
                 onClick={() => analytics.purchaseClick("$19.99", "final_cta")}
               >
-                <Zap size={28} />🚀 OBTENER MÉTODO COMPLETO POR SOLO $19.99
+                <Zap size={28} />🚀 OBTENER ACCESO COMPLETO POR SOLO $19.99
               </a>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm text-white/70">
                 <div className="flex items-center gap-1">
-                  <CheckCircle size={16} className="text-[#70B5F9]" />
+                  <CheckCircle size={16} className="text-[#00C896]" />
                   <span>Acceso inmediato</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <CheckCircle size={16} className="text-[#70B5F9]" />
+                  <CheckCircle size={16} className="text-[#00C896]" />
                   <span>Comunidad incluida</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <CheckCircle size={16} className="text-[#70B5F9]" />
+                  <CheckCircle size={16} className="text-[#00C896]" />
                   <span>Soporte técnico</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <CheckCircle size={16} className="text-[#70B5F9]" />
+                  <CheckCircle size={16} className="text-[#00C896]" />
                   <span>Tiempo limitado</span>
                 </div>
               </div>
@@ -670,28 +691,28 @@ export default function OfertaPage() {
             href="https://chat.whatsapp.com/JtLP7Pskh0y2zTeXK3jXFF"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg shadow-[#DC2626]/40 hover:from-[#B91C1C] hover:to-[#991B1B] transition-all duration-300 animate-pulse"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg shadow-red-500/30 hover:from-red-700 hover:to-red-600 transition-all duration-300"
             onClick={() =>
               analytics.ctaClick(
-                "No quiero obtener el método completo ahora",
+                "No quiero obtener acceso completo ahora",
                 "simple_downsell",
                 "https://chat.whatsapp.com/JtLP7Pskh0y2zTeXK3jXFF",
               )
             }
           >
-            <AlertTriangle size={16} />🔥 No quiero obtener el método completo ahora
+            <AlertTriangle size={16} />🔥 No quiero obtener acceso completo ahora
           </a>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-br from-[#0A66C2] to-[#004182] border-t border-[#70B5F9]/20 py-8 px-4">
+      <footer className="bg-gradient-to-br from-[#1A1A1A] to-[#0A0A0A] border-t border-[#00C896]/20 py-8 px-4">
         <div className="container mx-auto max-w-6xl text-center">
           <div className="flex items-center justify-center gap-2 text-white font-semibold text-lg mb-4">
-            💼 <span className="text-[#70B5F9]">LinkedIn Pro</span>
+            🤖 <span className="text-[#00C896]">VENTA 24/7</span>
           </div>
-          <p className="text-white/60 text-sm mb-2">© 2024 LinkedIn Pro – Todos los derechos reservados.</p>
-          <p className="text-white/40 text-xs">Hecho para ayudarte a conseguir trabajo en Estados Unidos.</p>
+          <p className="text-white/60 text-sm mb-2">© 2024 Antártida AI – Todos los derechos reservados.</p>
+          <p className="text-white/40 text-xs">Hecho para automatizar y vender por ti.</p>
         </div>
       </footer>
     </div>
