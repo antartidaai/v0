@@ -812,7 +812,7 @@ export default function DemoPage() {
                     rel="noopener noreferrer"
                     className="rounded-lg bg-red-600 px-3 py-1 text-white text-sm hover:bg-red-700 transition-all duration-300 mr-2 animate-bounce shadow-lg shadow-red-400/50"
                   >
-                    🔒 Abrir checkout
+                    🔒Reclama cupo
                   </a>
                 )}
 
