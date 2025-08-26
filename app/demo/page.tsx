@@ -626,11 +626,11 @@ export default function DemoPage() {
         <div className="min-h-full flex items-center justify-center px-4">
           {/* Loader - Siempre visible inicialmente */}
           <div
-            className={`loader text-center max-w-md w-full transition-all duration-1000 z-10 ${showCards ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+            className={`loader text-center max-w-md w-full transition-all duration-800 z-10 ${showCards ? "opacity-0 pointer-events-none" : "opacity-100"}`}
           >
             <div className="px-4">
               <div
-                className={`icon text-4xl sm:text-5xl mb-6 sm:mb-8 inline-block transition-all duration-1000 ${showSuccess ? "w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] leading-[60px] sm:leading-[70px] rounded-full bg-[#00C896] text-white text-3xl sm:text-4xl shadow-lg shadow-[#00C896]/30" : "text-white"}`}
+                className={`icon text-4xl sm:text-5xl mb-6 sm:mb-8 inline-block transition-all duration-500 ${showSuccess ? "w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] leading-[60px] sm:leading-[70px] rounded-full bg-[#00C896] text-white text-3xl sm:text-4xl shadow-lg shadow-[#00C896]/30" : "text-white"}`}
               >
                 {showSuccess ? "✔" : "🤖"}
               </div>
@@ -652,10 +652,10 @@ export default function DemoPage() {
               </p>
 
               <div
-                className={`progress w-full h-1.5 bg-white/20 rounded-full overflow-hidden transition-opacity duration-1500 ${showSuccess ? "opacity-0" : "opacity-100"}`}
+                className={`progress w-full h-1.5 bg-white/20 rounded-full overflow-hidden transition-opacity duration-500 ${showSuccess ? "opacity-0" : "opacity-100"}`}
               >
                 <div
-                  className="progress-bar h-full bg-[#00C896] transition-all duration-1000 linear shadow-sm shadow-[#00C896]/50"
+                  className="progress-bar h-full bg-[#00C896] transition-all duration-800 linear shadow-sm shadow-[#00C896]/50"
                   style={{ width: `${progress}%` }}
                 />
               </div>
