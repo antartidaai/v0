@@ -159,6 +159,43 @@ export default function OfertaPage() {
     }
   }, [pageLoadTime]) // SOLO depende de pageLoadTime
 
+  useEffect(() => {
+    // Agregar un estado al historial para poder interceptar la navegación hacia atrás
+    window.history.pushState(null, "", window.location.href)
+
+    const handleBackRedirect = () => {
+      // Solo redirigir si no se ha mostrado antes en esta sesión
+      if (!sessionStorage.getItem("backredirect_shown")) {
+        sessionStorage.setItem("backredirect_shown", "true")
+        window.location.href = "/back-redirect"
+        return
+      }
+    }
+
+    const handlePopState = (event: PopStateEvent) => {
+      // Interceptar la navegación hacia atrás
+      event.preventDefault()
+      window.history.pushState(null, "", window.location.href)
+      handleBackRedirect()
+    }
+
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      // Interceptar el intento de cerrar/salir de la página
+      if (!sessionStorage.getItem("backredirect_shown")) {
+        event.preventDefault()
+        handleBackRedirect()
+      }
+    }
+
+    window.addEventListener("popstate", handlePopState)
+    window.addEventListener("beforeunload", handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState)
+      window.removeEventListener("beforeunload", handleBeforeUnload)
+    }
+  }, [])
+
   const herramientas = [
     {
       nombre: "n8n.cloud",
