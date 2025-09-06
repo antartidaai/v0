@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation" // Agregado useRouter para navegación más confiable
 import { ArrowLeft, CheckCircle, Star, Users, Zap, Clock, AlertTriangle, Crown, X } from "lucide-react"
 import { analytics, usePageTracking } from "../utils/analytics"
 
@@ -17,7 +16,6 @@ interface PurchaseNotification {
 }
 
 export default function OfertaPage() {
-  const router = useRouter() // Agregado router para navegación
   const [timeLeft, setTimeLeft] = useState({
     minutes: 15,
     seconds: 0,
@@ -160,73 +158,6 @@ export default function OfertaPage() {
       // NO resetear las referencias aquí para evitar re-inicialización
     }
   }, [pageLoadTime]) // SOLO depende de pageLoadTime
-
-  useEffect(() => {
-    console.log("[v0] Inicializando back-redirect para producción")
-
-    // Agregar un estado al historial para poder interceptar la navegación hacia atrás
-    window.history.pushState({ backRedirectPage: true }, "", window.location.href)
-
-    const handleBackRedirect = () => {
-      console.log("[v0] Ejecutando back-redirect")
-      // Solo redirigir si no se ha mostrado antes en esta sesión
-      if (!sessionStorage.getItem("backredirect_shown")) {
-        console.log("[v0] Redirigiendo a back-redirect")
-        sessionStorage.setItem("backredirect_shown", "true")
-
-        // Usar router.push en lugar de window.location.href para mejor compatibilidad
-        router.push("/back-redirect")
-        return true
-      }
-      console.log("[v0] Back-redirect ya mostrado en esta sesión")
-      return false
-    }
-
-    const handlePopState = (event: PopStateEvent) => {
-      console.log("[v0] PopState detectado", event.state)
-      // Interceptar la navegación hacia atrás
-      event.preventDefault()
-
-      // Agregar el estado de nuevo para mantener la interceptación
-      window.history.pushState({ backRedirectPage: true }, "", window.location.href)
-
-      // Intentar redirección
-      const redirected = handleBackRedirect()
-      if (!redirected) {
-        // Si no se redirigió, permitir navegación normal después de un delay
-        setTimeout(() => {
-          window.history.back()
-        }, 100)
-      }
-    }
-
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      console.log("[v0] BeforeUnload detectado")
-      // Solo interceptar si no se ha mostrado el back-redirect
-      if (!sessionStorage.getItem("backredirect_shown")) {
-        // En algunos navegadores, esto puede mostrar un diálogo de confirmación
-        event.preventDefault()
-        event.returnValue = ""
-
-        // Intentar redirección después de un pequeño delay
-        setTimeout(() => {
-          handleBackRedirect()
-        }, 50)
-      }
-    }
-
-    // Agregar event listeners
-    window.addEventListener("popstate", handlePopState)
-    window.addEventListener("beforeunload", handleBeforeUnload)
-
-    console.log("[v0] Event listeners agregados para back-redirect")
-
-    return () => {
-      console.log("[v0] Limpiando event listeners de back-redirect")
-      window.removeEventListener("popstate", handlePopState)
-      window.removeEventListener("beforeunload", handleBeforeUnload)
-    }
-  }, [router]) // Agregada dependencia del router
 
   const herramientas = [
     {
