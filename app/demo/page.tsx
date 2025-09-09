@@ -31,17 +31,15 @@ export default function DemoPage() {
   const [showCards, setShowCards] = useState(false)
   const [chatOpen, setChatOpen] = useState(false)
   const [offerOpen, setOfferOpen] = useState(false)
-  const [selectedVendedor, setSelectedVendedor] = useState<Vendedor | null>(null)
+  const [selectedVendedor, setSelectedVendedor] = useState<any | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [inputMessage, setInputMessage] = useState("")
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
   const [userId, setUserId] = useState<string>("")
   const [sessionId, setSessionId] = useState<string>("")
-  const [showExplanationModal, setShowExplanationModal] = useState(false)
-  const [showCheckoutButton, setShowCheckoutButton] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false)
+  const [showCheckoutButton, setShowCheckoutButton] = useState(false)
 
   // Analytics tracking
   usePageTracking("demo_page")
@@ -112,12 +110,10 @@ export default function DemoPage() {
         const newProgress = prev + step
         if (newProgress >= 100) {
           clearInterval(timer)
+          setShowSuccess(true)
           setTimeout(() => {
-            setShowSuccess(true)
-            setTimeout(() => {
-              setShowModal(true)
-            }, 4000)
-          }, 200)
+            setShowModal(true)
+          }, 1000)
           return 100
         }
         return newProgress
@@ -168,7 +164,7 @@ export default function DemoPage() {
     })
   }, [])
 
-  const vendedores: Vendedor[] = [
+  const vendedores: any[] = [
     {
       id: 1,
       nombre: "Andres AI",
@@ -222,22 +218,10 @@ export default function DemoPage() {
     },
   ]
 
-  const openChat = (vendedor: Vendedor) => {
-    if (vendedor.locked) {
-      setShowUpgradeModal(true)
-      return
-    }
-
+  const openChat = (vendedor: any) => {
     setSelectedVendedor(vendedor)
     setChatOpen(true)
-    const initialMessage: Message = {
-      id: 1,
-      text: `¡Hola! Soy ${vendedor.nombre}. ¿En qué puedo ayudarte hoy?`,
-      sender: "ai",
-      timestamp: new Date(),
-      status: "delivered",
-    }
-    setMessages([initialMessage])
+    analytics.chatStart(vendedor.nombre, vendedor.id)
   }
 
   const closeChat = () => {
@@ -586,17 +570,9 @@ export default function DemoPage() {
     }
   }
 
-  const closeExplanationModal = () => {
-    setShowExplanationModal(false)
-    setShowCards(true)
-  }
-
   const closeModal = () => {
     setShowModal(false)
-  }
-
-  const closeUpgradeModal = () => {
-    setShowUpgradeModal(false)
+    setShowCards(true)
   }
 
   return (
@@ -818,7 +794,6 @@ export default function DemoPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="rounded-lg bg-red-600 px-3 py-1 text-white text-sm hover:bg-red-700 transition-all duration-300 mr-2 animate-bounce shadow-lg shadow-red-400/50"
-                    onClick={() => analytics.inicialCheckout("$19.99", "demo_header")}
                   >
                     🔒Reclama cupo
                   </a>
@@ -977,7 +952,7 @@ export default function DemoPage() {
       )}
 
       {/* Explanation Modal */}
-      {showExplanationModal && (
+      {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md p-2 sm:p-4">
           <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A] border border-[#00C896] rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
             {/* Header */}
@@ -1054,151 +1029,13 @@ export default function DemoPage() {
               <button
                 onClick={() => {
                   analytics.ctaClick("Probar Ahora", "explanation_modal")
-                  closeExplanationModal()
+                  closeModal()
                 }}
                 className="w-full bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-3 sm:px-4 md:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105"
               >
                 <span>🚀</span>
                 Probar Ahora
                 <ArrowRight size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-              </button>
-            </div>
-
-            {/* Footer */}
-            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-t border-[#00C896]/20 text-center">
-              <p className="text-white/60 text-xs">✅ Sin registro • ✅ Prueba gratuita • ✅ Integración inmediata</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Upgrade Modal */}
-      {showUpgradeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md p-2 sm:p-4">
-          <div className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-white dark:bg-zinc-900 rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
-            {/* Header */}
-            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-[#FFD700]/20">
-              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-                <div className="bg-[#FFD700]/20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
-                  <span className="text-base sm:text-lg md:text-2xl">🔒</span>
-                </div>
-                <div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white">Desbloquear Premium</h3>
-                  <p className="text-[#FFD700] text-xs sm:text-sm">Accede a funcionalidades avanzadas</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6">
-              <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
-                <div className="flex items-start gap-2 sm:gap-3">
-                  <div className="bg-[#FFD700]/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
-                    <span className="text-[#FFD700] text-xs sm:text-sm">1</span>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">
-                      Suscríbete a Premium
-                    </h4>
-                    <p className="text-white/70 text-xs sm:text-sm">
-                      Para acceder a todos los asistentes virtuales, necesitas suscribirte a nuestro plan Premium.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-2 sm:gap-3">
-                  <div className="bg-[#FFD700]/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
-                    <span className="text-[#FFD700] text-xs sm:text-sm">2</span>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">
-                      Beneficios Premium
-                    </h4>
-                    <p className="text-white/70 text-xs sm:text-sm">
-                      Accede a asistentes virtuales ilimitados y funcionalidades avanzadas para optimizar tus ventas.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => {
-                  analytics.ctaClick("Suscribirme", "upgrade_modal")
-                  window.location.href = "/suscribirme"
-                }}
-                className="w-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black px-3 sm:px-4 md:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#FFD700]/30 transition-all duration-300 hover:scale-105"
-              >
-                <span>🚀</span>
-                Suscribirme
-                <ArrowRight size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-              </button>
-            </div>
-
-            {/* Footer */}
-            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-t border-[#FFD700]/20 text-center">
-              <p className="text-white/60 text-xs">✅ Sin registro • ✅ Prueba gratuita • ✅ Integración inmediata</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* General Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md p-2 sm:p-4">
-          <div className="w-full max-w-sm md:max-w-md lg:max-w-lg bg-white dark:bg-zinc-900 rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 max-h-[95vh] overflow-y-auto">
-            {/* Header */}
-            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-[#00C896]/20">
-              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-                <div className="bg-[#00C896]/20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
-                  <span className="text-base sm:text-lg md:text-2xl">💡</span>
-                </div>
-                <div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white">Información Importante</h3>
-                  <p className="text-[#00C896] text-xs sm:text-sm">Detalles sobre nuestros asistentes virtuales</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-6">
-              <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
-                <div className="flex items-start gap-2 sm:gap-3">
-                  <div className="bg-[#00C896]/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
-                    <span className="text-[#00C896] text-xs sm:text-sm">1</span>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">
-                      Asistentes Virtuales
-                    </h4>
-                    <p className="text-white/70 text-xs sm:text-sm">
-                      Nuestros asistentes virtuales están diseñados para ayudarte en todas las etapas del proceso de
-                      venta.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-2 sm:gap-3">
-                  <div className="bg-[#00C896]/20 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1">
-                    <span className="text-[#00C896] text-xs sm:text-sm">2</span>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-1 text-xs sm:text-sm md:text-base">Integración Fácil</h4>
-                    <p className="text-white/70 text-xs sm:text-sm">
-                      Integra nuestros asistentes con tu WhatsApp Business o WhatsApp Normal de manera sencilla.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => {
-                  analytics.ctaClick("Cerrar", "general_modal")
-                  closeModal()
-                }}
-                className="w-full bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-3 sm:px-4 md:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105"
-              >
-                <span>✖️</span>
-                Cerrar
               </button>
             </div>
 

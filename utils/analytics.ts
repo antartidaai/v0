@@ -57,7 +57,7 @@ export const analytics = {
 
   // Eventos de conversión
   purchaseClick: (price: string, location: string) => {
-    trackEvent("purchase_click", {
+    trackEvent("inicial_checkout", {
       price: price,
       currency: "USD",
       click_location: location,

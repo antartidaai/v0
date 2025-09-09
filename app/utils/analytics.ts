@@ -37,29 +37,9 @@ export const analytics = {
     })
   },
 
-  chatStart: (vendedorName: string, vendedorId: number) => {
-    trackEvent("chat_start", {
-      vendedor_name: vendedorName,
-      vendedor_id: vendedorId,
-      event_category: "engagement",
-      event_label: `chat_${vendedorName.toLowerCase().replace(" ", "_")}`,
-    })
-  },
-
-  inicialCheckout: (price: string, location: string) => {
-    trackEvent("inicial_checkout", {
-      price: price,
-      currency: "USD",
-      click_location: location,
-      event_category: "conversion",
-      event_label: `inicial_checkout_${price}`,
-      value: Number.parseFloat(price.replace("$", "")),
-    })
-  },
-
   // Eventos de conversión - MANTENIDO (crítico)
   purchaseClick: (price: string, location: string) => {
-    trackEvent("purchase_click", {
+    trackEvent("inicial_checkout", {
       price: price,
       currency: "USD",
       click_location: location,
@@ -104,6 +84,16 @@ export const analytics = {
       error_location: location,
       event_category: "error",
       event_label: `error_${errorType}`,
+    })
+  },
+
+  // Eventos de chat - MANTENIDO (crítico para conversación)
+  chatStart: (vendedorName: string, vendedorId: number) => {
+    trackEvent("chat_start", {
+      vendedor_name: vendedorName,
+      vendedor_id: vendedorId,
+      event_category: "engagement",
+      event_label: `chat_${vendedorName.toLowerCase().replace(" ", "_")}`,
     })
   },
 }
