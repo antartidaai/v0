@@ -1,9 +1,9 @@
 "use client"
 
-import React from "react"
+import React, { useRef, useEffect } from "react"
 import { analytics, usePageTracking } from "../utils/analytics"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Lock, ArrowLeft, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
@@ -103,7 +103,7 @@ export default function DemoPage() {
     // Barra de progreso
     const duration = 7000
     const interval = 80
-    const step = interval
+    const step = (interval / duration) * 100
 
     const timer = setInterval(() => {
       setProgress((prev) => {
@@ -125,6 +125,14 @@ export default function DemoPage() {
       const particles = document.querySelectorAll(".particle")
       particles.forEach((particle) => particle.remove())
     }
+  }, [])
+
+  useEffect(() => {
+    const checkoutTimer = setTimeout(() => {
+      setShowCheckoutButton(true)
+    }, 45000) // 45 segundos
+
+    return () => clearTimeout(checkoutTimer)
   }, [])
 
   useEffect(() => {
@@ -575,6 +583,16 @@ export default function DemoPage() {
     setShowCards(true)
   }
 
+  const bottomRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (bottomRef.current && messages.length > 0) {
+      setTimeout(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" })
+      }, 100)
+    }
+  }, [messages])
+
   return (
     <div className="h-screen overflow-hidden relative">
       {/* Header */}
@@ -898,6 +916,8 @@ export default function DemoPage() {
                   </div>
                 </div>
               )}
+
+              <div ref={bottomRef} />
             </div>
 
             {/* Input Container */}
