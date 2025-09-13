@@ -160,6 +160,26 @@ export default function OfertaPage() {
             </div>
           </div>
 
+          <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#FFD700] rounded-lg sm:rounded-xl p-6 sm:p-8 mb-6 sm:mb-8 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFD700] to-[#FFA500]"></div>
+            <div className="relative z-10">
+              <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
+                <Crown className="text-[#FFD700]" size={20} />
+                <span className="text-[#FFD700] font-bold text-base sm:text-lg">PRECIO ESPECIAL</span>
+              </div>
+              <div className="text-center">
+                <div className="text-white/60 text-xl sm:text-2xl lg:text-3xl line-through mb-2 font-semibold">
+                  Precio normal: $97
+                </div>
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00C896] mb-2">$19.99</div>
+                <div className="text-red-400 font-semibold text-base sm:text-lg mb-3 sm:mb-4">
+                  Solo para los primeros 5 que aprovechen la promo
+                </div>
+                <div className="text-white/80 text-sm">Después, el valor vuelve al precio original sin aviso.</div>
+              </div>
+            </div>
+          </div>
+
           <div className="mb-8 sm:mb-12 text-center">
             <a
               href="https://hotm.art/NyTUgsE5"
