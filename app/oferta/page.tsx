@@ -132,6 +132,16 @@ export default function OfertaPage() {
       {/* Video Section - ConvertAI Player */}
       <section className="pt-16 sm:pt-20 lg:pt-24 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-2xl sm:max-w-4xl lg:max-w-5xl">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2">
+              🚨 Lanza tu <span className="text-[#00C896]">Agente de IA</span> para WhatsApp
+              <br />
+              <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-red-400 block mt-2">
+                y evita que tu negocio quiebre por falta de automatización.
+              </span>
+            </h1>
+          </div>
+
           <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
             <div className="aspect-video rounded-lg sm:rounded-xl overflow-hidden">
               <div style={{ position: "relative", paddingTop: "56.25%" }}>
@@ -194,14 +204,6 @@ export default function OfertaPage() {
               <span className="sm:hidden">🔥 ¡OFERTA EXCLUSIVA!</span>
             </div>
           </div>
-
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2">
-            🚨 Lanza tu <span className="text-[#00C896]">Agente de IA</span> para WhatsApp
-            <br />
-            <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-red-400 block mt-2">
-              y evita que tu negocio quiebre por falta de automatización.
-            </span>
-          </h1>
 
           {/* Beneficios principales */}
           <div className="bg-gradient-to-br from-[#00C896]/20 to-[#00A876]/20 border border-[#00C896]/30 rounded-lg sm:rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
