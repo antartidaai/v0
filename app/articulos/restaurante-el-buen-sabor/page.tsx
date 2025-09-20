@@ -76,7 +76,7 @@ export default function RestauranteElBuenSaborPage() {
 
           <div className="relative rounded-xl overflow-hidden mb-8">
             <img
-              src="https://i.ibb.co/XrsTWDjB/restaurante-buen-sabor.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/restaurante-buen-sabor-eQTKFSQgiK4cyMQpN8TaTRPwR9o5DN.jpg"
               alt="Restaurante El Buen Sabor cerrado"
               className="w-full h-64 sm:h-80 object-cover"
             />
