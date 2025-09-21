@@ -90,7 +90,7 @@ export default function CupoLiberadoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A] flex items-center justify-center p-2 sm:p-4 md:p-6">
       {/* Background particles effect */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
@@ -107,46 +107,50 @@ export default function CupoLiberadoPage() {
       </div>
 
       {/* Main popup form */}
-      <div className="w-full max-w-md bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/30 rounded-2xl shadow-2xl shadow-[#00C896]/20 overflow-hidden animate-in slide-in-from-bottom-4 fade-in">
+      <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/30 rounded-2xl shadow-2xl shadow-[#00C896]/20 overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 sm:mx-4">
         {/* Header with celebration */}
-        <div className="bg-gradient-to-r from-[#00C896] to-[#00A876] p-6 text-center relative">
+        <div className="bg-gradient-to-r from-[#00C896] to-[#00A876] p-4 sm:p-6 text-center relative">
           <div className="absolute top-2 right-2">
-            <div className="bg-white/20 rounded-full p-2">
-              <Clock size={20} className="text-white" />
+            <div className="bg-white/20 rounded-full p-1.5 sm:p-2">
+              <Clock size={16} className="text-white sm:w-5 sm:h-5" />
             </div>
           </div>
 
-          <div className="text-4xl mb-2">🎉</div>
-          <h1 className="text-xl font-bold text-white mb-2">¡Felicitaciones!</h1>
-          <p className="text-white/90 text-sm leading-relaxed">
+          <div className="text-3xl sm:text-4xl mb-2">🎉</div>
+          <h1 className="text-lg sm:text-xl font-bold text-white mb-2">¡Felicitaciones!</h1>
+          <p className="text-white/90 text-xs sm:text-sm leading-relaxed px-2">
             Tu cupo de <span className="font-bold text-white">$19.99</span> está casi liberado
           </p>
         </div>
 
         {/* Form content */}
-        <div className="p-6">
-          <div className="text-center mb-6">
-            <p className="text-white/80 text-sm mb-4">
+        <div className="p-4 sm:p-6">
+          <div className="text-center mb-4 sm:mb-6">
+            <p className="text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 px-2">
               {" "}
               ✍️ Completa tus datos correctamente 📲 para asegurar tu lugar 🚀🔥 y no perder tu cupo 🎟️✅{" "}
             </p>
 
             {/* Urgency indicator */}
-            <div className="bg-gradient-to-r from-red-900/30 to-red-800/30 border border-red-500/40 rounded-xl p-4 mb-6">
+            <div className="bg-gradient-to-r from-red-900/30 to-red-800/30 border border-red-500/40 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <Clock size={16} className="text-red-400" />
-                <span className="text-red-400 font-semibold text-sm">Quedan solo {cuposRestantes} cupos</span>
+                <Clock size={14} className="text-red-400 sm:w-4 sm:h-4" />
+                <span className="text-red-400 font-semibold text-xs sm:text-sm">
+                  Quedan solo {cuposRestantes} cupos
+                </span>
               </div>
-              <p className="text-white/70 text-xs">Los cupos se asignan al primero que complete el pago ✅</p>
+              <p className="text-white/70 text-xs leading-relaxed">
+                Los cupos se asignan al primero que complete el pago ✅
+              </p>
             </div>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
             {/* Nombre field */}
             <div>
-              <label htmlFor="nombre" className="block text-white/80 text-sm font-medium mb-2">
-                <User size={16} className="inline mr-2" />
+              <label htmlFor="nombre" className="block text-white/80 text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">
+                <User size={14} className="inline mr-2 sm:w-4 sm:h-4" />
                 Tu Nombre
               </label>
               <input
@@ -156,15 +160,15 @@ export default function CupoLiberadoPage() {
                 value={formData.nombre}
                 onChange={handleInputChange}
                 placeholder="Ingresa tu nombre completo"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#00C896]/30 rounded-xl text-white placeholder-white/50 focus:border-[#00C896] focus:outline-none focus:ring-2 focus:ring-[#00C896]/20 transition-all"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-[#1A1A1A] border border-[#00C896]/30 rounded-xl text-white placeholder-white/50 focus:border-[#00C896] focus:outline-none focus:ring-2 focus:ring-[#00C896]/20 transition-all text-sm sm:text-base"
                 required
               />
             </div>
 
             {/* Email field */}
             <div>
-              <label htmlFor="email" className="block text-white/80 text-sm font-medium mb-2">
-                <Mail size={16} className="inline mr-2" />
+              <label htmlFor="email" className="block text-white/80 text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">
+                <Mail size={14} className="inline mr-2 sm:w-4 sm:h-4" />
                 Email
               </label>
               <input
@@ -174,15 +178,15 @@ export default function CupoLiberadoPage() {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="tu@email.com"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#00C896]/30 rounded-xl text-white placeholder-white/50 focus:border-[#00C896] focus:outline-none focus:ring-2 focus:ring-[#00C896]/20 transition-all"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-[#1A1A1A] border border-[#00C896]/30 rounded-xl text-white placeholder-white/50 focus:border-[#00C896] focus:outline-none focus:ring-2 focus:ring-[#00C896]/20 transition-all text-sm sm:text-base"
                 required
               />
             </div>
 
             {/* Telefono field */}
             <div>
-              <label htmlFor="telefono" className="block text-white/80 text-sm font-medium mb-2">
-                <Phone size={16} className="inline mr-2" />
+              <label htmlFor="telefono" className="block text-white/80 text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">
+                <Phone size={14} className="inline mr-2 sm:w-4 sm:h-4" />
                 Teléfono
               </label>
               <input
@@ -192,7 +196,7 @@ export default function CupoLiberadoPage() {
                 value={formData.telefono}
                 onChange={handleInputChange}
                 placeholder="+1 (555) 123-4567"
-                className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#00C896]/30 rounded-xl text-white placeholder-white/50 focus:border-[#00C896] focus:outline-none focus:ring-2 focus:ring-[#00C896]/20 transition-all"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-[#1A1A1A] border border-[#00C896]/30 rounded-xl text-white placeholder-white/50 focus:border-[#00C896] focus:outline-none focus:ring-2 focus:ring-[#00C896]/20 transition-all text-sm sm:text-base"
                 required
               />
             </div>
@@ -201,35 +205,35 @@ export default function CupoLiberadoPage() {
             <button
               type="submit"
               disabled={isSubmitting || !formData.nombre || !formData.email || !formData.telefono}
-              className="w-full bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="w-full bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg flex items-center justify-center gap-2 sm:gap-3 hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 min-h-[48px] sm:min-h-[56px]"
             >
               {isSubmitting ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Procesando...
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span className="text-sm sm:text-base">Procesando...</span>
                 </>
               ) : (
                 <>
-                  <Zap size={20} />
-                  Comprar Ahora por $19.99
+                  <Zap size={18} className="sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base">Comprar Ahora por $19.99</span>
                 </>
               )}
             </button>
           </form>
 
           {/* Security badges */}
-          <div className="mt-6 text-center">
-            <div className="flex items-center justify-center gap-4 text-white/60 text-xs">
+          <div className="mt-4 sm:mt-6 text-center">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-white/60 text-xs">
               <div className="flex items-center gap-1">
-                <CheckCircle size={14} className="text-[#00C896]" />
+                <CheckCircle size={12} className="text-[#00C896] sm:w-3.5 sm:h-3.5" />
                 <span>Pago Seguro</span>
               </div>
               <div className="flex items-center gap-1">
-                <CheckCircle size={14} className="text-[#00C896]" />
+                <CheckCircle size={12} className="text-[#00C896] sm:w-3.5 sm:h-3.5" />
                 <span>SSL Protegido</span>
               </div>
               <div className="flex items-center gap-1">
-                <CheckCircle size={14} className="text-[#00C896]" />
+                <CheckCircle size={12} className="text-[#00C896] sm:w-3.5 sm:h-3.5" />
                 <span>Garantía 30 días</span>
               </div>
             </div>
