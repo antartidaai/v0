@@ -80,7 +80,7 @@ export default function CupoLiberadoPage() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       // Redirect to payment link
-      window.location.href = "https://hotm.art/NyTUgsE5"
+      window.location.href = "https://pay.hotmart.com/C100342057M?off=g2lkrn81&checkoutMode=10" // Updated Hotmart payment link to new URL
     } catch (error) {
       console.error("Error submitting form:", error)
       analytics.error("form_submission", "Failed to submit form", "cupo_liberado_form")
@@ -126,7 +126,10 @@ export default function CupoLiberadoPage() {
         {/* Form content */}
         <div className="p-6">
           <div className="text-center mb-6">
-            <p className="text-white/80 text-sm mb-4"> ✍️ Completa tus datos correctamente 📲 para asegurar tu lugar 🚀🔥 y no perder tu cupo 🎟️✅ </p>
+            <p className="text-white/80 text-sm mb-4">
+              {" "}
+              ✍️ Completa tus datos correctamente 📲 para asegurar tu lugar 🚀🔥 y no perder tu cupo 🎟️✅{" "}
+            </p>
 
             {/* Urgency indicator */}
             <div className="bg-gradient-to-r from-red-900/30 to-red-800/30 border border-red-500/40 rounded-xl p-4 mb-6">
