@@ -76,7 +76,7 @@ export default function AgenciaDestinosSonadosPage() {
 
           <div className="relative rounded-xl overflow-hidden mb-8">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/agencia-destinos-sonados%281%29-WUJO0oIBkoUgMJnBeZVxyajeP67rBl.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/agencia-destinos-sonados%281%29%281%29-1uPynGUDcjVxEYCTDfkDGpkOiMPNHy.jpg"
               alt="Agencia Destinos Soñados cerrada"
               className="w-full h-64 sm:h-80 object-cover"
             />
