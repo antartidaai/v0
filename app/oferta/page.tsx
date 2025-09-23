@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle, Star, Users, Zap, Clock, AlertTriangle, Crown } from "lucide-react"
+import { CheckCircle, Star, Users, Zap, Clock, AlertTriangle, Crown } from "lucide-react"
 import { analytics, usePageTracking } from "../utils/analytics"
 
 export default function OfertaPage() {
@@ -11,13 +11,17 @@ export default function OfertaPage() {
     seconds: 0,
   })
   const [pageLoadTime, setPageLoadTime] = useState<number>(0)
+  const [shouldAutoplay, setShouldAutoplay] = useState(false)
 
   // Analytics tracking
   usePageTracking("offer_page")
 
-  // Establecer tiempo de carga de la página
   useEffect(() => {
-    setPageLoadTime(Date.now())
+    const hasVisitedBefore = localStorage.getItem("visited_offer_page")
+    if (!hasVisitedBefore) {
+      setShouldAutoplay(true)
+      localStorage.setItem("visited_offer_page", "true")
+    }
   }, [])
 
   // Contador regresivo de 15 minutos
@@ -118,10 +122,7 @@ export default function OfertaPage() {
       <header className="fixed top-0 left-0 w-full bg-gradient-to-br from-[#1A1A1A]/95 to-[#2A2A2A]/95 backdrop-blur-sm border-b border-[#00C896] shadow-lg shadow-[#00C896]/20 z-40">
         <div className="container mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center gap-3 sm:gap-4">
-            <Link href="/" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
-              <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
-              <span className="text-xs sm:text-sm">Volver</span>
-            </Link>
+            <Link href="/" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors"></Link>
             <div className="flex items-center gap-2 text-white font-semibold text-sm sm:text-base lg:text-lg">
               🤖 <span className="text-[#00C896]">VENTA 24/7</span>
             </div>
@@ -147,7 +148,7 @@ export default function OfertaPage() {
               <div style={{ position: "relative", paddingTop: "56.25%" }}>
                 <iframe
                   id="panda-0b230730-c652-493e-943c-72cbe80d53cf"
-                  src="https://player-vz-fbfacc58-70c.tv.pandavideo.com.br/embed/?v=0b230730-c652-493e-943c-72cbe80d53cf&iosFakeFullscreen=true"
+                  src={`https://player-vz-fbfacc58-70c.tv.pandavideo.com.br/embed/?v=0b230730-c652-493e-943c-72cbe80d53cf&iosFakeFullscreen=true${shouldAutoplay ? "&autoplay=1" : ""}`}
                   style={{ border: "none", position: "absolute", top: 0, left: 0 }}
                   allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
                   allowFullScreen={true}
@@ -272,6 +273,13 @@ export default function OfertaPage() {
         const p=new PandaPlayer(panda_id_player,{
           onReady(){
             p.loadWindowScreen({panda_id_player});
+            const shouldAutoplay = !localStorage.getItem('visited_offer_page_video');
+            if (shouldAutoplay) {
+              setTimeout(() => {
+                p.play();
+                localStorage.setItem('visited_offer_page_video', 'true');
+              }, 1000);
+            }
           }
         });
       });
@@ -382,7 +390,7 @@ export default function OfertaPage() {
               <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6 md:col-span-2 lg:col-span-1">
                 <div className="flex items-center gap-3 mb-4">
                   <Users className="text-[#00C896]" size={24} />
-                  <h3 className="text-lg font-bold text-white">Acceso a comunidad privada</h3>
+                  <h3 className="text-lg font-bold text-white">Acceso a comunidad abierta</h3>
                 </div>
                 <p className="text-white/80">Comparte, aprende y recibe soporte directo en Discord.</p>
               </div>
@@ -392,8 +400,7 @@ export default function OfertaPage() {
           {/* Videos de Personalización */}
           <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center px-4">
-              🎥 <span className="text-[#00C896]">Videos de personalización</span> sistema de agente AI vendedor
-              24/7
+              🎥 <span className="text-[#00C896]">Videos de personalización</span> sistema de agente AI vendedor 24/7
             </h2>
             <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6 sm:p-8 mb-6">
               <p className="text-white/90 text-lg mb-6 text-center">
@@ -459,7 +466,7 @@ export default function OfertaPage() {
                   </li>
                   <li className="flex items-start gap-3 text-white/90">
                     <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
-                    <span>Comunidad privada de soporte y networking</span>
+                    <span>Comunidad abierta de soporte y networking</span>
                   </li>
                   <li className="flex items-start gap-3 text-white/90">
                     <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />

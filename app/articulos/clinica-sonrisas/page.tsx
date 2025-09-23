@@ -76,7 +76,7 @@ export default function ClinicaSonrisasPage() {
 
           <div className="relative rounded-xl overflow-hidden mb-8">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/clinica-sonrisas%281%29%281%29%281%29-CQmpsPVWtyEcOPsbYPbYMYczPsOWjJ.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/clinica-sonrisas%281%29%281%29%281%29-2TsZlzSm3Oq4E2rNtOIF7zG2FOrfYm.jpg"
               alt="Clínica Sonrisas cerrada"
               className="w-full h-64 sm:h-80 object-cover"
             />
