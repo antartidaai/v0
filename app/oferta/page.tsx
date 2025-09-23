@@ -392,7 +392,8 @@ export default function OfertaPage() {
           {/* Videos de Personalización */}
           <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center px-4">
-              🎥 <span className="text-[#00C896]">Videos de personalización</span> del agente
+              🎥 <span className="text-[#00C896]">Videos de personalización</span> sistema de agente AI vendedor
+              24/7
             </h2>
             <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6 sm:p-8 mb-6">
               <p className="text-white/90 text-lg mb-6 text-center">
@@ -410,8 +411,8 @@ export default function OfertaPage() {
                     <span>Cómo ajustar la mensajería y el tono de voz según tu cliente ideal.</span>
                   </li>
                   <li className="flex items-start gap-3 text-white/80">
-                    
-                    
+                    <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                    <span>Configuración de respuestas automáticas basadas en IA.</span>
                   </li>
                 </ul>
                 <ul className="space-y-3">
@@ -424,8 +425,8 @@ export default function OfertaPage() {
                     <span>Configuración de atajos y palabras clave para responder más rápido.</span>
                   </li>
                   <li className="flex items-start gap-3 text-white/80">
-                    
-                    
+                    <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                    <span>Personalización avanzada del agente para adaptarlo a tus necesidades.</span>
                   </li>
                 </ul>
               </div>
