@@ -15,13 +15,16 @@ import {
   BarChart3,
   X,
 } from "lucide-react"
-import { analytics } from "../utils/analytics"
+import { analytics, usePageTracking } from "../utils/analytics"
 
 export default function LandingPage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [showCaseModal, setShowCaseModal] = useState(false)
   const [selectedCase, setSelectedCase] = useState<any>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  // Analytics tracking
+  usePageTracking("landing_page")
 
   const testimonials = [
     {
