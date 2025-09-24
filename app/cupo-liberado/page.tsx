@@ -53,29 +53,6 @@ export default function CupoLiberadoPage() {
     setIsSubmitting(true)
 
     try {
-      // Track form submission
-      analytics.formSubmit("cupo_liberado_form", true)
-
-      // Track purchase click
-      analytics.purchaseClick("$19.99", "cupo_liberado_form")
-
-      // Send GTM event for form completion
-      if (typeof window !== "undefined" && window.dataLayer) {
-        window.dataLayer.push({
-          event: "form_complete",
-          form_name: "cupo_liberado",
-          user_data: {
-            nombre: formData.nombre,
-            email: formData.email,
-            telefono: formData.telefono,
-          },
-          purchase_intent: true,
-          price: "19.99",
-          currency: "USD",
-          timestamp: new Date().toISOString(),
-        })
-      }
-
       // Simulate form processing
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
@@ -83,7 +60,6 @@ export default function CupoLiberadoPage() {
       window.location.href = "https://pay.hotmart.com/C100342057M?off=g2lkrn81&checkoutMode=10" // Updated Hotmart payment link to new URL
     } catch (error) {
       console.error("Error submitting form:", error)
-      analytics.error("form_submission", "Failed to submit form", "cupo_liberado_form")
     } finally {
       setIsSubmitting(false)
     }
