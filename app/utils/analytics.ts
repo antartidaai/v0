@@ -32,7 +32,7 @@ export const analytics = {
       button_text: buttonText,
       click_location: location,
       destination_url: destination,
-      event_category: "engagement",
+      event_category: "conversion",
       event_label: `${location}_${buttonText}`,
     })
   },
@@ -50,13 +50,13 @@ export const analytics = {
   },
 
   // Eventos de navegación - MANTENIDO (crítico)
-  pageView: (pageName: string) => {
-    trackEvent("page_view", {
-      page_name: pageName,
-      event_category: "navigation",
-      event_label: pageName,
-    })
-  },
+  // pageView: (pageName: string) => {
+  //   trackEvent("page_view", {
+  //     page_name: pageName,
+  //     event_category: "navigation",
+  //     event_label: pageName,
+  //   })
+  // },
 
   // Eventos de formularios - MANTENIDO (importantes para conversión)
   formStart: (formName: string) => {
@@ -92,7 +92,7 @@ export const analytics = {
     trackEvent("chat_start", {
       vendedor_name: vendedorName,
       vendedor_id: vendedorId,
-      event_category: "engagement",
+      event_category: "demo",
       event_label: `chat_${vendedorName.toLowerCase().replace(" ", "_")}`,
     })
   },
@@ -101,7 +101,6 @@ export const analytics = {
 // Hook para tracking de tiempo en página - SIMPLIFICADO
 export const usePageTracking = (pageName: string) => {
   if (typeof window !== "undefined") {
-    // Solo track page view, eliminamos time tracking
-    analytics.pageView(pageName)
+    // analytics.pageView(pageName)
   }
 }

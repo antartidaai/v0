@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle, Star, Users, Zap, Clock, AlertTriangle, Crown } from "lucide-react"
+import { CheckCircle, Star, Users, Zap, Clock, AlertTriangle, Crown } from "lucide-react"
 import { analytics, usePageTracking } from "../utils/analytics"
 
 export default function OfertaPage() {
@@ -11,13 +11,17 @@ export default function OfertaPage() {
     seconds: 0,
   })
   const [pageLoadTime, setPageLoadTime] = useState<number>(0)
+  const [shouldAutoplay, setShouldAutoplay] = useState(false)
 
   // Analytics tracking
   usePageTracking("offer_page")
 
-  // Establecer tiempo de carga de la página
   useEffect(() => {
-    setPageLoadTime(Date.now())
+    const hasVisitedBefore = localStorage.getItem("visited_offer_page")
+    if (!hasVisitedBefore) {
+      setShouldAutoplay(true)
+      localStorage.setItem("visited_offer_page", "true")
+    }
   }, [])
 
   // Contador regresivo de 15 minutos
@@ -118,10 +122,7 @@ export default function OfertaPage() {
       <header className="fixed top-0 left-0 w-full bg-gradient-to-br from-[#1A1A1A]/95 to-[#2A2A2A]/95 backdrop-blur-sm border-b border-[#00C896] shadow-lg shadow-[#00C896]/20 z-40">
         <div className="container mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center gap-3 sm:gap-4">
-            <Link href="/" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
-              <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
-              <span className="text-xs sm:text-sm">Volver</span>
-            </Link>
+            <Link href="/" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors"></Link>
             <div className="flex items-center gap-2 text-white font-semibold text-sm sm:text-base lg:text-lg">
               🤖 <span className="text-[#00C896]">VENTA 24/7</span>
             </div>
@@ -147,7 +148,7 @@ export default function OfertaPage() {
               <div style={{ position: "relative", paddingTop: "56.25%" }}>
                 <iframe
                   id="panda-0b230730-c652-493e-943c-72cbe80d53cf"
-                  src="https://player-vz-fbfacc58-70c.tv.pandavideo.com.br/embed/?v=0b230730-c652-493e-943c-72cbe80d53cf&iosFakeFullscreen=true"
+                  src={`https://player-vz-fbfacc58-70c.tv.pandavideo.com.br/embed/?v=0b230730-c652-493e-943c-72cbe80d53cf&iosFakeFullscreen=true${shouldAutoplay ? "&autoplay=1" : ""}`}
                   style={{ border: "none", position: "absolute", top: 0, left: 0 }}
                   allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
                   allowFullScreen={true}
@@ -247,39 +248,9 @@ export default function OfertaPage() {
           </div>
 
           {/* Precio destacado */}
-          <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#FFD700] rounded-lg sm:rounded-xl p-6 sm:p-8 mb-6 sm:mb-8 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFD700] to-[#FFA500]"></div>
-            <div className="relative z-10">
-              <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
-                <Crown className="text-[#FFD700]" size={20} />
-                <span className="text-[#FFD700] font-bold text-base sm:text-lg">PRECIO ESPECIAL</span>
-              </div>
-              <div className="text-center">
-                <div className="text-white/60 text-xl sm:text-2xl lg:text-3xl line-through mb-2 font-semibold">
-                  Precio normal: $97
-                </div>
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00C896] mb-2">$19.99</div>
-                <div className="text-red-400 font-semibold text-base sm:text-lg mb-3 sm:mb-4">
-                  Solo para los primeros 5 que aprovechen la promo
-                </div>
-                <div className="text-white/80 text-sm">Después, el valor vuelve al precio original sin aviso.</div>
-              </div>
-            </div>
-          </div>
 
           {/* CTA Principal */}
           <div className="mb-8 sm:mb-12">
-            <a
-              href="https://hotm.art/NyTUgsE5"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl text-base sm:text-lg lg:text-xl font-bold hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105 animate-pulse"
-              onClick={() => analytics.purchaseClick("$19.99", "hero_cta")}
-            >
-              <Zap size={20} className="sm:w-6 sm:h-6" />
-              <span className="text-sm sm:text-base lg:text-lg">🚀 OBTENER ACCESO COMPLETO POR SOLO $19.99</span>
-              <span className="bg-black/40 px-2 py-1 rounded text-xs sm:text-sm">🔥 AHORA</span>
-            </a>
             <p className="text-white/60 text-xs sm:text-sm mt-3 sm:mt-4 px-4">
               ✅ Acceso inmediato • ✅ Comunidad incluida • ✅ Soporte técnico
             </p>
@@ -302,6 +273,13 @@ export default function OfertaPage() {
         const p=new PandaPlayer(panda_id_player,{
           onReady(){
             p.loadWindowScreen({panda_id_player});
+            const shouldAutoplay = !localStorage.getItem('visited_offer_page_video');
+            if (shouldAutoplay) {
+              setTimeout(() => {
+                p.play();
+                localStorage.setItem('visited_offer_page_video', 'true');
+              }, 1000);
+            }
           }
         });
       });
@@ -316,6 +294,12 @@ export default function OfertaPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 px-4">
               🎯 ¿QUÉ INCLUYE ESTA <span className="text-[#00C896]">OFERTA EXCLUSIVA</span>?
             </h2>
+            <div className="mb-8">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 px-4 leading-tight">
+                👉 Lleva hoy tu <span className="text-[#00C896]">Agente de IA Vendedor 24/7</span> por WhatsApp y
+                empieza a vender automáticamente <span className="text-[#00C896]">en menos de 1 hora</span>.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
@@ -360,12 +344,176 @@ export default function OfertaPage() {
         </div>
       </section>
 
+      {/* Beneficios Principales y Videos de Personalización */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#00C896]/5 to-[#00A876]/5">
+        <div className="container mx-auto max-w-6xl">
+          {/* Beneficios Principales */}
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center px-4">
+              🎯 <span className="text-[#00C896]">Beneficios principales</span> de la oferta
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Clock className="text-[#00C896]" size={24} />
+                  <h3 className="text-lg font-bold text-white">Lanza en menos de 1 hora</h3>
+                </div>
+                <p className="text-white/80">Con un paso a paso simple tendrás tu agente funcionando hoy mismo.</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Zap className="text-[#00C896]" size={24} />
+                  <h3 className="text-lg font-bold text-white">Ventas 24/7</h3>
+                </div>
+                <p className="text-white/80">
+                  Conversaciones, seguimientos y cobros automáticos incluso cuando no estás conectado.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <CheckCircle className="text-[#00C896]" size={24} />
+                  <h3 className="text-lg font-bold text-white">Más cierres con menos esfuerzo</h3>
+                </div>
+                <p className="text-white/80">Nutre leads, responde objeciones y reduce el tiempo de respuesta.</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Crown className="text-[#00C896]" size={24} />
+                  <h3 className="text-lg font-bold text-white">Sin suscripciones</h3>
+                </div>
+                <p className="text-white/80">Un solo pago y control total de tu sistema.</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6 md:col-span-2 lg:col-span-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <Users className="text-[#00C896]" size={24} />
+                  <h3 className="text-lg font-bold text-white">Acceso a comunidad abierta</h3>
+                </div>
+                <p className="text-white/80">Comparte, aprende y recibe soporte directo en Discord.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Videos de Personalización */}
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center px-4">
+              🎥 <span className="text-[#00C896]">Videos de personalización</span> sistema de agente AI vendedor 24/7
+            </h2>
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6 sm:p-8 mb-6">
+              <p className="text-white/90 text-lg mb-6 text-center">
+                Tu acceso incluye una biblioteca de videos que te ayudará a adaptar el agente a tu negocio en pocos
+                minutos:
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3 text-white/80">
+                    <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                    <span>Guías para distintos nichos (agencias, e-commerce, salud, educación, consultorías).</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/80">
+                    <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                    <span>Cómo ajustar la mensajería y el tono de voz según tu cliente ideal.</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/80">
+                    <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                    <span>Configuración de respuestas automáticas basadas en IA.</span>
+                  </li>
+                </ul>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3 text-white/80">
+                    <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                    <span>Integración paso a paso con tus métodos de pago (Hotmart, Stripe, PayPal).</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/80">
+                    <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                    <span>Configuración de atajos y palabras clave para responder más rápido.</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/80">
+                    <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                    <span>Personalización avanzada del agente para adaptarlo a tus necesidades.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Sección Comparativa */}
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center px-4">
+              📊 <span className="text-[#00C896] text-input"> ¿Qué pasa si actúas vs si esperas?</span>
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Si tomas acción hoy */}
+              <div className="bg-gradient-to-br from-green-900/20 to-green-800/20 border-2 border-green-500/50 rounded-lg p-6 sm:p-8">
+                <h3 className="text-2xl font-bold text-green-400 mb-6 flex items-center gap-3">
+                  <CheckCircle size={28} />✅ Si tomas acción hoy
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3 text-white/90">
+                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
+                    <span>En menos de 1 hora tendrás tu sistema funcionando</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/90">
+                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
+                    <span>Conversaciones y ventas automáticas 24/7</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/90">
+                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
+                    <span>Acceso inmediato a plantillas y entrenamientos</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/90">
+                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
+                    <span>Comunidad abierta de soporte y networking</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/90">
+                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
+                    <span>Cero suscripciones, cero complicaciones</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Si NO tomas acción */}
+              <div className="bg-gradient-to-br from-red-900/20 to-red-800/20 border-2 border-red-500/50 rounded-lg p-6 sm:p-8">
+                <h3 className="text-2xl font-bold text-red-400 mb-6 flex items-center gap-3">
+                  <AlertTriangle size={28} />❌ Si NO tomas acción
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3 text-white/90">
+                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                    <span>Seguirás perdiendo clientes fuera de tu horario</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/90">
+                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                    <span>Más tiempo atado al celular contestando mensajes</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/90">
+                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                    <span>Tus competidores ya estarán automatizando y cerrando ventas mientras duermes</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/90">
+                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                    <span>Gastarás más en herramientas costosas y suscripciones</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-white/90">
+                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                    <span>La oportunidad especial de acceso se cerrará</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Comunidad Discord */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 px-4">
-              👥 Accede a nuestra <span className="text-[#00C896]">Comunidad Privada</span> en Discord
+              👥 Accede a nuestra <span className="text-[#00C896]">Comunidad </span> en Discord
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto px-4">
               Tu acceso incluye ingreso a nuestro servidor Antártida AI, con canales diseñados para ayudarte a lanzar,

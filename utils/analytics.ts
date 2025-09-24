@@ -75,46 +75,6 @@ export const analytics = {
     })
   },
 
-  // Eventos de navegación
-  pageView: (pageName: string) => {
-    trackEvent("page_view", {
-      page_name: pageName,
-      event_category: "navigation",
-      event_label: pageName,
-    })
-  },
-
-  // Eventos de engagement
-  videoPlay: (videoTitle: string, location: string) => {
-    trackEvent("video_play", {
-      video_title: videoTitle,
-      video_location: location,
-      event_category: "engagement",
-      event_label: `video_${location}`,
-    })
-  },
-
-  // Eventos de notificaciones
-  notificationView: (notificationType: "purchase" | "urgency", cuposRestantes?: number) => {
-    trackEvent("notification_view", {
-      notification_type: notificationType,
-      cupos_restantes: cuposRestantes,
-      event_category: "social_proof",
-      event_label: `notification_${notificationType}`,
-    })
-  },
-
-  // Eventos de tiempo en página
-  timeOnPage: (pageName: string, timeSpent: number) => {
-    trackEvent("time_on_page", {
-      page_name: pageName,
-      time_spent_seconds: timeSpent,
-      event_category: "engagement",
-      event_label: `time_${pageName}`,
-      value: timeSpent,
-    })
-  },
-
   // Eventos de formularios
   formStart: (formName: string) => {
     trackEvent("form_start", {
@@ -148,21 +108,6 @@ export const analytics = {
 // Hook para tracking de tiempo en página
 export const usePageTracking = (pageName: string) => {
   if (typeof window !== "undefined") {
-    const startTime = Date.now()
-
-    // Track page view
-    analytics.pageView(pageName)
-
-    // Track time on page when leaving
-    const handleBeforeUnload = () => {
-      const timeSpent = Math.round((Date.now() - startTime) / 1000)
-      analytics.timeOnPage(pageName, timeSpent)
-    }
-
-    window.addEventListener("beforeunload", handleBeforeUnload)
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload)
-    }
+    // analytics.pageView(pageName)
   }
 }
