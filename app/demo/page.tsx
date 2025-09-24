@@ -265,20 +265,20 @@ export default function DemoPage() {
     if (vendedorId === 1) {
       // Andres AI - Updated webhook
       webhookUrls = [
-        "https://webhook.algorithpro.com/webhook/GH",
-        "https://webhook.algorithpro.com/webhook/GH", // Same URL as backup
+        "https://webhook.algorithpro.com/webhook/vendedor1",
+        "https://n8n.algorithpro.com/webhook/vendedor1", // URL de respaldo
       ]
     } else if (vendedorId === 2) {
       // Diego AI - Updated webhook
       webhookUrls = [
-        "https://webhook.algorithpro.com/webhook/GH",
-        "https://webhook.algorithpro.com/webhook/GH", // Same URL as backup
+        "https://n8n.algorithpro.com/webhook/vendedor2",
+        "https://n8n.algorithpro.com/webhook-test/vendedor2", // Same URL as backup
       ]
     } else if (vendedorId === 3) {
       // Alexa AI - Updated webhook
       webhookUrls = [
-        "https://webhook.algorithpro.com/webhook/GH",
-        "https://webhook.algorithpro.com/webhook/GH", // Same URL as backup
+        "https://n8n.algorithpro.com/webhook/vendedor3",
+        "https://webhook.algorithpro.com/webhook/vendedor3", // Same URL as backup
       ]
     } else {
       // Otros vendedores - sin webhook

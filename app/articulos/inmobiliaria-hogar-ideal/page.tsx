@@ -76,7 +76,7 @@ export default function InmobiliariaHogarIdealPage() {
 
           <div className="relative rounded-xl overflow-hidden mb-8">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/inmobiliaria-hogar-ideal%281%29%281%29%281%29-gdBqNwgf2JnyFT0ti1rHPKDzAgKfto.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/inmobiliaria-hogar-ideal%281%29%281%29%281%29%281%29-vrpdvrI7xM1QhoEgMWJ5xkOW9doP10.jpg"
               alt="Inmobiliaria Hogar Ideal cerrada"
               className="w-full h-64 sm:h-80 object-cover"
             />

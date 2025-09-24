@@ -75,7 +75,7 @@ export default function AutolavadoCleanCarPage() {
 
           <div className="relative rounded-xl overflow-hidden mb-8">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/autolavado-clean-car%281%29%281%29%281%29-BWO6v2PXxIZvFZxoz1Jc0agtxTPIC3.jpg"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/autolavado-clean-car%281%29%281%29%281%29%281%29-Zl74KeVvEfjHReqW4fyBUw25AG9rIu.jpg"
               alt="Autolavado Clean Car cerrado"
               className="w-full h-64 sm:h-80 object-cover"
             />
