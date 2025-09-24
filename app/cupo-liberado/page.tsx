@@ -91,6 +91,29 @@ export default function CupoLiberadoPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A] flex items-center justify-center p-2 sm:p-4 md:p-6">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-[#1A1A1A]/95 backdrop-blur-sm border-b border-[#00C896]/20">
+        <div className="max-w-4xl mx-auto px-4 py-3">
+          <div className="text-center mb-2">
+            <p className="text-white/90 text-sm font-medium">
+              Estás a 60% de liberar tu cupo para agregar un vendedor automático
+            </p>
+          </div>
+          <div className="w-full bg-[#2A2A2A] rounded-full h-3 overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-[#00C896] to-[#00A876] rounded-full transition-all duration-1000 ease-out shadow-lg shadow-[#00C896]/30"
+              style={{ width: "60%" }}
+            >
+              <div className="h-full bg-gradient-to-r from-white/20 to-transparent rounded-full"></div>
+            </div>
+          </div>
+          <div className="flex justify-between items-center mt-1">
+            <span className="text-white/60 text-xs">0%</span>
+            <span className="text-[#00C896] text-xs font-semibold">60%</span>
+            <span className="text-white/60 text-xs">100%</span>
+          </div>
+        </div>
+      </div>
+
       {/* Background particles effect */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
@@ -106,8 +129,7 @@ export default function CupoLiberadoPage() {
         ))}
       </div>
 
-      {/* Main popup form */}
-      <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/30 rounded-2xl shadow-2xl shadow-[#00C896]/20 overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 sm:mx-4">
+      <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/30 rounded-2xl shadow-2xl shadow-[#00C896]/20 overflow-hidden animate-in slide-in-from-bottom-4 fade-in mx-2 sm:mx-4 mt-20">
         {/* Header with celebration */}
         <div className="bg-gradient-to-r from-[#00C896] to-[#00A876] p-4 sm:p-6 text-center relative">
           <div className="absolute top-2 right-2">
