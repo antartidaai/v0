@@ -76,7 +76,7 @@ export default function TiendaModaJovenPage() {
 
           <div className="relative rounded-xl overflow-hidden mb-8">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/design-mode-images/tienda-moda-joven%281%29%281%29%281%29%281%29-9rqZTf1fGV2iJSkPPmgX6V9Q6jg1Oi.jpg"
+              src="/images/design-mode/tienda-moda-joven%281%29%281%29%281%29%281%29.jpg"
               alt="Tienda Moda Joven cerrada"
               className="w-full h-64 sm:h-80 object-cover"
             />
