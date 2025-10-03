@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { CheckCircle, Star, Users, Zap, Clock, AlertTriangle, Crown } from "lucide-react"
+import { CheckCircle, Star, Users, Zap, Clock, AlertTriangle, Crown, X } from "lucide-react"
 import { analytics, usePageTracking } from "../utils/analytics"
 
 export default function OfertaPage() {
@@ -107,7 +107,7 @@ export default function OfertaPage() {
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-2 h-2 bg-[#00C896]/30 rounded-full animate-pulse"
+            className="w-2 h-2 bg-[#00C896]/30 rounded-full animate-pulse absolute"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -130,16 +130,12 @@ export default function OfertaPage() {
         </div>
       </header>
 
-      {/* Video Section - ConvertAI Player */}
+      {/* Video Section */}
       <section className="pt-16 sm:pt-20 lg:pt-24 pb-6 sm:pb-8 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-2xl sm:max-w-4xl lg:max-w-5xl">
           <div className="text-center mb-6 sm:mb-8">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2">
-              🚨 Lanza tu <span className="text-[#00C896]">Agente de IA</span> para WhatsApp
-              <br />
-              <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-red-400 block mt-2">
-                y evita que tu negocio quiebre por falta de automatización.
-              </span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight px-2">
+              Nunca más pierdas un cliente por no responder tu <span className="text-[#00C896]">WhatsApp</span>.
             </h1>
           </div>
 
@@ -161,18 +157,49 @@ export default function OfertaPage() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#FFD700] rounded-lg sm:rounded-xl p-6 sm:p-8 mb-6 sm:mb-8 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFD700] to-[#FFA500]"></div>
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white/90 mb-4 leading-tight px-2">
+              Tu <span className="text-[#00C896]">Vendedor con IA</span> atiende, responde y cierra ventas por ti las 24
+              horas.
+            </h2>
+          </div>
+
+          <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-6 sm:p-8 mb-6 sm:mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex items-start gap-3">
+                <X className="text-red-500 flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <p className="text-white/90 text-lg font-semibold">
+                    Nunca más pagues a una agencia que no da resultados
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="text-[#00C896] flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <p className="text-white/90 text-lg font-semibold">Ten tu propio vendedor con AI trabajando 24/7</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#FFB800] rounded-lg sm:rounded-xl p-6 sm:p-8 mb-6 sm:mb-8 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFB800] to-[#FF8C00]"></div>
             <div className="relative z-10">
               <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
-                <Crown className="text-[#FFD700]" size={20} />
-                <span className="text-[#FFD700] font-bold text-base sm:text-lg">PRECIO ESPECIAL</span>
+                <Crown className="text-[#FFB800]" size={20} />
+                <span className="text-[#FFB800] font-bold text-base sm:text-lg">PRECIO ESPECIAL</span>
               </div>
               <div className="text-center">
+                <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+                  <span className="text-white/80 text-sm font-semibold">❌ Sin diseñadores</span>
+                  <span className="text-white/80 text-sm font-semibold">❌ Sin copywriters</span>
+                  <span className="text-white/80 text-sm font-semibold">❌ Sin depender de nadie</span>
+                </div>
                 <div className="text-white/60 text-xl sm:text-2xl lg:text-3xl line-through mb-2 font-semibold">
                   Precio normal: $97
                 </div>
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00C896] mb-2">$19.99</div>
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#FFB800] mb-2">$19.99</div>
                 <div className="text-red-400 font-semibold text-base sm:text-lg mb-3 sm:mb-4">
                   Solo para los primeros 5 que aprovechen la promo
                 </div>
@@ -186,16 +213,109 @@ export default function OfertaPage() {
               href="https://hotm.art/NyTUgsE5"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl text-base sm:text-lg lg:text-xl font-bold hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105 animate-pulse"
+              className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl text-base sm:text-lg lg:text-xl font-bold hover:shadow-2xl hover:shadow-[#00C896]/50 transition-all duration-300 hover:scale-105 animate-pulse"
               onClick={() => analytics.purchaseClick("$19.99", "video_cta")}
             >
               <Zap size={20} className="sm:w-6 sm:h-6" />
-              <span className="text-sm sm:text-base lg:text-lg">🚀 OBTENER ACCESO COMPLETO POR SOLO $19.99</span>
-              <span className="bg-black/40 px-2 py-1 rounded text-xs sm:text-sm">🔥 AHORA</span>
+              <span className="text-sm sm:text-base lg:text-lg">
+                Sí, quiero activar el poder de la IA en mis anuncios y llenar mi negocio de clientes cada día
+              </span>
             </a>
             <p className="text-white/60 text-xs sm:text-sm mt-3 sm:mt-4 px-4">
               ✅ Acceso inmediato • ✅ Comunidad incluida • ✅ Soporte técnico
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#00C896]/5 to-[#00A876]/5">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6 px-4">
+              No confiar en mí,{" "}
+              <span className="text-[#00C896]">mira lo que dicen los empresarios que ya lo usaron</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            {/* Video 1 */}
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-4 sm:p-6">
+              <div className="aspect-[9/16] rounded-lg sm:rounded-xl overflow-hidden mb-4 sm:mb-6">
+                <iframe
+                  src="https://www.youtube.com/embed/V83GL9iPQS8?hl=es&cc_lang_pref=es&cc_load_policy=0&autoplay=0&mute=0"
+                  title="Testimonio 1"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                  style={{ border: "none" }}
+                />
+              </div>
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} className="sm:w-4 sm:h-4 text-[#00C896] fill-current" />
+                  ))}
+                </div>
+                <p className="text-white/80 text-xs sm:text-sm">
+                  "Increíble cómo automatizó todo mi proceso de ventas"
+                </p>
+              </div>
+            </div>
+
+            {/* Video 2 */}
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-4 sm:p-6">
+              <div className="aspect-[9/16] rounded-lg sm:rounded-xl overflow-hidden mb-4 sm:mb-6">
+                <iframe
+                  src="https://www.youtube.com/embed/jeP4OEyTp8Q?hl=es&cc_lang_pref=es&cc_load_policy=0&autoplay=0&mute=0"
+                  title="Testimonio 2"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                  style={{ border: "none" }}
+                />
+              </div>
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} className="sm:w-4 sm:h-4 text-[#00C896] fill-current" />
+                  ))}
+                </div>
+                <p className="text-white/80 text-xs sm:text-sm">"Resultados desde el primer día de implementación"</p>
+              </div>
+            </div>
+
+            {/* Video 3 */}
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-4 sm:p-6">
+              <div className="aspect-[9/16] rounded-lg sm:rounded-xl overflow-hidden mb-4 sm:mb-6">
+                <iframe
+                  src="https://www.youtube.com/embed/RySX887jHlc?hl=es&cc_lang_pref=es&cc_load_policy=0&autoplay=0&mute=0"
+                  title="Testimonio 3"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                  style={{ border: "none" }}
+                />
+              </div>
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} className="sm:w-4 sm:h-4 text-[#00C896] fill-current" />
+                  ))}
+                </div>
+                <p className="text-white/80 text-xs sm:text-sm">"Mi negocio cambió completamente con este sistema"</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <div className="bg-gradient-to-br from-[#00C896]/20 to-[#00A876]/20 border border-[#00C896]/30 rounded-lg sm:rounded-xl p-6 sm:p-8 max-w-2xl mx-auto">
+              <p className="text-white/90 text-base sm:text-lg mb-2 px-2">
+                <strong className="text-[#00C896]">+500 estudiantes</strong> ya están vendiendo automáticamente
+              </p>
+              <p className="text-white/70 text-xs sm:text-sm px-2">
+                Únete a la comunidad que está revolucionando las ventas con IA
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -227,65 +347,87 @@ export default function OfertaPage() {
           </div>
 
           {/* Beneficios principales */}
-          <div className="bg-gradient-to-br from-[#00C896]/20 to-[#00A876]/20 border border-[#00C896]/30 rounded-lg sm:rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="bg-gradient-to-br from-[#FFB800]/20 to-[#FF8C00]/20 border border-[#FFB800]/30 rounded-lg sm:rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-3 sm:mb-4">
-              ⚡️ En menos de 1 hora tendrás tu sistema funcionando:
+              ⚡️ Este curso le da a tu Vendedor con AI el combustible que necesita: tráfico ilimitado de clientes listos
+              para comprar
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 text-white">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <CheckCircle className="text-[#00C896] flex-shrink-0" size={18} />
-                <span className="text-sm sm:text-base">Generando conversaciones reales</span>
-              </div>
-              <div className="flex items-center gap-2 sm:gap-3">
-                <CheckCircle className="text-[#00C896] flex-shrink-0" size={18} />
-                <span className="text-sm sm:text-base">Cerrando ventas automáticamente</span>
-              </div>
-              <div className="flex items-center gap-2 sm:gap-3 sm:col-span-2 lg:col-span-1 justify-center lg:justify-start">
-                <CheckCircle className="text-[#00C896] flex-shrink-0" size={18} />
-                <span className="text-sm sm:text-base">Sin pagar suscripciones</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Precio destacado */}
-
-          {/* CTA Principal */}
-          <div className="mb-8 sm:mb-12">
-            <p className="text-white/60 text-xs sm:text-sm mt-3 sm:mt-4 px-4">
-              ✅ Acceso inmediato • ✅ Comunidad incluida • ✅ Soporte técnico
+            <p className="text-white/80 text-base sm:text-lg mb-4">
+              Aprende a crear anuncios profesionales con IA en minutos que atraen clientes calificados directamente a tu
+              Vendedor con AI en WhatsApp, sin diseñadores ni copywriters.
             </p>
+            <div className="flex items-center justify-center gap-1 mb-3">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={16} className="sm:w-5 sm:h-5 text-[#FFB800] fill-current" />
+              ))}
+              <span className="text-white/80 text-sm ml-2">(4.9/5 de 1,247 estudiantes)</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-      if(!document.querySelector('script[src="https://player.pandavideo.com.br/api.v2.js"]')){
-        let s=document.createElement('script');
-        s.src='https://player.pandavideo.com.br/api.v2.js'; 
-        s.async=true; 
-        document.head.appendChild(s);
-      } 
-      window.pandascripttag = window.pandascripttag || [];
-      window.pandascripttag.push(function (){
-        const panda_id_player = 'panda-0b230730-c652-493e-943c-72cbe80d53cf';
-        const p=new PandaPlayer(panda_id_player,{
-          onReady(){
-            p.loadWindowScreen({panda_id_player});
-            const shouldAutoplay = !localStorage.getItem('visited_offer_page_video');
-            if (shouldAutoplay) {
-              setTimeout(() => {
-                p.play();
-                localStorage.setItem('visited_offer_page_video', 'true');
-              }, 1000);
-            }
-          }
-        });
-      });
-    `,
-        }}
-      />
+      <section className="py-12 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 px-4">
+              Cómo funciona en <span className="text-[#00C896]">3 pasos simples</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Paso 1 */}
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#00C896]/30 rounded-lg sm:rounded-xl p-6 sm:p-8 text-center relative">
+              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r from-[#00C896] to-[#00A876] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                1
+              </div>
+              <div className="mt-4">
+                <div className="text-4xl mb-4">📥</div>
+                <h3 className="text-xl font-bold text-white mb-3">Bajas las templates</h3>
+                <p className="text-white/80">
+                  Accede a plantillas listas para usar que puedes copiar y personalizar en minutos
+                </p>
+              </div>
+            </div>
+
+            {/* Paso 2 */}
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#00C896]/30 rounded-lg sm:rounded-xl p-6 sm:p-8 text-center relative">
+              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r from-[#00C896] to-[#00A876] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                2
+              </div>
+              <div className="mt-4">
+                <div className="text-4xl mb-4">🔑</div>
+                <h3 className="text-xl font-bold text-white mb-3">Agregas tus credenciales</h3>
+                <p className="text-white/80">
+                  Conecta tu WhatsApp y configura las herramientas gratuitas siguiendo el paso a paso
+                </p>
+              </div>
+            </div>
+
+            {/* Paso 3 */}
+            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#00C896]/30 rounded-lg sm:rounded-xl p-6 sm:p-8 text-center relative">
+              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r from-[#00C896] to-[#00A876] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                3
+              </div>
+              <div className="mt-4">
+                <div className="text-4xl mb-4">🚀</div>
+                <h3 className="text-xl font-bold text-white mb-3">Activas tu vendedor con AI</h3>
+                <p className="text-white/80">
+                  En menos de 1 hora tu vendedor automático estará respondiendo y cerrando ventas 24/7
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <div className="bg-gradient-to-br from-[#00C896]/20 to-[#00A876]/20 border border-[#00C896]/30 rounded-lg sm:rounded-xl p-6 max-w-2xl mx-auto">
+              <p className="text-white/90 text-lg">
+                📹 <strong className="text-[#00C896]">Tienes un conjunto de videos</strong> para guiarte a hacerlo tú
+                mismo, sin necesidad de conocimientos técnicos
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Qué Incluye */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
@@ -296,8 +438,8 @@ export default function OfertaPage() {
             </h2>
             <div className="mb-8">
               <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 px-4 leading-tight">
-                👉 Lleva hoy tu <span className="text-[#00C896]">Agente de IA Vendedor 24/7</span> por WhatsApp y
-                empieza a vender automáticamente <span className="text-[#00C896]">en menos de 1 hora</span>.
+                👉 Lleva hoy tu <span className="text-[#00C896]">Vendedor con AI 24/7</span> por WhatsApp y empieza a
+                vender automáticamente <span className="text-[#00C896]">en menos de 1 hora</span>.
               </p>
             </div>
           </div>
@@ -344,7 +486,99 @@ export default function OfertaPage() {
         </div>
       </section>
 
-      {/* Beneficios Principales y Videos de Personalización */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#00C896]/5 to-[#00A876]/5">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 px-4">
+              📊 <span className="text-[#00C896]">Agencia tradicional</span> vs{" "}
+              <span className="text-[#00C896]">Tu sistema</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Agencia Tradicional */}
+            <div className="bg-gradient-to-br from-red-900/20 to-red-800/20 border-2 border-red-500/50 rounded-lg sm:rounded-xl p-6 sm:p-8">
+              <h3 className="text-2xl font-bold text-red-400 mb-6 flex items-center gap-3">
+                <X size={28} />
+                Agencia tradicional
+              </h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 text-white/90">
+                  <X size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>Carísimo:</strong> $500-$5,000+ mensuales en retainers
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-white/90">
+                  <X size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>Lento:</strong> Semanas o meses para ver resultados
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-white/90">
+                  <X size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>Dependes de terceros:</strong> Sin control sobre tu sistema
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-white/90">
+                  <X size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>Contratos largos:</strong> Atado a compromisos de 6-12 meses
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-white/90">
+                  <X size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>Sin transparencia:</strong> No sabes qué están haciendo realmente
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Tu Sistema */}
+            <div className="bg-gradient-to-br from-green-900/20 to-green-800/20 border-2 border-[#00C896]/50 rounded-lg sm:rounded-xl p-6 sm:p-8">
+              <h3 className="text-2xl font-bold text-[#00C896] mb-6 flex items-center gap-3">
+                <CheckCircle size={28} />
+                Tu sistema
+              </h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 text-white/90">
+                  <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>Un pago único:</strong> Solo $19.99 - sin suscripciones
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-white/90">
+                  <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>Inmediato:</strong> Funcionando en menos de 1 hora
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-white/90">
+                  <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>Control total:</strong> Tú decides todo, sin intermediarios
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-white/90">
+                  <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>Sin compromisos:</strong> Es tuyo para siempre
+                  </span>
+                </li>
+                <li className="flex items-start gap-3 text-white/90">
+                  <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
+                  <span>
+                    <strong>24/7 automático:</strong> Vende mientras duermes
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#00C896]/5 to-[#00A876]/5">
         <div className="container mx-auto max-w-6xl">
           {/* Beneficios Principales */}
@@ -358,7 +592,7 @@ export default function OfertaPage() {
                   <Clock className="text-[#00C896]" size={24} />
                   <h3 className="text-lg font-bold text-white">Lanza en menos de 1 hora</h3>
                 </div>
-                <p className="text-white/80">Con un paso a paso simple tendrás tu agente funcionando hoy mismo.</p>
+                <p className="text-white/80">Con un paso a paso simple tendrás tu vendedor funcionando hoy mismo.</p>
               </div>
 
               <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6">
@@ -400,11 +634,11 @@ export default function OfertaPage() {
           {/* Videos de Personalización */}
           <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center px-4">
-              🎥 <span className="text-[#00C896]">Videos de personalización</span> sistema de agente AI vendedor 24/7
+              🎥 <span className="text-[#00C896]">Videos de personalización</span> sistema de vendedor con AI 24/7
             </h2>
             <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6 sm:p-8 mb-6">
               <p className="text-white/90 text-lg mb-6 text-center">
-                Tu acceso incluye una biblioteca de videos que te ayudará a adaptar el agente a tu negocio en pocos
+                Tu acceso incluye una biblioteca de videos que te ayudará a adaptar el vendedor a tu negocio en pocos
                 minutos:
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -433,73 +667,7 @@ export default function OfertaPage() {
                   </li>
                   <li className="flex items-start gap-3 text-white/80">
                     <CheckCircle size={18} className="text-[#00C896] mt-0.5 flex-shrink-0" />
-                    <span>Personalización avanzada del agente para adaptarlo a tus necesidades.</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Sección Comparativa */}
-          <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center px-4">
-              📊 <span className="text-[#00C896] text-input"> ¿Qué pasa si actúas vs si esperas?</span>
-            </h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Si tomas acción hoy */}
-              <div className="bg-gradient-to-br from-green-900/20 to-green-800/20 border-2 border-green-500/50 rounded-lg p-6 sm:p-8">
-                <h3 className="text-2xl font-bold text-green-400 mb-6 flex items-center gap-3">
-                  <CheckCircle size={28} />✅ Si tomas acción hoy
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3 text-white/90">
-                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
-                    <span>En menos de 1 hora tendrás tu sistema funcionando</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-white/90">
-                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
-                    <span>Conversaciones y ventas automáticas 24/7</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-white/90">
-                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
-                    <span>Acceso inmediato a plantillas y entrenamientos</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-white/90">
-                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
-                    <span>Comunidad abierta de soporte y networking</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-white/90">
-                    <CheckCircle size={18} className="text-green-400 mt-0.5 flex-shrink-0" />
-                    <span>Cero suscripciones, cero complicaciones</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Si NO tomas acción */}
-              <div className="bg-gradient-to-br from-red-900/20 to-red-800/20 border-2 border-red-500/50 rounded-lg p-6 sm:p-8">
-                <h3 className="text-2xl font-bold text-red-400 mb-6 flex items-center gap-3">
-                  <AlertTriangle size={28} />❌ Si NO tomas acción
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3 text-white/90">
-                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
-                    <span>Seguirás perdiendo clientes fuera de tu horario</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-white/90">
-                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
-                    <span>Más tiempo atado al celular contestando mensajes</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-white/90">
-                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
-                    <span>Tus competidores ya estarán automatizando y cerrando ventas mientras duermes</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-white/90">
-                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
-                    <span>Gastarás más en herramientas costosas y suscripciones</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-white/90">
-                    <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
-                    <span>La oportunidad especial de acceso se cerrará</span>
+                    <span>Personalización avanzada del vendedor para adaptarlo a tus necesidades.</span>
                   </li>
                 </ul>
               </div>
@@ -508,17 +676,63 @@ export default function OfertaPage() {
         </div>
       </section>
 
-      {/* Comunidad Discord */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 px-4">
-              👥 Accede a nuestra <span className="text-[#00C896]">Comunidad </span> en Discord
+              🎁 <span className="text-[#00C896]">BONUS EXCLUSIVO</span> para los que activen su vendedor con AI hoy
+              mismo
             </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto px-4">
-              Tu acceso incluye ingreso a nuestro servidor Antártida AI, con canales diseñados para ayudarte a lanzar,
-              automatizar y escalar.
+              Acceso inmediato a nuestra comunidad privada Antártida AI en Discord, completamente GRATIS cuando activas
+              hoy. Aquí encontrarás:
             </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#00C896] rounded-lg sm:rounded-xl p-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="flex items-start gap-3">
+                <CheckCircle className="text-[#00C896] flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <h3 className="text-white font-bold text-lg mb-2">🚀 Soporte técnico en vivo</h3>
+                  <p className="text-white/80">
+                    Resuelve dudas en tiempo real con expertos y otros miembros que ya están vendiendo
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="text-[#00C896] flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <h3 className="text-white font-bold text-lg mb-2">📚 100+ templates de AI listos</h3>
+                  <p className="text-white/80">
+                    Acceso a biblioteca completa de plantillas probadas para diferentes nichos
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="text-[#00C896] flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <h3 className="text-white font-bold text-lg mb-2">💡 Ideas de flujos de automatización</h3>
+                  <p className="text-white/80">
+                    Descubre nuevas formas de automatizar y optimizar tu proceso de ventas
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="text-[#00C896] flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <h3 className="text-white font-bold text-lg mb-2">🎙️ Sesiones de networking y mentoría</h3>
+                  <p className="text-white/80">Conecta con otros emprendedores y aprende de casos de éxito reales</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-[#FFB800]/20 to-[#FF8C00]/20 border border-[#FFB800]/30 rounded-lg p-6 text-center">
+              <p className="text-white text-lg font-bold mb-2">
+                ⚡ Este bonus solo está disponible para los primeros 5 que activen HOY
+              </p>
+              <p className="text-white/80">Después, el acceso a la comunidad se venderá por separado a $97/mes</p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -566,7 +780,8 @@ export default function OfertaPage() {
 
           <div className="text-center mt-8 px-4">
             <p className="text-lg text-white/80">
-              👥 <strong className="text-[#00C896]">Aprende, comparte, pregunta y escala</strong> junto a otros como tú.
+              👥 <strong className="text-[#00C896]">Aprende, comparte, pregunta y escala</strong> junto a otros
+              emprendedores que ya están automatizando sus ventas.
             </p>
           </div>
         </div>
@@ -668,7 +883,7 @@ export default function OfertaPage() {
       </section>
 
       {/* CTA Final con Urgencia */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#00C896]/10 to-[#00A876]/10">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FFB800]/10 to-[#FF8C00]/10">
         <div className="container mx-auto max-w-4xl sm:max-w-6xl">
           <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#00C896] rounded-lg sm:rounded-xl p-8 sm:p-10 text-center relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#00C896] to-[#00A876]"></div>
@@ -707,11 +922,13 @@ export default function OfertaPage() {
                 href="https://hotm.art/NyTUgsE5"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl text-lg sm:text-xl font-bold hover:shadow-lg hover:shadow-[#00C896]/30 transition-all duration-300 hover:scale-105 mb-4 sm:mb-6"
+                className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl text-lg sm:text-xl font-bold hover:shadow-2xl hover:shadow-[#00C896]/50 transition-all duration-300 hover:scale-105 mb-4 sm:mb-6"
                 onClick={() => analytics.purchaseClick("$19.99", "final_cta")}
               >
                 <Zap size={24} className="sm:w-7 sm:h-7" />
-                <span className="text-sm sm:text-base lg:text-lg">🚀 OBTENER ACCESO COMPLETO POR SOLO $19.99</span>
+                <span className="text-sm sm:text-base lg:text-lg">
+                  Sí, quiero mi vendedor con AI vendiendo 24/7 por solo $19.99
+                </span>
               </a>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-xs sm:text-sm text-white/70 px-2">
