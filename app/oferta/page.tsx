@@ -232,7 +232,7 @@ export default function OfertaPage() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6 px-4">
-              No confiar en mí,{" "}
+              No confies en mí, {" "}
               <span className="text-[#00C896]">mira lo que dicen los empresarios que ya lo usaron</span>
             </h2>
           </div>
@@ -788,99 +788,7 @@ export default function OfertaPage() {
       </section>
 
       {/* Testimonios en Video */}
-      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#00C896]/5 to-[#00A876]/5">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6 px-4">
-              🎥 Mira lo que dicen nuestros <span className="text-[#00C896]">estudiantes</span>
-            </h2>
-            <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto px-4">
-              Resultados reales de personas que ya implementaron el sistema y están vendiendo 24/7
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            {/* Video 1 */}
-            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-4 sm:p-6">
-              <div className="aspect-[9/16] rounded-lg sm:rounded-xl overflow-hidden mb-4 sm:mb-6">
-                <iframe
-                  src="https://www.youtube.com/embed/V83GL9iPQS8?hl=es&cc_lang_pref=es&cc_load_policy=0&autoplay=0&mute=0"
-                  title="Testimonio 1"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="w-full h-full"
-                  style={{ border: "none" }}
-                />
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-1 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} className="sm:w-4 sm:h-4 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-white/80 text-xs sm:text-sm">
-                  "Increíble cómo automatizó todo mi proceso de ventas"
-                </p>
-              </div>
-            </div>
-
-            {/* Video 2 */}
-            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-4 sm:p-6">
-              <div className="aspect-[9/16] rounded-lg sm:rounded-xl overflow-hidden mb-4 sm:mb-6">
-                <iframe
-                  src="https://www.youtube.com/embed/jeP4OEyTp8Q?hl=es&cc_lang_pref=es&cc_load_policy=0&autoplay=0&mute=0"
-                  title="Testimonio 2"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="w-full h-full"
-                  style={{ border: "none" }}
-                />
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-1 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} className="sm:w-4 sm:h-4 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-white/80 text-xs sm:text-sm">"Resultados desde el primer día de implementación"</p>
-              </div>
-            </div>
-
-            {/* Video 3 */}
-            <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-4 sm:p-6">
-              <div className="aspect-[9/16] rounded-lg sm:rounded-xl overflow-hidden mb-4 sm:mb-6">
-                <iframe
-                  src="https://www.youtube.com/embed/RySX887jHlc?hl=es&cc_lang_pref=es&cc_load_policy=0&autoplay=0&mute=0"
-                  title="Testimonio 3"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="w-full h-full"
-                  style={{ border: "none" }}
-                />
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-1 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} className="sm:w-4 sm:h-4 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-white/80 text-xs sm:text-sm">"Mi negocio cambió completamente con este sistema"</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <div className="bg-gradient-to-br from-[#00C896]/20 to-[#00A876]/20 border border-[#00C896]/30 rounded-lg sm:rounded-xl p-6 sm:p-8 max-w-2xl mx-auto">
-              <p className="text-white/90 text-base sm:text-lg mb-2 px-2">
-                <strong className="text-[#00C896]">+500 estudiantes</strong> ya están vendiendo automáticamente
-              </p>
-              <p className="text-white/70 text-xs sm:text-sm px-2">
-                Únete a la comunidad que está revolucionando las ventas con IA
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       {/* CTA Final con Urgencia */}
       <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FFB800]/10 to-[#FF8C00]/10">
