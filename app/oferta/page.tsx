@@ -218,7 +218,7 @@ export default function OfertaPage() {
             >
               <Zap size={20} className="sm:w-6 sm:h-6" />
               <span className="text-sm sm:text-base lg:text-lg">
-                Sí, quiero activar el poder de la IA en mis anuncios y llenar mi negocio de clientes cada día
+                Sí, quiero activar mi vendedor con AI por solo $19.99
               </span>
             </a>
             <p className="text-white/60 text-xs sm:text-sm mt-3 sm:mt-4 px-4">
@@ -232,7 +232,7 @@ export default function OfertaPage() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6 px-4">
-              No confies en mí, {" "}
+              No confies en mí,{" "}
               <span className="text-[#00C896]">mira lo que dicen los empresarios que ya lo usaron</span>
             </h2>
           </div>
@@ -349,7 +349,7 @@ export default function OfertaPage() {
           {/* Beneficios principales */}
           <div className="bg-gradient-to-br from-[#FFB800]/20 to-[#FF8C00]/20 border border-[#FFB800]/30 rounded-lg sm:rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-3 sm:mb-4">
-              ⚡️ Este curso le da a tu Vendedor con AI el combustible que necesita: tráfico ilimitado de clientes listos
+              ⚡️ Este curso le da a tu Vendedor con IA el combustible que necesita: tráfico ilimitado de clientes listos
               para comprar
             </h2>
             <p className="text-white/80 text-base sm:text-lg mb-4">
@@ -788,7 +788,6 @@ export default function OfertaPage() {
       </section>
 
       {/* Testimonios en Video */}
-      
 
       {/* CTA Final con Urgencia */}
       <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FFB800]/10 to-[#FF8C00]/10">
