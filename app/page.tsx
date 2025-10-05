@@ -348,20 +348,35 @@ export default function OfertaPage() {
           </div>
 
           {/* Beneficios principales */}
-          <div className="bg-gradient-to-br from-[#FFB800]/20 to-[#FF8C00]/20 border border-[#FFB800]/30 rounded-lg sm:rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="bg-gradient-to-br from-[#FFB800]/20 to-[#FF8C00]/20 border border-[#FFB800]/30 rounded-lg sm:rounded-xl p-6 sm:p-8 mb-6 sm:mb-8">
             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-3 sm:mb-4">
-              ⚡️ Este curso le da a tu Vendedor con IA el combustible que necesita: tráfico ilimitado de clientes listos
-              para comprar
+              Este sistema convierte tu WhatsApp en una máquina de ventas automatizada.
             </h2>
-            <p className="text-white/80 text-base sm:text-lg mb-4">
-              Aprende a crear anuncios profesionales con IA en minutos que atraen clientes calificados directamente a tu
-              Vendedor con AI en WhatsApp, sin diseñadores ni copywriters.
+            <p className="text-white/80 text-sm sm:text-base mb-3">
+              Tu Vendedor con IA responde mensajes, da seguimiento y cierra clientes en segundos — incluso mientras
+              duermes.
+            </p>
+            <p className="text-white/80 text-sm sm:text-base mb-3">
+              Olvídate de perder leads o dejar conversaciones a medias. Con este curso, aprenderás a activar,
+              personalizar y escalar tu propio vendedor con IA para que trabaje por ti 24/7, sin depender de equipos o
+              agencias.
+            </p>
+            <p className="text-white/80 text-sm sm:text-base mb-3">
+              <strong className="text-white">El resultado:</strong> Un sistema completamente automatizado que atiende a
+              tus clientes al instante, responde sus preguntas, maneja objeciones y cierra ventas mientras tú te enfocas
+              en hacer crecer tu negocio.
+            </p>
+            <p className="text-white/80 text-sm sm:text-base mb-4">
+              No más mensajes sin responder. No más clientes perdidos por falta de atención. Tu vendedor con IA nunca
+              descansa, nunca se cansa y siempre está listo para vender.
             </p>
             <div className="flex items-center justify-center gap-1 mb-3">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} size={16} className="sm:w-5 sm:h-5 text-[#FFB800] fill-current" />
               ))}
-              <span className="text-white/80 text-sm ml-2">(4.9/5 de 1,247 estudiantes)</span>
+              <span className="text-white/80 text-xs sm:text-sm ml-2">
+                (4.9/5 de 1,247 estudiantes que ya están vendiendo automáticamente)
+              </span>
             </div>
           </div>
         </div>
@@ -828,7 +843,7 @@ export default function OfertaPage() {
                 href="https://hotm.art/NyTUgsE5"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl text-lg sm:text-xl font-bold hover:shadow-2xl hover:shadow-[#00C896]/50 transition-all duration-300 hover:scale-105 mb-4 sm:mb-6"
+                className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl text-lg sm:text-lg font-bold hover:shadow-2xl hover:shadow-[#00C896]/50 transition-all duration-300 hover:scale-105 mb-4 sm:mb-6"
                 onClick={() => analytics.purchaseClick("$19.99", "final_cta")}
               >
                 <Zap size={24} className="sm:w-7 sm:h-7" />

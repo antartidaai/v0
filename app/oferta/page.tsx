@@ -349,18 +349,33 @@ export default function OfertaPage() {
           {/* Beneficios principales */}
           <div className="bg-gradient-to-br from-[#FFB800]/20 to-[#FF8C00]/20 border border-[#FFB800]/30 rounded-lg sm:rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-3 sm:mb-4">
-              ⚡️ Este curso le da a tu Vendedor con IA el combustible que necesita: tráfico ilimitado de clientes listos
-              para comprar
+              Este curso convierte tu Vendedor con IA en una máquina imparable de captación de clientes.
             </h2>
-            <p className="text-white/80 text-base sm:text-lg mb-4">
-              Aprende a crear anuncios profesionales con IA en minutos que atraen clientes calificados directamente a tu
-              Vendedor con AI en WhatsApp, sin diseñadores ni copywriters.
+            <p className="text-white/80 text-sm sm:text-base mb-3">
+              Tu Vendedor con IA ya cierra ventas 24/7, pero necesita una cosa: tráfico constante de clientes listos
+              para comprar.
+            </p>
+            <p className="text-white/80 text-sm sm:text-base mb-3">
+              Con este curso, aprenderás a crear anuncios profesionales con IA en minutos que atraen clientes
+              calificados directamente a tu Vendedor con IA en WhatsApp — sin diseñadores, sin copywriters, sin
+              complicaciones.
+            </p>
+            <p className="text-white/80 text-sm sm:text-base mb-3">
+              <strong className="text-white">El resultado:</strong> Un flujo continuo de leads calificados que llegan
+              automáticamente a tu WhatsApp, donde tu Vendedor con IA los convierte en clientes mientras tú te enfocas
+              en hacer crecer tu negocio.
+            </p>
+            <p className="text-white/80 text-sm sm:text-base mb-4">
+              Olvídate de depender de referencias o esperar que los clientes te encuentren. Activa tu propio sistema de
+              captación automatizado y escala tus ventas sin límites.
             </p>
             <div className="flex items-center justify-center gap-1 mb-3">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} size={16} className="sm:w-5 sm:h-5 text-[#FFB800] fill-current" />
               ))}
-              <span className="text-white/80 text-sm ml-2">(4.9/5 de 1,247 estudiantes)</span>
+              <span className="text-white/80 text-xs sm:text-sm ml-2">
+                (4.9/5 de 1,247 estudiantes que ya están generando tráfico ilimitado)
+              </span>
             </div>
           </div>
         </div>
@@ -858,29 +873,6 @@ export default function OfertaPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Simple Downsell Button */}
-      <section className="py-6 sm:py-8 px-4 sm:px-6">
-        <div className="container mx-auto max-w-2xl text-center">
-          <a
-            href="https://chat.whatsapp.com/JtLP7Pskh0y2zTeXK3jXFF"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-500 text-white px-3 sm:px-4 py-2 rounded-full text-xs font-bold shadow-lg shadow-red-500/30 hover:from-red-700 hover:to-red-600 transition-all duration-300"
-            onClick={() =>
-              analytics.ctaClick(
-                "No quiero obtener acceso completo ahora",
-                "simple_downsell",
-                "https://chat.whatsapp.com/JtLP7Pskh0y2zTeXK3jXFF",
-              )
-            }
-          >
-            <AlertTriangle size={14} className="sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">🔥 No quiero obtener acceso completo ahora</span>
-            <span className="sm:hidden">🔥 No quiero acceso completo</span>
-          </a>
         </div>
       </section>
 
