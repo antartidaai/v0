@@ -107,8 +107,8 @@ export default function AIChatWidget({
 
   const sendToWebhook = async (messageText: string): Promise<string> => {
     const webhookUrls = [
-      "https://webhook.algorithpro.com/webhook/lpvendedorai",
-      "https://n8n.algorithpro.com/webhook-test/lpvendedorai",
+      "https://webhook.algorithpro.com/webhook/vendedor3",
+      "https://n8n.algorithpro.com/webhook-test/vendedor3",
     ]
 
     const payload = {
