@@ -56,8 +56,7 @@ export default function CupoLiberadoPage() {
       // Simulate form processing
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      // Redirect to payment link
-      window.location.href = "https://pay.hotmart.com/C100342057M?off=g2lkrn81&checkoutMode=10" // Updated Hotmart payment link to new URL
+      window.location.href = "https://hotm.art/wVG1yihQ"
     } catch (error) {
       console.error("Error submitting form:", error)
     } finally {

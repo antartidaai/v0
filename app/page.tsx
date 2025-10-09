@@ -204,14 +204,14 @@ export default function OfertaPage() {
                 <div className="text-red-400 font-semibold text-base sm:text-lg mb-3 sm:mb-4">
                   Solo para los primeros 5 que aprovechen la promo
                 </div>
-                <div className="text-white/80 text-sm">Después, el valor vuelve al precio original sin aviso.</div>
+                <div className="text-white/80 text-sm">Después, el valor জৈটomiza el precio original sin aviso.</div>
               </div>
             </div>
           </div>
 
           <div className="mb-8 sm:mb-12 text-center">
             <a
-              href="https://hotm.art/NyTUgsE5"
+              href="https://hotm.art/wVG1yihQ"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl text-base sm:text-lg lg:text-xl font-bold hover:shadow-2xl hover:shadow-[#00C896]/50 transition-all duration-300 hover:scale-105 animate-pulse"
@@ -840,7 +840,7 @@ export default function OfertaPage() {
               </div>
 
               <a
-                href="https://hotm.art/NyTUgsE5"
+                href="https://hotm.art/wVG1yihQ"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#00C896] to-[#00A876] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl text-lg sm:text-lg font-bold hover:shadow-2xl hover:shadow-[#00C896]/50 transition-all duration-300 hover:scale-105 mb-4 sm:mb-6"

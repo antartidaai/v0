@@ -107,8 +107,8 @@ export default function AIChatWidget({
 
   const sendToWebhook = async (messageText: string): Promise<string> => {
     const webhookUrls = [
-      "https://webhook.algorithpro.com/webhook/vendedor3",
-      "https://n8n.algorithpro.com/webhook-test/vendedor3",
+      "https://webhook.algorithpro.com/webhook/alexa-ventas",
+      "https://n8n.algorithpro.com/webhook-test/alexa-ventas",
     ]
 
     const payload = {
@@ -401,7 +401,7 @@ export default function AIChatWidget({
           {showClaimButton && (
             <div className="px-4 py-2 bg-[#1a1a1a] border-t border-[#00C896]/20">
               <a
-                href="https://hotm.art/NyTUgsE5"
+                href="https://hotm.art/wVG1yihQ"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full bg-gradient-to-r from-[#FFB800] to-[#FF8C00] text-white text-center py-2 rounded-lg font-bold text-sm hover:shadow-lg transition-all duration-300 animate-pulse"
