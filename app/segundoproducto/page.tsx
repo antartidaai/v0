@@ -30,7 +30,7 @@ export default function UpsellPage() {
   const seconds = timeLeft % 60
 
   const handleAcceptOffer = () => {
-    window.location.href = "https://hotm.art/wVG1yihQ"
+    window.location.href = "https://hotm.art/wVG1yihQ" // Link del curso de Meta Ads
   }
 
   const handleDeclineOffer = () => {
