@@ -56,7 +56,6 @@ export default function CupoLiberadoPage() {
       // Simulate form processing
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      // Redirect to payment link
       window.location.href = "https://hotm.art/wVG1yihQ"
     } catch (error) {
       console.error("Error submitting form:", error)
