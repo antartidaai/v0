@@ -141,21 +141,40 @@ export default function OfertaPage() {
           </div>
 
           <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
-            <div className="aspect-video rounded-lg sm:rounded-xl overflow-hidden">
-              <div style={{ position: "relative", paddingTop: "56.25%" }}>
-                <iframe
-                  id="panda-0b230730-c652-493e-943c-72cbe80d53cf"
-                  src={`https://player-vz-fbfacc58-70c.tv.pandavideo.com.br/embed/?v=0b230730-c652-493e-943c-72cbe80d53cf&iosFakeFullscreen=true${shouldAutoplay ? "&autoplay=1" : ""}`}
-                  style={{ border: "none", position: "absolute", top: 0, left: 0 }}
-                  allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
-                  allowFullScreen={true}
-                  sandbox="allow-scripts allow-same-origin allow-presentation"
-                  width="100%"
-                  height="100%"
-                  fetchPriority="high"
-                />
-              </div>
+            <div style={{ position: "relative", paddingTop: "56.25%" }}>
+              <iframe
+                id="panda-3a8cddb9-4cb6-440a-b6e2-d54b826ad439"
+                src="https://player-vz-fbfacc58-70c.tv.pandavideo.com.br/embed/?v=3a8cddb9-4cb6-440a-b6e2-d54b826ad439&iosFakeFullscreen=true"
+                style={{ border: "none", position: "absolute", top: 0, left: 0 }}
+                allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
+                allowFullScreen={true}
+                width="100%"
+                height="100%"
+                fetchPriority="high"
+              />
             </div>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  if(!document.querySelector('script[src="https://player.pandavideo.com.br/api.v2.js"]')){
+                    let s=document.createElement('script');
+                    s.src='https://player.pandavideo.com.br/api.v2.js';
+                    s.async=true;
+                    document.head.appendChild(s);
+                  }
+                  window.pandascripttag = window.pandascripttag || [];
+                  window.pandascripttag.push(function (){
+                    const panda_id_player = 'panda-3a8cddb9-4cb6-440a-b6e2-d54b826ad439';
+                    const p=new PandaPlayer(panda_id_player,{
+                      onReady(){
+                        p.loadWindowScreen({panda_id_player});
+                        p.pipScrollFollow({panda_id_player});
+                      }
+                    });
+                  });
+                `,
+              }}
+            />
           </div>
 
           <div className="text-center mb-6 sm:mb-8">
