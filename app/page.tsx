@@ -621,7 +621,7 @@ export default function OfertaPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center px-4">
               🎯 <span className="text-[#00C896]">Beneficios principales</span> de la oferta
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <Clock className="text-[#00C896]" size={24} />
