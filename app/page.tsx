@@ -168,7 +168,6 @@ export default function OfertaPage() {
                     const p=new PandaPlayer(panda_id_player,{
                       onReady(){
                         p.loadWindowScreen({panda_id_player});
-                        p.pipScrollFollow({panda_id_player});
                       }
                     });
                   });
