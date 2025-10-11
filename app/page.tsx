@@ -136,15 +136,17 @@ export default function OfertaPage() {
         <div className="container mx-auto max-w-2xl sm:max-w-4xl lg:max-w-5xl">
           <div className="text-center mb-6 sm:mb-8">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight px-2">
-              Nunca más pierdas un cliente por no responder tu <span className="text-[#00C896]">WhatsApp</span>.
+              Nunca más pierdas un cliente por no responder tu <span className="text-[#00C896]">WhatsApp</span>. Crea tu{" "}
+              <span className="text-[#00C896]">vendedor con AI</span> en <span className="text-[#00C896]">1 hora</span>{" "}
+              sin saber programar y <span className="text-[#00C896]">automatiza tus ventas 24/7</span>
             </h1>
           </div>
 
           <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border border-[#00C896]/20 rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
             <div style={{ position: "relative", paddingTop: "56.25%" }}>
               <iframe
-                id="panda-3a8cddb9-4cb6-440a-b6e2-d54b826ad439"
-                src="https://player-vz-fbfacc58-70c.tv.pandavideo.com.br/embed/?v=3a8cddb9-4cb6-440a-b6e2-d54b826ad439&iosFakeFullscreen=true"
+                id="panda-0b230730-c652-493e-943c-72cbe80d53cf"
+                src="https://player-vz-fbfacc58-70c.tv.pandavideo.com.br/embed/?v=0b230730-c652-493e-943c-72cbe80d53cf&iosFakeFullscreen=true"
                 style={{ border: "none", position: "absolute", top: 0, left: 0 }}
                 allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
                 allowFullScreen={true}
@@ -164,7 +166,7 @@ export default function OfertaPage() {
                   }
                   window.pandascripttag = window.pandascripttag || [];
                   window.pandascripttag.push(function (){
-                    const panda_id_player = 'panda-3a8cddb9-4cb6-440a-b6e2-d54b826ad439';
+                    const panda_id_player = 'panda-0b230730-c652-493e-943c-72cbe80d53cf';
                     const p=new PandaPlayer(panda_id_player,{
                       onReady(){
                         p.loadWindowScreen({panda_id_player});
@@ -243,6 +245,44 @@ export default function OfertaPage() {
             <p className="text-white/60 text-xs sm:text-sm mt-3 sm:mt-4 px-4">
               ✅ Acceso inmediato • ✅ Comunidad incluida • ✅ Soporte técnico
             </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-[#00C896]/10 to-[#00A876]/10 border-2 border-[#00C896]/30 rounded-lg sm:rounded-xl p-6 sm:p-8 mb-8 sm:mb-12">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-[#00C896] to-[#00A876] rounded-full flex items-center justify-center mb-4">
+                <CheckCircle size={32} className="sm:w-10 sm:h-10 text-white" />
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+                🛡️ Garantía de <span className="text-[#00C896]">7 Días</span> Sin Riesgo
+              </h3>
+              <p className="text-white/90 text-base sm:text-lg mb-4 max-w-2xl">
+                Prueba el sistema completo durante 7 días. Si no ves resultados o no te convence, te devolvemos el 100%
+                de tu dinero sin preguntas.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl mt-4">
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 bg-[#00C896]/20 rounded-full flex items-center justify-center">
+                    <span className="text-2xl">✅</span>
+                  </div>
+                  <p className="text-white/80 text-sm">Sin preguntas</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 bg-[#00C896]/20 rounded-full flex items-center justify-center">
+                    <span className="text-2xl">💯</span>
+                  </div>
+                  <p className="text-white/80 text-sm">100% reembolso</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 bg-[#00C896]/20 rounded-full flex items-center justify-center">
+                    <span className="text-2xl">⚡</span>
+                  </div>
+                  <p className="text-white/80 text-sm">Proceso rápido</p>
+                </div>
+              </div>
+              <p className="text-white/70 text-sm mt-4">
+                Estamos tan seguros de que este sistema transformará tu negocio que asumimos todo el riesgo por ti.
+              </p>
+            </div>
           </div>
         </div>
       </section>
