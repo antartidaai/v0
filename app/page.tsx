@@ -861,8 +861,7 @@ export default function OfertaPage() {
         </div>
       </section>
 
-      {/* CTA Final con Urgencia */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FFB800]/10 to-[#FF8C00]/10">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FFB800]/10 to-[#FF8C00]/10">
         <div className="container mx-auto max-w-4xl sm:max-w-6xl">
           <div className="bg-gradient-to-br from-[#2A2A2A] to-[#1A1A1A] border-2 border-[#00C896] rounded-lg sm:rounded-xl p-8 sm:p-10 text-center relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#00C896] to-[#00A876]"></div>
@@ -963,6 +962,15 @@ export default function OfertaPage() {
             🤖 <span className="text-[#00C896]">VENTA 24/7</span>
           </div>
           <p className="text-white/60 text-sm mb-2 px-4">© 2025 Antártida AI – Todos los derechos reservados.</p>
+          <div className="flex items-center justify-center gap-4 mb-2 px-4">
+            <a href="/terminos" className="text-white/60 hover:text-[#00C896] text-xs transition-colors">
+              Términos y Condiciones
+            </a>
+            <span className="text-white/40">•</span>
+            <a href="/privacidad" className="text-white/60 hover:text-[#00C896] text-xs transition-colors">
+              Aviso de Privacidad
+            </a>
+          </div>
           <p className="text-white/40 text-xs px-4">Hecho para automatizar y vender por ti.</p>
         </div>
       </footer>

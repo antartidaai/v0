@@ -239,6 +239,15 @@ export default function UpsellPage() {
             🤖 <span className="text-[#00C896]">VENTA 24/7</span>
           </div>
           <p className="text-white/60 text-sm mb-2">© 2025 Antártida AI – Todos los derechos reservados.</p>
+          <div className="flex items-center justify-center gap-4 mb-2">
+            <a href="/terminos" className="text-white/60 hover:text-[#00C896] text-xs transition-colors">
+              Términos y Condiciones
+            </a>
+            <span className="text-white/40">•</span>
+            <a href="/privacidad" className="text-white/60 hover:text-[#00C896] text-xs transition-colors">
+              Aviso de Privacidad
+            </a>
+          </div>
           <p className="text-white/40 text-xs">Hecho para automatizar y vender por ti.</p>
         </div>
       </footer>
