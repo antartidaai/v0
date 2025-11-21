@@ -1,5 +1,4 @@
-// Utilidades para Google Tag Manager y Analytics - COMPLETAMENTE DESHABILITADO
-
+// Utilidades para Google Tag Manager y Analytics
 declare global {
   interface Window {
     dataLayer: any[]
@@ -7,48 +6,102 @@ declare global {
   }
 }
 
-// Función para enviar eventos a GTM - DESHABILITADA
+// Función para enviar eventos a GTM
 export const trackEvent = (eventName: string, parameters: Record<string, any> = {}) => {
-  // Función completamente deshabilitada - no envía datos
-  return
+  try {
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: eventName,
+        ...parameters,
+        timestamp: new Date().toISOString(),
+        page_url: window.location.href,
+        page_title: document.title,
+      })
+      console.log("📊 Evento enviado a GTM:", eventName, parameters)
+    }
+  } catch (error) {
+    console.error("❌ Error enviando evento a GTM:", error)
+  }
 }
 
-// Eventos específicos del negocio - COMPLETAMENTE DESHABILITADOS
+// Eventos específicos del negocio - ULTRA OPTIMIZADOS
 export const analytics = {
-  // Todas las funciones mantienen su firma pero no hacen nada
+  // Eventos de CTA principales - MANTENIDO (crítico para conversión)
   ctaClick: (buttonText: string, location: string, destination?: string) => {
-    // Función deshabilitada - no envía datos
-    return
+    trackEvent("cta_click", {
+      button_text: buttonText,
+      click_location: location,
+      destination_url: destination,
+      event_category: "engagement",
+      event_label: `${location}_${buttonText}`,
+    })
   },
 
+  // Eventos de conversión - MANTENIDO (crítico)
   purchaseClick: (price: string, location: string) => {
-    // Función deshabilitada - no envía datos
-    return
+    trackEvent("inicial_checkout", {
+      price: price,
+      currency: "USD",
+      click_location: location,
+      event_category: "conversion",
+      event_label: `purchase_${price}`,
+      value: Number.parseFloat(price.replace("$", "")),
+    })
   },
 
+  // Eventos de navegación - MANTENIDO (crítico)
+  pageView: (pageName: string) => {
+    trackEvent("page_view", {
+      page_name: pageName,
+      event_category: "navigation",
+      event_label: pageName,
+    })
+  },
+
+  // Eventos de formularios - MANTENIDO (importantes para conversión)
   formStart: (formName: string) => {
-    // Función deshabilitada - no envía datos
-    return
+    trackEvent("form_start", {
+      form_name: formName,
+      event_category: "form",
+      event_label: `form_start_${formName}`,
+    })
   },
 
   formSubmit: (formName: string, success: boolean) => {
-    // Función deshabilitada - no envía datos
-    return
+    trackEvent("form_submit", {
+      form_name: formName,
+      success: success,
+      event_category: "form",
+      event_label: `form_submit_${formName}`,
+    })
   },
 
+  // Eventos de error - MANTENIDO (importantes para debugging)
   error: (errorType: string, errorMessage: string, location: string) => {
-    // Función deshabilitada - no envía datos
-    return
+    trackEvent("error", {
+      error_type: errorType,
+      error_message: errorMessage,
+      error_location: location,
+      event_category: "error",
+      event_label: `error_${errorType}`,
+    })
   },
 
+  // Eventos de chat - MANTENIDO (crítico para conversación)
   chatStart: (vendedorName: string, vendedorId: number) => {
-    // Función deshabilitada - no envía datos
-    return
+    trackEvent("chat_start", {
+      vendedor_name: vendedorName,
+      vendedor_id: vendedorId,
+      event_category: "engagement",
+      event_label: `chat_${vendedorName.toLowerCase().replace(" ", "_")}`,
+    })
   },
 }
 
-// Hook para tracking de tiempo en página - DESHABILITADO
+// Hook para tracking de tiempo en página - SIMPLIFICADO
 export const usePageTracking = (pageName: string) => {
-  // Hook completamente deshabilitado - no hace tracking
-  return
+  if (typeof window !== "undefined") {
+    // Solo track page view, eliminamos time tracking
+    analytics.pageView(pageName)
+  }
 }
