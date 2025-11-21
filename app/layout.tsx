@@ -7,26 +7,36 @@ import Script from "next/script"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Vendedores Virtuales con IA - VENTA 24/7",
+  title: "Diagnóstico IA para Negocios | Estrategias de Automatización",
   description:
-    "No seas el próximo negocio que quiebre por WhatsApp. Nuestros vendedores de inteligencia artificial trabajan mientras tú duermes, convirtiendo cada mensaje en una venta.",
+    "Descubre cómo la Inteligencia Artificial puede transformar tu negocio. Completa nuestro diagnóstico y recibe estrategias personalizadas de automatización con IA para aumentar tus ventas.",
   keywords:
-    "vendedores virtuales, inteligencia artificial, WhatsApp automatizado, ventas 24/7, chatbots, automatización",
-  authors: [{ name: "VENTA 24/7" }],
+    "inteligencia artificial, automatización de negocios, consultoría IA, diagnóstico empresarial, estrategias IA, transformación digital",
+  authors: [{ name: "johnjairo.ai" }],
   openGraph: {
-    title: "Vendedores Virtuales con IA - VENTA 24/7",
-    description: "Evita que tu negocio quiebre por no responder WhatsApp. Vendedores de IA que trabajan 24/7.",
+    title: "Diagnóstico IA para Negocios | Estrategias de Automatización",
+    description:
+      "Descubre cómo la IA puede transformar tu negocio. Recibe estrategias personalizadas de automatización.",
     type: "website",
     locale: "es_ES",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vendedores Virtuales con IA - VENTA 24/7",
-    description: "Evita que tu negocio quiebre por no responder WhatsApp. Vendedores de IA que trabajan 24/7.",
+    title: "Diagnóstico IA para Negocios | Estrategias de Automatización",
+    description:
+      "Descubre cómo la IA puede transformar tu negocio. Recibe estrategias personalizadas de automatización.",
   },
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: [
+      {
+        url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' fontSize='90'>🤖</text></svg>",
+        type: "image/svg+xml",
+      },
+    ],
   },
     generator: 'v0.app'
 }
