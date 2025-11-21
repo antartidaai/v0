@@ -82,7 +82,7 @@ export default function FormularioPage() {
 
   const sendPartialLead = async () => {
     try {
-      await fetch("/api/webhooks/partial-lead", {
+      const response = await fetch("https://webhook.algorithpro.com/webhook/webhook_partial_lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -92,14 +92,17 @@ export default function FormularioPage() {
           stage: "partial_lead",
         }),
       })
+
+      const result = await response.json()
+      console.log("[v0] Partial lead enviado exitosamente:", result)
     } catch (error) {
-      console.error("Error sending partial lead:", error)
+      console.error("[v0] Error sending partial lead:", error)
     }
   }
 
   const sendFullLead = async () => {
     try {
-      await fetch("/api/webhooks/full-lead", {
+      const response = await fetch("https://webhook.algorithpro.com/webhook/webhook_full_lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -116,17 +119,24 @@ export default function FormularioPage() {
           stage: "full_lead",
         }),
       })
+
+      const result = await response.json()
+      console.log("[v0] Full lead enviado exitosamente:", result)
     } catch (error) {
-      console.error("Error sending full lead:", error)
+      console.error("[v0] Error sending full lead:", error)
     }
   }
 
   const nextStep = async () => {
+    console.log("[v0] Current step:", currentStep)
+
     if (currentStep === 3) {
+      console.log("[v0] Paso 3 alcanzado - enviando partial lead")
       await sendPartialLead()
     }
 
     if (currentStep === 10) {
+      console.log("[v0] Paso 10 alcanzado - enviando full lead")
       await sendFullLead()
     }
 
@@ -699,11 +709,14 @@ export default function FormularioPage() {
         </div>
       )}
 
-      {/* Step 10: Inversión inicial */}
+      {/* Step 10: Investment Willingness */}
       {currentStep === 10 && (
-        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
-            <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-2xl animate-in fade-in duration-500">
+          <div className="mb-4 sm:mb-6">
+            <span className="text-xs sm:text-sm text-gray-600 font-medium uppercase tracking-wider">Paso 10 de 10</span>
+            <div className="w-full bg-gray-200 h-1.5 sm:h-2 rounded-full mt-2 sm:mt-3 overflow-hidden">
+              <div className="bg-blue-600 h-full rounded-full transition-all duration-500" style={{ width: "100%" }} />
+            </div>
           </div>
 
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
@@ -713,9 +726,9 @@ export default function FormularioPage() {
 
           <div className="flex flex-col gap-2.5 sm:gap-3 mb-6 sm:mb-8">
             {[
-              { value: "yes", label: "Sí, estoy listo(a) para invertir" },
-              { value: "open", label: "Necesito más información, pero estoy abierto(a)" },
-              { value: "no", label: "No puedo invertir en este momento" },
+              { value: "yes", label: "✅ Sí, si el retorno es en 30 días" },
+              { value: "open", label: "🤝 Estoy dispuesto a invertir si el plan tiene lógica" },
+              { value: "no", label: "🚫 No en este momento" },
             ].map((option) => (
               <label
                 key={option.value}
