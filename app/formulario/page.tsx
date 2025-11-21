@@ -2,13 +2,11 @@
 
 import type React from "react"
 import { useState } from "react"
-import { analytics, usePageTracking } from "../utils/analytics"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react"
 
 interface FormData {
   lead_name: string
   lead_email: string
-  country_code: string
   lead_phone: string
   lead_instagram: string
   weekly_whatsapp_volume: string
@@ -16,15 +14,38 @@ interface FormData {
   ia_impact_area: string
   automation_urgency: string
   marketing_budget: string
-  main_automation_goal: string
+  willing_invest_2k: string
 }
 
 export default function FormularioPage() {
   const [currentStep, setCurrentStep] = useState(0)
+  const [showConfetti, setShowConfetti] = useState(false)
+  const [selectedCountry, setSelectedCountry] = useState({
+    code: "+55",
+    flag: "🇧🇷",
+    name: "Brasil",
+  })
+  const [showCountryDropdown, setShowCountryDropdown] = useState(false)
+
+  const countries = [
+    { code: "+55", flag: "🇧🇷", name: "Brasil" },
+    { code: "+57", flag: "🇨🇴", name: "Colombia" },
+    { code: "+52", flag: "🇲🇽", name: "México" },
+    { code: "+54", flag: "🇦🇷", name: "Argentina" },
+    { code: "+51", flag: "🇵🇪", name: "Perú" },
+    { code: "+56", flag: "🇨🇱", name: "Chile" },
+    { code: "+593", flag: "🇪🇨", name: "Ecuador" },
+    { code: "+591", flag: "🇧🇴", name: "Bolivia" },
+    { code: "+598", flag: "🇺🇾", name: "Uruguay" },
+    { code: "+595", flag: "🇵🇾", name: "Paraguay" },
+    { code: "+58", flag: "🇻🇪", name: "Venezuela" },
+    { code: "+1", flag: "🇺🇸", name: "USA" },
+    { code: "+34", flag: "🇪🇸", name: "España" },
+  ]
+
   const [formData, setFormData] = useState<FormData>({
     lead_name: "",
     lead_email: "",
-    country_code: "",
     lead_phone: "",
     lead_instagram: "",
     weekly_whatsapp_volume: "",
@@ -32,18 +53,83 @@ export default function FormularioPage() {
     ia_impact_area: "",
     automation_urgency: "",
     marketing_budget: "",
-    main_automation_goal: "",
+    willing_invest_2k: "",
   })
-
-  // Analytics tracking
-  usePageTracking("formulario_page")
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    if (name === "lead_phone") {
+      const cleaned = value.replace(/\D/g, "")
+      let formatted = cleaned
+
+      if (selectedCountry.code === "+55") {
+        if (cleaned.length <= 2) {
+          formatted = cleaned
+        } else if (cleaned.length <= 7) {
+          formatted = `(${cleaned.slice(0, 2)}) ${cleaned.slice(2)}`
+        } else {
+          formatted = `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7, 11)}`
+        }
+      } else {
+        formatted = cleaned
+      }
+
+      setFormData((prev) => ({ ...prev, [name]: formatted }))
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }))
+    }
   }
 
-  const nextStep = () => {
+  const sendPartialLead = async () => {
+    try {
+      await fetch("/api/webhooks/partial-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lead_name: formData.lead_name,
+          lead_email: formData.lead_email,
+          lead_phone: `${selectedCountry.code}${formData.lead_phone}`,
+          stage: "partial_lead",
+        }),
+      })
+    } catch (error) {
+      console.error("Error sending partial lead:", error)
+    }
+  }
+
+  const sendFullLead = async () => {
+    try {
+      await fetch("/api/webhooks/full-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lead_name: formData.lead_name,
+          lead_email: formData.lead_email,
+          lead_phone: `${selectedCountry.code}${formData.lead_phone}`,
+          lead_instagram: formData.lead_instagram,
+          weekly_whatsapp_volume: formData.weekly_whatsapp_volume,
+          has_after_hours_support: formData.has_after_hours_support,
+          ia_impact_area: formData.ia_impact_area,
+          automation_urgency: formData.automation_urgency,
+          marketing_budget: formData.marketing_budget,
+          willing_invest_2k: formData.willing_invest_2k,
+          stage: "full_lead",
+        }),
+      })
+    } catch (error) {
+      console.error("Error sending full lead:", error)
+    }
+  }
+
+  const nextStep = async () => {
+    if (currentStep === 3) {
+      await sendPartialLead()
+    }
+
+    if (currentStep === 10) {
+      await sendFullLead()
+    }
+
     if (currentStep < 11) {
       setCurrentStep(currentStep + 1)
       window.scrollTo({ top: 0, behavior: "smooth" })
@@ -63,73 +149,77 @@ export default function FormularioPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen flex items-center justify-center p-3 sm:p-4 md:p-6 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Step 0: Bienvenida */}
       {currentStep === 0 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-8 sm:p-12 shadow-2xl text-center animate-in fade-in duration-500">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">Hola, bienvenido(a) 👋</h1>
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-2xl text-center animate-in fade-in duration-500">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+            Hola, bienvenido(a) 👋
+          </h1>
 
-          <p className="text-base sm:text-lg text-gray-600 mb-4 leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-3 sm:mb-4 leading-relaxed">
             Si hoy tu negocio está <span className="text-blue-600 font-semibold">perdiendo ventas</span> o{" "}
             <span className="text-blue-600 font-semibold">tiempo</span> respondiendo mensajes, no te preocupes:{" "}
             <span className="text-blue-600 font-semibold">podemos solucionarlo</span>.
           </p>
 
-          <p className="text-base sm:text-lg text-gray-600 mb-4 leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-3 sm:mb-4 leading-relaxed">
             Primero te haré algunas <span className="text-blue-600 font-semibold">preguntas rápidas</span> para entender
             tu situación.
           </p>
 
-          <p className="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-6 sm:mb-8 leading-relaxed">
             Al finalizar, recibirás en tu WhatsApp un{" "}
             <span className="text-blue-600 font-semibold">ebook con las estrategias de IA</span> que están{" "}
             <span className="text-blue-600 font-semibold">revolucionando negocios</span> como el tuyo en Latinoamérica.
-            📊
+            📲⚡
           </p>
-
-          <div className="text-3xl mb-8">⚡</div>
 
           <button
             onClick={nextStep}
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition-all duration-300 hover:scale-105 shadow-lg"
+            className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-blue-700 transition-all duration-300 hover:scale-105 shadow-lg w-full sm:w-auto"
           >
             Comenzar
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
       )}
 
       {/* Step 1: Nombre */}
       {currentStep === 1 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">¿Cuál es tu nombre?</h1>
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
+            ¿Cuál es tu nombre?
+          </h1>
 
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
             <input
               type="text"
               name="lead_name"
               value={formData.lead_name}
               onChange={handleInputChange}
               placeholder="Tu nombre"
-              className="w-full px-4 py-3.5 text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
+              required
+              className="w-full px-4 py-3 sm:py-3.5 text-sm sm:text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
             />
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              disabled={!formData.lead_name.trim()}
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Siguiente
               <ArrowRight className="w-4 h-4" />
@@ -140,38 +230,39 @@ export default function FormularioPage() {
 
       {/* Step 2: Email */}
       {currentStep === 2 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">Tu mejor correo electrónico</h1>
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
+            Tu mejor correo electrónico
+          </h1>
 
-          <div className="mb-8 relative">
+          <div className="mb-6 sm:mb-8">
             <input
               type="email"
               name="lead_email"
               value={formData.lead_email}
               onChange={handleInputChange}
               placeholder="tu@email.com"
-              className="w-full px-4 py-3.5 text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
+              required
+              className="w-full px-4 py-3 sm:py-3.5 text-sm sm:text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
             />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg bg-red-500 flex items-center justify-center text-white text-sm font-bold">
-              ···
-            </div>
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              disabled={!formData.lead_email.includes("@")}
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Siguiente
               <ArrowRight className="w-4 h-4" />
@@ -182,54 +273,77 @@ export default function FormularioPage() {
 
       {/* Step 3: WhatsApp */}
       {currentStep === 3 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">Número de WhatsApp:</h1>
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 sm:mb-8">
+            Numero de WhatsApp:
+          </h1>
 
-          <div className="flex gap-3 mb-8 relative">
-            <select
-              name="country_code"
-              value={formData.country_code}
-              onChange={handleInputChange}
-              className="min-w-[140px] px-4 py-3.5 text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all bg-white"
-            >
-              <option value="" disabled>
-                País
-              </option>
-              <option value="+51">🇵🇪 Perú (+51)</option>
-              <option value="+55">🇧🇷 Brasil (+55)</option>
-              <option value="+57">🇨🇴 Colombia (+57)</option>
-              <option value="+52">🇲🇽 México (+52)</option>
-            </select>
-            <input
-              type="tel"
-              name="lead_phone"
-              value={formData.lead_phone}
-              onChange={handleInputChange}
-              placeholder="( 00 ) 00000-0000"
-              className="flex-1 px-4 py-3.5 text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
-            />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg bg-red-500 flex items-center justify-center text-white text-sm font-bold">
-              ···
+          <div className="mb-6 sm:mb-8">
+            <div className="flex gap-3 items-center">
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                  className="flex items-center gap-2 px-4 py-3.5 bg-gray-50 border border-gray-300 rounded-xl hover:bg-gray-100 transition-all min-w-[100px]"
+                >
+                  <span className="text-2xl">{selectedCountry.flag}</span>
+                  <ChevronDown className="w-4 h-4 text-gray-600" />
+                </button>
+
+                {showCountryDropdown && (
+                  <div className="absolute top-full left-0 mt-2 bg-white border border-gray-300 rounded-xl shadow-lg z-50 max-h-64 overflow-y-auto w-64">
+                    {countries.map((country) => (
+                      <button
+                        key={country.code}
+                        type="button"
+                        onClick={() => {
+                          setSelectedCountry(country)
+                          setShowCountryDropdown(false)
+                          setFormData((prev) => ({ ...prev, lead_phone: "" }))
+                        }}
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-all w-full text-left"
+                      >
+                        <span className="text-2xl">{country.flag}</span>
+                        <span className="text-sm font-medium text-gray-900">{country.name}</span>
+                        <span className="text-sm text-gray-500 ml-auto">{country.code}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex-1">
+                <input
+                  type="text"
+                  name="lead_phone"
+                  value={formData.lead_phone}
+                  onChange={handleInputChange}
+                  placeholder={selectedCountry.code === "+55" ? "(00) 00000-0000" : "000000000"}
+                  required
+                  className="w-full px-4 py-3.5 text-base border-b-2 border-gray-300 outline-none focus:border-blue-600 transition-all bg-transparent"
+                />
+              </div>
             </div>
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              disabled={!formData.lead_phone.trim()}
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Siguiente
+              Avanzar
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -238,38 +352,38 @@ export default function FormularioPage() {
 
       {/* Step 4: Instagram */}
       {currentStep === 4 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
             Instagram o sitio web de tu empresa
           </h1>
-          <p className="text-sm text-gray-600 mb-6">Ejemplo: @michaell.ia o https://miempresa.com</p>
+          <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">Ejemplo: @michaell.ia o https://miempresa.com</p>
 
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
             <input
               type="text"
               name="lead_instagram"
               value={formData.lead_instagram}
               onChange={handleInputChange}
               placeholder="@tuempresa o https://..."
-              className="w-full px-4 py-3.5 text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
+              className="w-full px-4 py-3 sm:py-3.5 text-sm sm:text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
             />
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
             >
               Siguiente
               <ArrowRight className="w-4 h-4" />
@@ -280,25 +394,25 @@ export default function FormularioPage() {
 
       {/* Step 5: Volumen WhatsApp */}
       {currentStep === 5 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             ¿Cuántas personas aproximadamente escriben a tu WhatsApp cada semana?
           </h1>
 
-          <div className="flex flex-col gap-3 mb-8">
+          <div className="flex flex-col gap-2.5 sm:gap-3 mb-6 sm:mb-8">
             {[
-              { value: "menos_10", label: "Menos de 10" },
-              { value: "10_50", label: "10 a 50" },
-              { value: "50_100", label: "50 a 100" },
-              { value: "mas_100", label: "Más de 100" },
+              { value: "Menos de 10", label: "Menos de 10" },
+              { value: "10 a 50", label: "10 a 50" },
+              { value: "50 a 100", label: "50 a 100" },
+              { value: "Más de 100", label: "Más de 100" },
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex items-center gap-3 p-4 border rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
+                className={`flex items-center gap-3 p-3.5 sm:p-4 border rounded-xl sm:rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
                   formData.weekly_whatsapp_volume === option.value
                     ? "border-blue-600 bg-blue-50 shadow-md -translate-y-0.5"
                     : "border-gray-300"
@@ -321,22 +435,23 @@ export default function FormularioPage() {
                     <div className="absolute inset-1 rounded-full bg-blue-600" />
                   )}
                 </div>
-                <span className="text-base text-gray-900">{option.label}</span>
+                <span className="text-sm sm:text-base text-gray-900">{option.label}</span>
               </label>
             ))}
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              disabled={!formData.weekly_whatsapp_volume}
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Siguiente
               <ArrowRight className="w-4 h-4" />
@@ -347,16 +462,16 @@ export default function FormularioPage() {
 
       {/* Step 6: Atención fuera de horario */}
       {currentStep === 6 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             ¿Tienes alguien que atienda mensajes fuera del horario laboral (noches, fines de semana, feriados)?
           </h1>
 
-          <div className="flex flex-col gap-3 mb-8">
+          <div className="flex flex-col gap-2.5 sm:gap-3 mb-6 sm:mb-8">
             {[
               { value: "yes", label: "Sí, tenemos atención fuera de horario" },
               { value: "no", label: "No, solo respondemos en horario laboral" },
@@ -364,7 +479,7 @@ export default function FormularioPage() {
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex items-center gap-3 p-4 border rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
+                className={`flex items-center gap-3 p-3.5 sm:p-4 border rounded-xl sm:rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
                   formData.has_after_hours_support === option.value
                     ? "border-blue-600 bg-blue-50 shadow-md -translate-y-0.5"
                     : "border-gray-300"
@@ -387,22 +502,23 @@ export default function FormularioPage() {
                     <div className="absolute inset-1 rounded-full bg-blue-600" />
                   )}
                 </div>
-                <span className="text-base text-gray-900">{option.label}</span>
+                <span className="text-sm sm:text-base text-gray-900">{option.label}</span>
               </label>
             ))}
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              disabled={!formData.has_after_hours_support}
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Siguiente
               <ArrowRight className="w-4 h-4" />
@@ -413,36 +529,37 @@ export default function FormularioPage() {
 
       {/* Step 7: Área de impacto IA */}
       {currentStep === 7 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             ¿En qué área crees que la IA puede contribuir más hoy a los resultados de tu negocio?
           </h1>
 
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
             <textarea
               name="ia_impact_area"
               value={formData.ia_impact_area}
               onChange={handleInputChange}
               placeholder="Cuéntanos tu visión..."
-              className="w-full min-h-[120px] px-4 py-3.5 text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-y"
+              className="w-full min-h-[100px] sm:min-h-[120px] px-4 py-3 sm:py-3.5 text-sm sm:text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-y"
             />
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              disabled={!formData.ia_impact_area.trim()}
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Siguiente
               <ArrowRight className="w-4 h-4" />
@@ -453,26 +570,26 @@ export default function FormularioPage() {
 
       {/* Step 8: Urgencia de automatización */}
       {currentStep === 8 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             ¿Qué tan urgente es para ti automatizar tu atención al cliente/paciente?
           </h1>
 
-          <div className="flex flex-col gap-3 mb-8">
+          <div className="flex flex-col gap-2.5 sm:gap-3 mb-6 sm:mb-8">
             {[
-              { value: "1", label: "No es prioridad ahora", badge: "1" },
-              { value: "2", label: "Podría ser útil en unos meses", badge: "2" },
-              { value: "3", label: "Me interesa pronto", badge: "3" },
-              { value: "4", label: "Alta prioridad", badge: "4" },
-              { value: "5", label: "Lo necesito ya 🚀", badge: "5" },
+              { value: "1", label: "No es prioridad ahora" },
+              { value: "2", label: "Podría ser útil en unos meses" },
+              { value: "3", label: "Me interesa pronto" },
+              { value: "4", label: "Alta prioridad" },
+              { value: "5", label: "Lo necesito ya 🚀" },
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex items-center gap-3 p-4 border rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
+                className={`flex items-center gap-3 p-3.5 sm:p-4 border rounded-xl sm:rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
                   formData.automation_urgency === option.value
                     ? "border-blue-600 bg-blue-50 shadow-md -translate-y-0.5"
                     : "border-gray-300"
@@ -486,25 +603,26 @@ export default function FormularioPage() {
                   onChange={handleInputChange}
                   className="sr-only"
                 />
-                <div className="min-w-[28px] h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm font-semibold flex-shrink-0">
-                  {option.badge}
+                <div className="min-w-[24px] sm:min-w-[28px] h-6 sm:h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs sm:text-sm font-semibold flex-shrink-0">
+                  {option.value}
                 </div>
-                <span className="text-base text-gray-900">{option.label}</span>
+                <span className="text-sm sm:text-base text-gray-900">{option.label}</span>
               </label>
             ))}
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              disabled={!formData.automation_urgency}
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Siguiente
               <ArrowRight className="w-4 h-4" />
@@ -515,16 +633,16 @@ export default function FormularioPage() {
 
       {/* Step 9: Presupuesto marketing */}
       {currentStep === 9 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             ¿Cuánto inviertes actualmente en marketing y anuncios?
           </h1>
 
-          <div className="flex flex-col gap-3 mb-8">
+          <div className="flex flex-col gap-2.5 sm:gap-3 mb-6 sm:mb-8">
             {[
               { value: "none", label: "No invierto aún" },
               { value: "<300", label: "Menos de USD 300" },
@@ -533,7 +651,7 @@ export default function FormularioPage() {
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex items-center gap-3 p-4 border rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
+                className={`flex items-center gap-3 p-3.5 sm:p-4 border rounded-xl sm:rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
                   formData.marketing_budget === option.value
                     ? "border-blue-600 bg-blue-50 shadow-md -translate-y-0.5"
                     : "border-gray-300"
@@ -556,22 +674,23 @@ export default function FormularioPage() {
                     <div className="absolute inset-1 rounded-full bg-blue-600" />
                   )}
                 </div>
-                <span className="text-base text-gray-900">{option.label}</span>
+                <span className="text-sm sm:text-base text-gray-900">{option.label}</span>
               </label>
             ))}
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              disabled={!formData.marketing_budget}
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Siguiente
               <ArrowRight className="w-4 h-4" />
@@ -580,67 +699,66 @@ export default function FormularioPage() {
         </div>
       )}
 
-      {/* Step 10: Objetivo principal */}
+      {/* Step 10: Inversión inicial */}
       {currentStep === 10 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl animate-in fade-in duration-500">
-          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-8">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 lg:p-10 shadow-2xl animate-in fade-in duration-500">
+          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden mb-6 sm:mb-8">
             <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${getProgress()}%` }} />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            ¿Cuál es tu objetivo principal al automatizar con IA?
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
+            Si el sistema cumpliera con tus objetivos, ¿estarías dispuesto(a) a invertir al menos USD 2.000 en una
+            implementación inicial?
           </h1>
 
-          <div className="flex flex-col gap-3 mb-8">
+          <div className="flex flex-col gap-2.5 sm:gap-3 mb-6 sm:mb-8">
             {[
-              { value: "save_time", label: "⏰ Ahorrar tiempo", emoji: "⏰" },
-              { value: "increase_sales", label: "📈 Aumentar ventas", emoji: "📈" },
-              { value: "reduce_costs", label: "💰 Reducir costos", emoji: "💰" },
-              { value: "improve_service", label: "⭐ Mejorar la atención", emoji: "⭐" },
-              { value: "scale_business", label: "🚀 Escalar el negocio", emoji: "🚀" },
+              { value: "yes", label: "Sí, estoy listo(a) para invertir" },
+              { value: "open", label: "Necesito más información, pero estoy abierto(a)" },
+              { value: "no", label: "No puedo invertir en este momento" },
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex items-center gap-3 p-4 border rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
-                  formData.main_automation_goal === option.value
+                className={`flex items-center gap-3 p-3.5 sm:p-4 border rounded-xl sm:rounded-2xl cursor-pointer transition-all hover:bg-gray-50 ${
+                  formData.willing_invest_2k === option.value
                     ? "border-blue-600 bg-blue-50 shadow-md -translate-y-0.5"
                     : "border-gray-300"
                 }`}
               >
                 <input
                   type="radio"
-                  name="main_automation_goal"
+                  name="willing_invest_2k"
                   value={option.value}
-                  checked={formData.main_automation_goal === option.value}
+                  checked={formData.willing_invest_2k === option.value}
                   onChange={handleInputChange}
                   className="sr-only"
                 />
                 <div
                   className={`w-5 h-5 rounded-full border-2 relative flex-shrink-0 ${
-                    formData.main_automation_goal === option.value ? "border-blue-600" : "border-gray-400"
+                    formData.willing_invest_2k === option.value ? "border-blue-600" : "border-gray-400"
                   }`}
                 >
-                  {formData.main_automation_goal === option.value && (
+                  {formData.willing_invest_2k === option.value && (
                     <div className="absolute inset-1 rounded-full bg-blue-600" />
                   )}
                 </div>
-                <span className="text-lg">{option.emoji}</span>
-                <span className="text-base text-gray-900">{option.label.replace(option.emoji, "").trim()}</span>
+                <span className="text-sm sm:text-base text-gray-900">{option.label}</span>
               </label>
             ))}
           </div>
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 sm:justify-end">
             <button
               onClick={prevStep}
-              className="flex items-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
+              className="flex items-center justify-center gap-2 bg-white text-gray-900 border border-gray-300 px-6 py-3 rounded-full font-semibold hover:bg-gray-50 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               Atrás
             </button>
             <button
               onClick={nextStep}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+              disabled={!formData.willing_invest_2k}
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Enviar
               <ArrowRight className="w-4 h-4" />
@@ -651,33 +769,32 @@ export default function FormularioPage() {
 
       {/* Step 11: Agradecimiento */}
       {currentStep === 11 && (
-        <div className="bg-white max-w-3xl w-full rounded-3xl p-8 sm:p-12 shadow-2xl text-center animate-in fade-in duration-500">
-          <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
+        <div className="bg-white max-w-3xl w-full rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-2xl text-center animate-in fade-in duration-500">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 rounded-full flex items-center justify-center text-3xl sm:text-4xl mx-auto mb-4 sm:mb-6">
             🎉
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">¡Listo! 🎊</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+            ¡Listo! 🎊
+          </h1>
 
-          <p className="text-lg text-gray-700 mb-6 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed max-w-2xl mx-auto px-4">
             <strong>Gracias por completar el formulario.</strong>
           </p>
 
-          <p className="text-base text-gray-600 mb-6 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed max-w-2xl mx-auto px-4">
             Tu <span className="text-blue-600 font-semibold">ebook gratuito</span> con estrategias de IA está en camino
             a tu WhatsApp. 📲
           </p>
 
-          <p className="text-base text-gray-600 mb-8 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto px-4">
             ¿Quieres comenzar tu automatización hoy? Nuestro equipo te contactará pronto para una consultoría gratuita.
             🚀
           </p>
 
           <button
-            onClick={() => {
-              analytics.ctaClick("/", "formulario_completado")
-              window.location.href = "/"
-            }}
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition-all duration-300 hover:scale-105 shadow-lg"
+            onClick={() => (window.location.href = "/")}
+            className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-blue-700 transition-all duration-300 hover:scale-105 shadow-lg w-full sm:w-auto max-w-xs mx-auto"
           >
             Volver al inicio
           </button>
