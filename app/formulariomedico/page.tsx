@@ -198,7 +198,7 @@ export default function FormularioMedicoPage() {
           </h1>
 
           <h2 className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-6 sm:mb-8 font-medium">
-            Optimiza tu consultorio y recupera tiempo en menos de 30 días.
+            Recupera control y organiza tu consultorio en 30 días.
           </h2>
 
           <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-4 leading-relaxed">
