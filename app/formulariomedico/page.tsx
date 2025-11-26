@@ -17,7 +17,7 @@ interface FormData {
   willing_invest_2k: string
 }
 
-export default function FormularioPage() {
+export default function FormularioMedicoPage() {
   const [currentStep, setCurrentStep] = useState(0)
   const [showConfetti, setShowConfetti] = useState(false)
   const [selectedCountry, setSelectedCountry] = useState({
@@ -194,21 +194,19 @@ export default function FormularioPage() {
       {currentStep === 0 && (
         <div className="bg-white/95 backdrop-blur-sm max-w-3xl w-full rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-[0_12px_40px_rgba(0,0,0,0.08)] border border-gray-100/50 text-center animate-in fade-in duration-500">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 sm:mb-5 leading-tight tracking-wide">
-            Tu negocio está perdiendo ventas por procesos desordenados.
+            Tu consultorio está perdiendo dinero por una agenda desordenada.
           </h1>
 
           <h2 className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-6 sm:mb-8 font-medium">
-            Optimiza, automatiza y recupera ventas en menos de 30 días.
+            Optimiza tu consultorio y recupera tiempo en menos de 30 días.
           </h2>
 
           <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-4 leading-relaxed">
-            Tu equipo no da abasto y tus clientes se van.
+            Tu secretaria no da abasto y tus pacientes lo sienten.
           </p>
 
           <p className="text-base sm:text-lg md:text-xl text-gray-800 mb-4 leading-relaxed font-medium">
-            Con <span className="text-blue-600 font-semibold">sistemas de ventas con IA</span>{" "}
-            <span className="text-blue-500">agentes automáticos</span>, recordatorios y{" "}
-            <span className="text-blue-500">flujos inteligentes</span> en{" "}
+            Con un <span className="text-blue-600 font-semibold">sistema de gestión con IA</span>, en{" "}
             <span className="text-orange-500 font-semibold">30 días</span> todo{" "}
             <span className="text-green-600 font-semibold">cambia</span>.
           </p>
@@ -400,9 +398,11 @@ export default function FormularioPage() {
           </div>
 
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
-            Instagram o sitio web de tu empresa
+            Instagram o sitio web de tu consultorio
           </h1>
-          <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">Ejemplo: @michaell.ia o https://miempresa.com</p>
+          <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">
+            Ejemplo: @michaell.ia o https://miconsultorio.com
+          </p>
 
           <div className="mb-6 sm:mb-8">
             <input
@@ -410,7 +410,7 @@ export default function FormularioPage() {
               name="lead_instagram"
               value={formData.lead_instagram}
               onChange={handleInputChange}
-              placeholder="@tuempresa o https://..."
+              placeholder="@tuconsultorio o https://..."
               className="w-full px-4 py-3 sm:py-3.5 text-sm sm:text-base border border-gray-300 rounded-xl outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all"
             />
           </div>
@@ -577,7 +577,7 @@ export default function FormularioPage() {
           </div>
 
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-            ¿En qué área crees que la IA puede contribuir más hoy a los resultados de tu negocio?
+            ¿En qué área crees que la IA puede contribuir más hoy a los resultados de tu consultorio?
           </h1>
 
           <div className="mb-6 sm:mb-8">
@@ -618,7 +618,7 @@ export default function FormularioPage() {
           </div>
 
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-            ¿Qué tan urgente es para ti automatizar tu atención al cliente/paciente?
+            ¿Qué tan urgente es para ti automatizar tu atención al paciente?
           </h1>
 
           <div className="flex flex-col gap-2.5 sm:gap-3 mb-6 sm:mb-8">
@@ -846,7 +846,7 @@ export default function FormularioPage() {
               <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fillRule="evenodd"
-                  d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.636.247 1.363.416 2.427.465 1.067.048 1.407.06 4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.153-1.772 4.902 4.902 0 01-1.772-1.153c-.636-.247-1.363-.416-2.427-.465-.975-.045-1.504-.207-1.857-.344-.467-.182-.8-.398-1.15-.748-.35-.35-.566-.683-.748-1.15-.137-.353-.3-.882-.344-1.857-.048-1.023-.058-1.351-.058-4.041v-.63c0-2.456.011-2.784.058-3.807.045-.975.207-1.504.344-1.857.182-.466.399-.8.748-1.15.35-.35.683-.566 1.15-.748.353-.137.882-.3 1.857-.344 1.054-.048 1.37-.058 4.041-.058h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.048 1.023-.058 1.351-.058 4.041v.08c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+                  d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 4.041v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
                   clipRule="evenodd"
                 />
               </svg>

@@ -4,7 +4,11 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Script from "next/script"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+})
 
 export const metadata: Metadata = {
   title: "Diagnóstico IA para Negocios | Estrategias de Automatización",
