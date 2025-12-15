@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Instagram, Calendar, MessageCircle, Youtube } from "lucide-react"
+import { Instagram, Calendar, MessageCircle, Youtube, GraduationCap, Sparkles } from "lucide-react"
 
 export default function ComingSoonPage() {
   return (
@@ -35,6 +35,28 @@ export default function ComingSoonPage() {
           >
             <Calendar size={20} className="sm:w-6 sm:h-6" />
             Desarrollo de Sistemas de IA (Agendar Llamada)
+          </Link>
+
+          <Link
+            href="https://buy.stripe.com/5kQdR914q66ucReaVV2cg0i"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 sm:gap-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-full"
+            prefetch={false}
+          >
+            <GraduationCap size={20} className="sm:w-6 sm:h-6" />
+            Mentoría 1 a 1
+          </Link>
+
+          <Link
+            href="https://affiliates.gohighlevel.com/?fp_ref=-algorith-pro65"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 sm:gap-3 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-full"
+            prefetch={false}
+          >
+            <Sparkles size={20} className="sm:w-6 sm:h-6" />
+            15 días Gratis de GHL
           </Link>
 
           <Link

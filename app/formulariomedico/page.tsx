@@ -85,21 +85,34 @@ export default function FormularioMedicoPage() {
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
     try {
+      console.log("[v0] ===== ENVIANDO PARTIAL LEAD =====")
+      const partialPayload = {
+        lead_name: formData.lead_name,
+        lead_email: formData.lead_email,
+        lead_phone: `${selectedCountry.code}${formData.lead_phone}`,
+        stage: "partial_lead",
+      }
+      console.log("[v0] Partial Payload:", JSON.stringify(partialPayload, null, 2))
+
       const response = await fetch("https://webhook.algorithpro.com/webhook/webhook_partial_lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          lead_name: formData.lead_name,
-          lead_email: formData.lead_email,
-          lead_phone: `${selectedCountry.code}${formData.lead_phone}`,
-          stage: "partial_lead",
-        }),
+        body: JSON.stringify(partialPayload),
         signal: controller.signal,
       })
 
       clearTimeout(timeoutId)
-      const result = await response.json()
-      console.log("[v0] Partial lead enviado exitosamente:", result)
+      console.log("[v0] Partial Response status:", response.status)
+
+      const contentType = response.headers.get("content-type")
+      if (contentType && contentType.includes("application/json")) {
+        const result = await response.json()
+        console.log("[v0] Partial lead enviado exitosamente:", result)
+      } else {
+        const text = await response.text()
+        console.log("[v0] Partial lead response (text):", text)
+      }
+      console.log("[v0] ===== PARTIAL LEAD COMPLETADO =====")
     } catch (error) {
       clearTimeout(timeoutId)
       console.error("[v0] Error sending partial lead:", error)
@@ -141,8 +154,19 @@ export default function FormularioMedicoPage() {
       console.log("[v0] Response status:", response.status)
       console.log("[v0] Response ok:", response.ok)
 
-      const result = await response.json()
-      console.log("[v0] Full lead enviado exitosamente:", result)
+      const contentType = response.headers.get("content-type")
+      if (contentType && contentType.includes("application/json")) {
+        const result = await response.json()
+        console.log("[v0] Full lead enviado exitosamente:", result)
+      } else {
+        const text = await response.text()
+        console.log("[v0] Full lead response (text):", text)
+      }
+
+      if (!response.ok) {
+        console.error("[v0] Server returned error status:", response.status)
+      }
+
       console.log("[v0] ===== FULL LEAD COMPLETADO =====")
     } catch (error) {
       clearTimeout(timeoutId)
@@ -731,8 +755,7 @@ export default function FormularioMedicoPage() {
             </button>
             <button
               onClick={nextStep}
-              disabled={!formData.marketing_budget}
-              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
             >
               Siguiente
               <ArrowRight className="w-4 h-4" />
