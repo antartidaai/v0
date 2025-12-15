@@ -34,7 +34,7 @@ export default function ComingSoonPage() {
             prefetch={false}
           >
             <Calendar size={20} className="sm:w-6 sm:h-6" />
-            Desarrollo de Sistemas de IA (Agendar Llamada)
+            Construimos tu sistema de IA – Agenda Ahora
           </Link>
 
           <Link
